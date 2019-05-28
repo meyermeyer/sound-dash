@@ -37,6 +37,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ControlledExpansionPanels(props) {
+    const handleDelete = (project) => {
+        console.log('in handleDelete')
+        props.dispatch({type:'DELETE_PROJECT', payload: project})
+    }
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     console.log('in ControlledExpansionPanels', props.reduxState.projects)
@@ -74,7 +78,7 @@ function ControlledExpansionPanels(props) {
                                             </ExpansionPanelDetails>
                                         </ExpansionPanel>
                                         <ThemeProvider theme={theme}>
-                                            <Button>Delete</Button>
+                                            <Button onClick={()=>{handleDelete(project)}} variant="contained" color="secondary">Delete</Button>
                                         </ThemeProvider>
                                         
                                     </li>

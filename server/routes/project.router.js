@@ -25,6 +25,36 @@ router.get('/', (req,res) => {
                 res.sendStatus(500)
             })
     }
+    else {
+        console.log('GET /api/project forbidden');
+        res.sendStatus(403)
+    }
+})
+
+router.delete('/:id', (req,res) => {
+    console.log('in DELETE /api/project', req.params, req.user);
+    
+    
+    if(req.isAuthenticated()){
+        console.log('isAuthenticated in DELETE /api/project');
+        let query = `DELETE FROM "projects" JOIN "users_projects" ON "projects".id = "users_projects"."project_id"
+                    WHERE "projects".id = $1
+                    WHERE "users_projects"."user_id"=$2;`
+        pool.query(query,[req.params.id, req.user.id])
+            .then(response => {
+                console.log('in DELETE /api/project', response);
+                res.sendStatus(200)
+            })   
+            .catch(error => {
+                console.log('error in DELETE isAuthenticated', error);
+                res.sendStatus(500)
+            }) 
+    }
+    else {
+        console.log('DELETE /api/project forbidden');
+        res.sendStatus(403)
+    }
+
     
 })
 
