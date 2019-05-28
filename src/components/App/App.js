@@ -25,6 +25,8 @@ import UserDashboard from '../UserDashboard/UserDashboard'
 import ProjectEditor from '../ProjectEditor/ProjectEditor'
 
 import './App.css';
+
+
 const theme = createMuiTheme({
   palette: {
     primary: {main: '#9c27b0'},
@@ -88,9 +90,9 @@ class App extends Component {
             <Footer />
           </div>
         </Router>
-        <ThemeProvider theme={theme}>
+        {/* <ThemeProvider theme={theme}>
           <Button variant="contained" color="primary">test</Button>
-        </ThemeProvider>
+        </ThemeProvider> */}
         
       </>
      
