@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import TrackList from '../TrackList/TrackList'
 //Material-UI stuff
 import { Button, Card, CardContent, CardActions, Typography } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -21,10 +23,16 @@ class UserDashboard extends Component {
     nameProject = () => {
         console.log('in nameProject');
         Swal.fire({
-            title: 'test',
-            text: 'asdasd',
-            confirmButtonText: 'cool'
+            title: 'New Project',
+            text: 'Please name your project.',
+            html: '<input id="projectNameInput" class="swal2-input" type="text" placeholder="Project Name">'+
+                    '<input id="projecttagInput" class="swal2-input" type="textarea" placeholder="Project Tags">',
+            input: 'textarea',
+            inputPlaceholder: 'Enter project tags here...',
+            confirmButtonText: 'Create',
+            showCancelButton: true,
         })
+        
         
     }
     render() {
@@ -35,10 +43,7 @@ class UserDashboard extends Component {
                         <Button onClick={this.nameProject}aria-label="create new project" variant="contained" color="primary">Create New Project</Button>
                     </ThemeProvider>
                 </h3>
-                
-                <ul>
-                    <li>existing projects</li>
-                </ul>
+                <TrackList />
             </div>
             
         )
