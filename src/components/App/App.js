@@ -63,12 +63,12 @@ class App extends Component {
               {/* route to user dashboard - will be protected after login works */}
               <Route
                 exact
-                path="/user_dashboard"
+                path="/user-dashboard"
                 component={UserDashboard}
               />
               <Route
                 exact
-                path="/project_editor"
+                path="/project-editor"
                 component={ProjectEditor}
               />
               {/* If none of the other routes matched, we will show a 404. */}

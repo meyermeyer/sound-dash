@@ -29,6 +29,12 @@ const Nav = (props) => (
       <Link className="nav-link" to="/about">
         About
       </Link>
+      <Link className="nav-link" to="/user-dashboard">
+        Dashboard
+      </Link>
+      <Link className="nav-link" to="/project-editor">
+        Project Editor
+      </Link>
     </div>
   </div>
 );
