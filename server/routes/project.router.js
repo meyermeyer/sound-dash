@@ -11,16 +11,21 @@ router.get('/', (req,res) => {
     console.log('is authenticated?', req.isAuthenticated());
     console.log('user', req.user);
     
+    if(req.isAuthenticated()){
+        console.log('isAuthenticated in GET /api/project');
+        let query = `SELECT * FROM "projects" JOIN "users_projects"
+                    ON "projects".id = "users_projects"."project_id"
+                    WHERE "users_projects"."user_id"=$1;`
+        pool.query(query,[req.user.id])
+            .then((result => {
+                res.send(result.rows)
+            }))
+            .catch(error => {
+                console.log('error in GET /api/project', error)
+                res.sendStatus(500)
+            })
+    }
     
-    let query = `SELECT * FROM "projects" WHERE ";`
-    pool.query(query)
-    .then((result=>{
-        res.send(result.rows)
-    }))
-    .catch(error => {
-        console.log('error in GET /api/project', error)
-        res.sendStatus(500)
-    })
 })
 
 module.exports = router;
