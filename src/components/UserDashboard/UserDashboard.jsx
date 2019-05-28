@@ -35,6 +35,11 @@ class UserDashboard extends Component {
         
         
     }
+
+    //launch fetchProjectsSaga on page load
+    componentDidMount = () => {
+        this.props.dispatch({type: 'FETCH_PROJECTS'})
+    }
     render() {
         return(
             <div>
