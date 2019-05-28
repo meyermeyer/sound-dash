@@ -52,7 +52,7 @@ function ControlledExpansionPanels(props) {
                         
                             {props.reduxState.projects.map((project,i)=> {
                                 return(
-                                    <div id="projectList">
+                                    <li className="projectList">
                                         <ThemeProvider theme={theme}>
                                             <Button variant="contained" color="primary">Edit</Button>
                                         </ThemeProvider>
@@ -73,7 +73,11 @@ function ControlledExpansionPanels(props) {
                                                 </Typography>
                                             </ExpansionPanelDetails>
                                         </ExpansionPanel>
-                                    </div>
+                                        <ThemeProvider theme={theme}>
+                                            <Button>Delete</Button>
+                                        </ThemeProvider>
+                                        
+                                    </li>
                                 )
                             })}
                             

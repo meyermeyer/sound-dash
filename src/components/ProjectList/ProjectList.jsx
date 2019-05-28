@@ -7,9 +7,9 @@ import ProjectItem from '../ProjectItem/ProjectItem'
 class ProjectList extends Component {
     render() {
         return(
-            <div>
+            <ul>
                 <ProjectItem />
-            </div>
+            </ul>
                 
             
 
