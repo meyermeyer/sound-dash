@@ -18,6 +18,7 @@ import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import Header from '../Header/Header'
 import UserDashboard from '../UserDashboard/UserDashboard'
+import ProjectEditor from '../ProjectEditor/ProjectEditor'
 
 import './App.css';
 
@@ -64,6 +65,11 @@ class App extends Component {
                 exact
                 path="/user_dashboard"
                 component={UserDashboard}
+              />
+              <Route
+                exact
+                path="/project_editor"
+                component={ProjectEditor}
               />
               {/* If none of the other routes matched, we will show a 404. */}
               <Route render={() => <h1>404</h1>} />
