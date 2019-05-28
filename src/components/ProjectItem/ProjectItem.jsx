@@ -4,10 +4,24 @@ import { connect } from 'react-redux';
 
 class ProjectItem extends Component {
     render() {
+        console.log('ProjectItem', this.props.reduxState)
         return(
-            <li>Project Item Here</li>
+            <>
+                {this.props.reduxState.projects.map((project, i) => {
+                    return (
+                        <li key={i}>{project.name}</li>
+                    )
+                })}
+
+            </>
+
+            // <li>Project Item Here</li>
         )
     }
 }
 
-export default connect()(ProjectItem)
+const mapStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapStateToProps)(ProjectItem)
