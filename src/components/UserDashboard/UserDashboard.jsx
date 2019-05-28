@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import TrackList from '../TrackList/TrackList'
+import ProjectList from '../ProjectList/ProjectList'
 //Material-UI stuff
 import { Button, Card, CardContent, CardActions, Typography } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -43,7 +43,8 @@ class UserDashboard extends Component {
                         <Button onClick={this.nameProject}aria-label="create new project" variant="contained" color="primary">Create New Project</Button>
                     </ThemeProvider>
                 </h3>
-                <TrackList />
+                <ProjectList />
+                
             </div>
             
         )
