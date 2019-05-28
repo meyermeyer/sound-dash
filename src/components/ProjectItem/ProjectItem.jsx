@@ -1,11 +1,25 @@
 import React from 'react';
 import {connect} from 'react-redux'
+
+import './ProjectItem.css'
+
+//MUI stuff
+import Typography from '@material-ui/core/Typography';
+import { Button, Card, CardContent, CardActions } from '@material-ui/core';
+import { createMuiTheme } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: { main: '#9c27b0' },
+        secondary: { main: '#ffcc80' }
+    }
+})
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,22 +52,28 @@ function ControlledExpansionPanels(props) {
                         
                             {props.reduxState.projects.map((project,i)=> {
                                 return(
-                                    <ExpansionPanel expanded={expanded === 'panel'+i} onChange={handleChange('panel'+i)}>
-                                        <ExpansionPanelSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panelbh-content"
-                                            id="panelbh-header"
-                                        >
-                                            <Typography className={classes.heading}>{project.name}</Typography>
-                                            <Typography className={classes.secondaryHeading}>{project.date_created}</Typography>
-                                        </ExpansionPanelSummary>
-                                        <ExpansionPanelDetails>
-                                            <Typography>
-                                                {project.date_created}
-                                                {project.notes}
-                                            </Typography>
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
+                                    <div id="projectList">
+                                        <ThemeProvider theme={theme}>
+                                            <Button variant="contained" color="primary">Edit</Button>
+                                        </ThemeProvider>
+                                        <ExpansionPanel expanded={expanded === 'panel'+i} onChange={handleChange('panel'+i)}>
+                                            <ExpansionPanelSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls="panelbh-content"
+                                                id="panelbh-header"
+                                            >
+                                                <Typography className={classes.heading}>{project.name}</Typography>
+                                                <Typography className={classes.secondaryHeading}>Last Updated:  {project.date_last_edit}</Typography>
+                                            </ExpansionPanelSummary>
+                                            <ExpansionPanelDetails>
+                                                <Typography>
+                                                    <p>Created On:  {project.date_created}</p>
+                                                    <p>Notes:  {project.notes}</p>
+                                                    
+                                                </Typography>
+                                            </ExpansionPanelDetails>
+                                        </ExpansionPanel>
+                                    </div>
                                 )
                             })}
                             
