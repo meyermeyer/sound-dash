@@ -8,6 +8,10 @@ import {
 
 import {connect} from 'react-redux';
 
+// MaterialUI stuff
+import Button from '@material-ui/core/Button'
+import { createMuiTheme } from '@material-ui/core/styles' 
+import { ThemeProvider } from '@material-ui/styles';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 
@@ -21,11 +25,18 @@ import UserDashboard from '../UserDashboard/UserDashboard'
 import ProjectEditor from '../ProjectEditor/ProjectEditor'
 
 import './App.css';
-
+const theme = createMuiTheme({
+  palette: {
+    primary: {main: '#9c27b0'},
+    secondary: {main: '#ffcc80'}
+  }
+})
 class App extends Component {
   componentDidMount () {
     this.props.dispatch({type: 'FETCH_USER'})
   }
+
+  
 
   render() {
     return (
@@ -77,6 +88,10 @@ class App extends Component {
             <Footer />
           </div>
         </Router>
+        <ThemeProvider theme={theme}>
+          <Button variant="contained" color="primary">test</Button>
+        </ThemeProvider>
+        
       </>
      
   )}
