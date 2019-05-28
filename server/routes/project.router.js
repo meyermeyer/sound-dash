@@ -8,7 +8,11 @@ const router = express.Router();
 
 router.get('/', (req,res) => {
     console.log('in GET /api/project');
-    let query = `SELECT * FROM "projects";`
+    console.log('is authenticated?', req.isAuthenticated());
+    console.log('user', req.user);
+    
+    
+    let query = `SELECT * FROM "projects" WHERE ";`
     pool.query(query)
     .then((result=>{
         res.send(result.rows)
