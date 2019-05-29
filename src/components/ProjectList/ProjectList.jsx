@@ -10,10 +10,16 @@ class ProjectList extends Component {
             <ul>
                 <ProjectItem />
             </ul>
+                
+            
 
             
         )
     }
 }
 
-export default connect()(ProjectList)
+const mapStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapStateToProps)(ProjectList)

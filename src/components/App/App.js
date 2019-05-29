@@ -74,12 +74,12 @@ class App extends Component {
                 component={InfoPage}
               />
               {/* route to user dashboard - will be protected after login works */}
-              <Route
+              <ProtectedRoute
                 exact
                 path="/user-dashboard"
                 component={UserDashboard}
               />
-              <Route
+              <ProtectedRoute
                 exact
                 path="/project-editor"
                 component={ProjectEditor}
