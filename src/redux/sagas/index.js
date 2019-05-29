@@ -6,7 +6,7 @@ import fetchProjectsSaga from './fetchProjectsSaga';
 import deleteProjectSaga from './deleteProjectSaga'
 import addProjectSaga from './addProjectSaga'
 import updateProjectSaga from './updateProjectSaga'
-
+import fetchFilesSaga from './fetchFilesSaga'
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
 // This is imported in index.js as rootSaga
@@ -23,5 +23,6 @@ export default function* rootSaga() {
     deleteProjectSaga(),
     addProjectSaga(),
     updateProjectSaga(),
+    fetchFilesSaga()
   ]);
 }

@@ -48,6 +48,10 @@ function ControlledExpansionPanels(props) {
     const handleChange = panel => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+    const handleOpen = (project) => {
+        console.log('in handleOpen', project)
+        props.dispatch({ type:'SELECT_PROJECT', payload: project})
+    }
     // const handleEdit = (project) => {
     //     console.log('in handleEdit')
     //     Swal.fire({
@@ -84,6 +88,9 @@ function ControlledExpansionPanels(props) {
                         {/* <ThemeProvider theme={theme}>
                             <Button onClick={()=>handleEdit(project)} variant="contained" color="primary">Rename</Button>
                         </ThemeProvider> */}
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={()=>handleOpen(project)} variant="contained" color="primary">Open</Button>
+                        </ThemeProvider>
                         <ExpansionPanel expanded={expanded === 'panel' + i} onChange={handleChange('panel' + i)}>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
