@@ -114,8 +114,8 @@ router.put('/:id', (req,res)=>{
     console.log('in PUT /api/project', req.body);
     
     if (req.isAuthenticated()){
-        let query = `UPDATE "projects" SET "name"=$1, "notes"=$2 WHERE "id"=$3 AND "author_id"=$4;`
-        pool.query(query,[req.body.name,req.body.notes,req.params.id,req.body.author_id])
+        let query = `UPDATE "projects" SET "name"=$1 WHERE "id"=$3 AND "author_id"=$4;`
+        pool.query(query,[req.body.name,req.params.id,req.body.author_id])
             .then(response =>{
                 console.log('in PUT /api/project', response);
                 res.sendStatus(200)

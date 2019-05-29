@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import './ProjectItem.css'
 
+import Swal from 'sweetalert2'
 //MUI stuff
 import Typography from '@material-ui/core/Typography';
 import { Button, Card, CardContent, CardActions } from '@material-ui/core';
@@ -47,19 +48,42 @@ function ControlledExpansionPanels(props) {
     const handleChange = panel => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
-    const handleEdit = (project) => {
-        console.log('in handleEdit')
-        props.dispatch({type: 'UPDATE_PROJECT', payload: project})
-    }
+    // const handleEdit = (project) => {
+    //     console.log('in handleEdit')
+    //     Swal.fire({
+    //         title: 'Rename Project',
+    //         text: 'Edit Name',
+    //         input: 'text',
+    //         // inputValue: inputValue,
+    //         showCancelButton: true,
+    //         inputValidator: (value) => {
+    //             console.log(value);
+    //             project = {
+    //                 ...project,
+    //                 name: value
+    //             }
+    //             console.log(project);
+                
+                
+    //             if(!value) {
+    //                 return 'Enter text or select Cancel'
+    //             }
+    //         }
+    //     })
+    //         props.dispatch({ type: 'UPDATE_PROJECT', payload: project })
+    
+        
+    // }
+    
 
     return (
         <div className={classes.root}>
             {props.reduxState.projects.map((project, i) => {
                 return (
                     <li className="projectList">
-                        <ThemeProvider theme={theme}>
-                            <Button onClick={handleEdit} variant="contained" color="primary">Edit</Button>
-                        </ThemeProvider>
+                        {/* <ThemeProvider theme={theme}>
+                            <Button onClick={()=>handleEdit(project)} variant="contained" color="primary">Rename</Button>
+                        </ThemeProvider> */}
                         <ExpansionPanel expanded={expanded === 'panel' + i} onChange={handleChange('panel' + i)}>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
