@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class TrackItem extends Component {
-    componentDidMount(){
-        console.log('get those tracks',this.props.reduxState.currentProject);
-        this.props.dispatch({type:'FETCH_FILES', payload:this.props.reduxState.currentProject})
-    }
+    
 
     render() {
         console.log('track items', this.props.reduxState.files)

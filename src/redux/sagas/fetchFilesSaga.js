@@ -9,7 +9,7 @@ function* watcherSaga() {
 function* fetchFilesSaga(action) {
     console.log('in fetchFilesSaga', action.payload)
     try {
-        const url = '/api/files/'+action.payload.id
+        const url = '/api/files/'+action.payload.project_id
         console.log(url);
         const allFiles = yield axios.get(url);
         yield put({ type: 'STORE_FILES', payload: allFiles.data })
