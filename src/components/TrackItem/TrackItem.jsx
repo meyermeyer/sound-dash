@@ -12,15 +12,15 @@ class TrackItem extends Component {
         console.log('track items', this.props.reduxState.files)
         return(
             <>
-                {this.props.reduxState.files.map((file=>{
+                {this.props.reduxState.files.map(((file,i)=>{
                     return(
-                        <p>{file.track_name}</p>
+                        <p key={i}>{file.track_name}</p>
                     )
                     
                 }))}
             </>
             
-        //     <li>Tracks Here</li>
+       
         )
     }
 }
