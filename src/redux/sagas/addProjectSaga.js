@@ -8,7 +8,8 @@ function* watcherSaga() {
 function* addProjectSaga(action) {
     try {
         console.log('in addProjectSaga', action.payload);
-        yield axios.post('/api/project', action.payload)
+        yield axios.post('/api/project', action.payload);
+        yield axios.post('/api/project/users', action.payload);
     }
     catch(err){
         console.log('error in addProjectSaga', err)

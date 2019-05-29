@@ -77,4 +77,38 @@ router.post('/', (req,res)=> {
     }
 })
 
+router.post('/users', (req,res)=>{
+    console.log('in POST /api/project/users', req.body);
+    if(req.isAuthenticated()){
+        let project_id = ''
+        pool.query(`SELECT MAX(id) from "projects";`)
+            .then(results => {
+                project_id=results.rows[0].max
+                console.log('max id',results.rows[0].max);
+                res.sendStatus(200);
+                console.log('project_id', project_id)
+                let query = `INSERT INTO "users_projects" ("project_id","user_id") VALUES ($1,$2);`
+                pool.query(query, [project_id, req.user.id])
+                    .then(response => {
+                        console.log('in POST /api/project/users', response)
+                        res.sendStatus(204)
+                    })
+                    .catch(error => {
+                        console.log('error in POST /api/project/users', error);
+                        res.sendStatus(500)
+                    })
+            })
+            .catch(err=>{
+                console.log('error in select ID', err);
+                res.sendStatus(500)
+            })
+        
+        
+    }
+    else {
+        console.log('POST /api/project/users forbidden')
+        res.sendStatus(403)
+    }
+})
+
 module.exports = router;
