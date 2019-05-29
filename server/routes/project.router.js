@@ -37,6 +37,7 @@ router.delete('/:id', (req,res) => {
     
     if(req.isAuthenticated()){
         console.log('isAuthenticated in DELETE /api/project');
+        //some syntax error in this query, waiting for help
         let query = `DELETE FROM "projects" JOIN "users_projects" ON "projects".id = "users_projects"."project_id"
                     WHERE "projects".id = $1
                     WHERE "users_projects"."user_id"=$2;`

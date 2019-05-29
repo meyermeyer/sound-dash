@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+// import Time from 'react-time'
 
 import ProjectList from '../ProjectList/ProjectList'
 //Material-UI stuff
@@ -20,17 +21,38 @@ const theme = createMuiTheme({
 })
 
 class UserDashboard extends Component {
+    state = {
+        newProject: {
+            name: '',
+            notes: '',
+            dateCreated: ''
+        }
+    }
+    //handle sweetAlert inputs for creating project
+    handleInputs = (name, notes) => {
+        console.log('in handleInput name:', name, 'notes:', notes, 'date:', new Date());
+        this.setState({
+            newProject: {
+                name: name,
+                notes: notes,
+                dateCreated: new Date()
+            }
+        })
+
+    }
+    
     nameProject = () => {
         console.log('in nameProject');
         Swal.fire({
             title: 'New Project',
             text: 'Please name your project.',
-            html: '<input id="projectNameInput" class="swal2-input" type="text" placeholder="Project Name">'+
-                    '<input id="projecttagInput" class="swal2-input" type="textarea" placeholder="Project Tags">',
-            input: 'textarea',
-            inputPlaceholder: 'Enter project tags here...',
+            html: `<input id="projectNameInput" class="swal2-input" type="text" placeholder="Project Name">`+
+                    '<input id="projectNotesInput" class="swal2-input" type="textarea" placeholder="Project Tags">',
             confirmButtonText: 'Create',
             showCancelButton: true,
+            //capture input text
+            preConfirm: ()=>{this.handleInputs(document.getElementById('projectNameInput').value,
+                document.getElementById('projectNotesInput').value)}
         })
         
         
@@ -41,6 +63,8 @@ class UserDashboard extends Component {
         this.props.dispatch({type: 'FETCH_PROJECTS'})
     }
     render() {
+        //log to test setting local state worked
+        console.log('in handleInputs state:', this.state)
         return(
             <div>
                 <h3>
