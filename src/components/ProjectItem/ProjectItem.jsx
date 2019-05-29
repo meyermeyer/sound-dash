@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import './ProjectItem.css'
 
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 function ControlledExpansionPanels(props) {
     const handleDelete = (project) => {
         console.log('in handleDelete')
-        props.dispatch({type:'DELETE_PROJECT', payload: project})
+        props.dispatch({ type: 'DELETE_PROJECT', payload: project })
     }
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -47,51 +47,51 @@ function ControlledExpansionPanels(props) {
     const handleChange = panel => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
-    
+    const handleEdit = (project) => {
+        console.log('in handleEdit')
+        props.dispatch({type: 'UPDATE_PROJECT', payload: project})
+    }
+
     return (
-        
-           
-                
-                    <div  className={classes.root}>
-                        
-                            {props.reduxState.projects.map((project,i)=> {
-                                return(
-                                    <li className="projectList">
-                                        <ThemeProvider theme={theme}>
-                                            <Button variant="contained" color="primary">Edit</Button>
-                                        </ThemeProvider>
-                                        <ExpansionPanel expanded={expanded === 'panel'+i} onChange={handleChange('panel'+i)}>
-                                            <ExpansionPanelSummary
-                                                expandIcon={<ExpandMoreIcon />}
-                                                aria-controls="panelbh-content"
-                                                id="panelbh-header"
-                                            >
-                                                <Typography className={classes.heading}>{project.name}</Typography>
-                                                <Typography className={classes.secondaryHeading}>Last Updated:  {project.date_last_edit}</Typography>
-                                            </ExpansionPanelSummary>
-                                            <ExpansionPanelDetails>
-                                                <Typography>
-                                                    <p>Created On:  {project.date_created}</p>
-                                                    <p>Notes:  {project.notes}</p>
-                                                    
-                                                </Typography>
-                                            </ExpansionPanelDetails>
-                                        </ExpansionPanel>
-                                        <ThemeProvider theme={theme}>
-                                            <Button onClick={()=>{handleDelete(project)}} variant="contained" color="secondary">Delete</Button>
-                                        </ThemeProvider>
-                                        
-                                    </li>
-                                )
-                            })}
-                            
-                        
-                    </div>
-               
-        
-            
-            
-        
+        <div className={classes.root}>
+            {props.reduxState.projects.map((project, i) => {
+                return (
+                    <li className="projectList">
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={handleEdit} variant="contained" color="primary">Edit</Button>
+                        </ThemeProvider>
+                        <ExpansionPanel expanded={expanded === 'panel' + i} onChange={handleChange('panel' + i)}>
+                            <ExpansionPanelSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panelbh-content"
+                                id="panelbh-header"
+                            >
+                                <Typography className={classes.heading}>{project.name}</Typography>
+                                <Typography className={classes.secondaryHeading}>Last Updated:  {project.date_last_edit}</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    <p>Created On:  {project.date_created}</p>
+                                    <p>Notes:  {project.notes}</p>
+
+                                </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={() => { handleDelete(project) }} variant="contained" color="secondary">Delete</Button>
+                        </ThemeProvider>
+
+                    </li>
+                )
+            })}
+
+
+        </div>
+
+
+
+
+
     );
 }
 
