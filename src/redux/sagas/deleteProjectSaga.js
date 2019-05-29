@@ -9,7 +9,8 @@ function* watcherSaga() {
 function* deleteProjectSaga(action) {
     try {
         console.log('in deleteProjectSaga', action.payload)
-        yield axios.delete('/api/project/'+action.payload.id)
+        yield axios.delete('/api/project/'+action.payload.project_id)
+        yield put({type:'FETCH_PROJECTS'})
         
     }
     catch (error) {

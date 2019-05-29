@@ -32,7 +32,7 @@ router.get('/', (req,res) => {
 })
 
 router.delete('/:id', (req,res) => {
-    console.log('in DELETE /api/project', req.params, req.user);
+    console.log('in DELETE /api/project', req.params.id, req.user.id);
     
     
     if(req.isAuthenticated()){

@@ -10,6 +10,7 @@ function* addProjectSaga(action) {
         console.log('in addProjectSaga', action.payload);
         yield axios.post('/api/project', action.payload);
         yield axios.post('/api/project/users', action.payload);
+        yield put({type:'FETCH_PROJECTS'})
     }
     catch(err){
         console.log('error in addProjectSaga', err)

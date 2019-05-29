@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 function ControlledExpansionPanels(props) {
     const handleDelete = (project) => {
-        console.log('in handleDelete')
+        console.log('in handleDelete', project)
         props.dispatch({ type: 'DELETE_PROJECT', payload: project })
     }
     const classes = useStyles();
