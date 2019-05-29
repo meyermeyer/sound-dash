@@ -38,6 +38,7 @@ class UserDashboard extends Component {
                 dateCreated: new Date()
             }
         })
+        this.props.dispatch({type:'ADD_PROJECT', payload:this.state.newProject})
 
     }
     

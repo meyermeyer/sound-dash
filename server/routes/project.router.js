@@ -57,4 +57,24 @@ router.delete('/:id', (req,res) => {
     
 })
 
+router.post('/', (req,res)=> {
+    console.log('in POST /api/project', req.body);
+    if (req.isAuthenticated()){
+        let query = `INSERT INTO "projects" ("name","notes","date_created", "author_id") VALUES ($1,$2,$3,$4);`
+        pool.query(query,[req.body.name, req.body.notes, req.body.date_created, req.user.id])
+            .then(response => {
+                console.log('in POST /api/project', response);
+                res.sendStatus(204)
+            })
+            .catch(error => {
+                console.log('error in POST /api/project', error)
+                res.sendStatus(500)
+            })
+    }
+    else {
+        console.log('POST /api/project forbidden')
+        res.sendStatus(403)
+    }
+})
+
 module.exports = router;
