@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 
 class ProjectEditor extends Component {
     state = {
-        currentProject: ''
+        
     }
     
    handleChange = (event) => {
@@ -16,8 +16,8 @@ class ProjectEditor extends Component {
    }
 
    componentDidMount = () => {
-        console.log('get those tracks', this.props.reduxState.currentProject);
-        this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
+       this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
+        
        
    }
     render() {

@@ -13,7 +13,8 @@ router.get('/:id',(req,res)=>{
                     JOIN "users_projects" ON "users_projects".project_id = "projects".id
                     WHERE "users_projects".user_id = $1
                     AND "files".project_id = $2;`
-        pool.query(query,[req.user.id,req.params.id])
+        pool.query(query,[1,5]) //just for dev purposes so it stops losing the data on state change
+        // pool.query(query,[req.user.id,req.params.id])
             .then(result=>{
                 console.log('in GET /api/files', result.rows);
                 res.send(result.rows)
