@@ -30,4 +30,11 @@ router.get('/:id',(req,res)=>{
     }
 })
 
+//POST for adding files
+router.post('/:id', (req,res)=> {
+    console.log('in POST /api/files', req.body.url)
+    const query = `INSERT INTO "files" ("path", "project_id") VALUES ($1,$2);`
+    pool.query(query,[req.body.url,req.params.id])
+})
+
 module.exports = router;

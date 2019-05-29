@@ -3,16 +3,38 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TrackList from '../TrackList/TrackList'
+
+//materialUI
 import TextField from '@material-ui/core/TextField';
+import { Button, Card, CardContent, CardActions } from '@material-ui/core';
+import { createMuiTheme } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/styles';
+
+
+const theme = createMuiTheme({
+    palette: {
+        primary: { main: '#9c27b0' },
+        secondary: { main: '#ffcc80' }
+    }
+})
 
 
 class ProjectEditor extends Component {
     state = {
-        
+        newFilePath: ''
     }
     
    handleChange = (event) => {
        console.log('in handleChange', event.target.value)
+       this.setState({
+           newFilePath: event.target.value
+       })
+   }
+
+   handleSubmit = ()=>{
+       console.log('in handleSubmit')
+       //dispatch action to trigger SAGA for POST to /api/files
+       this.props.dispatch({type:'ADD_FILE', payload: this.state.newFilePath, currentProject:this.props.reduxState.currentProject})
    }
 
    componentDidMount = () => {
@@ -21,7 +43,7 @@ class ProjectEditor extends Component {
        
    }
     render() {
-        console.log('ProjectEditor', this.state.currentProject)
+        console.log('ProjectEditor', this.state.newFilePath)
         return (
             <>
                 <h2>{this.props.reduxState.currentProject.name}</h2>
@@ -34,7 +56,9 @@ class ProjectEditor extends Component {
                         variant="outlined"
                         onChange={this.handleChange}
                     />
-
+                    <ThemeProvider theme={theme}>
+                        <Button  onClick={this.handleSubmit} variant="contained" color="secondary">Submit</Button>
+                    </ThemeProvider>
                     {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <ul>
                         <TrackList />
