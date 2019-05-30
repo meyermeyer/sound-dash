@@ -10,4 +10,18 @@ const rejectUnauthenticated = (req, res, next) => {
   }
 };
 
+const rejectUnauthorizedUser = (req,res,next) => {
+  let query = `SELECT * FROM "users_projects" WHERE "users_projects"."user_id"=$1;`
+  let authorizedProjects = ''
+  pool.query(query,[req.user.id])
+      .then(result=>{
+        authorizedProjects = result.rows
+        res.Send(result.rows)
+      })
+      .catch(err=>{
+        console.log('error in rejectUnauthroizedUser, authorizedProjects query', err);
+        res.sendStatus(500)
+      })
+}
+
 module.exports = { rejectUnauthenticated };

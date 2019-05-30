@@ -55,16 +55,21 @@ router.post('/:id', (req,res)=> {
 router.put('/:id', (req,res)=>{
     console.log('in PUT /api/files', req.body.trackName, req.params.id);
     if (req.isAuthenticated()){
-        const query = `UPDATE "files" SET "track_name"=$1 WHERE "id"=$2`
-        pool.query(query,[req.body.trackName,req.user.id])
-            .then(response=>{
-                console.log('back from PUT /api/files', response);
-                res.sendStatus(200)
-            })
-            .catch(error=>{
-                console.log('error in PUT /api/files', error)
-                res.sendStatus(500)
-            })
+        log
+        if(req.user.id=){
+            const query = `UPDATE "files" SET "track_name"=$1 WHERE "id"=$2`
+            pool.query(query, [req.body.trackName, req.user.id])
+                .then(response => {
+                    console.log('back from PUT /api/files', response);
+                    res.sendStatus(200)
+                })
+                .catch(error => {
+                    console.log('error in PUT /api/files', error)
+                    res.sendStatus(500)
+                })
+        }
+
+        
     }   
     else {
         console.log('PUT /api/files forbidden');
