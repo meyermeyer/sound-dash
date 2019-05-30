@@ -10,7 +10,7 @@ function* addFileSaga(action) {
     try {
         let url = '/api/files/'+action.currentProject.project_id
         console.log('in addFileSaga', action.payload, action.currentProject.project_id, url);
-        yield axios.post(url, {url: action.payload});
+        yield axios.post(url, action.payload);
 
     }
     catch (error) {

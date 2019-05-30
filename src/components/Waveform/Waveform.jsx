@@ -173,8 +173,9 @@ class Waveform extends React.Component {
         //     backend: 'MediaElement',
         //     plugins: [MicrophonePlugin.create({})]
         // })
-        // this.wavesurfer.load('http://www.noiseaddicts.com/samples_1w72b820/4930.mp3');
-        this.wavesurfer.load(dogBarking);
+        this.wavesurfer.load('https://reelcrafter-east.s3.amazonaws.com/aux/test.m4a');
+        // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
+        // this.wavesurfer .load(dogBarking);
         console.log(this.wavesurfer.regions);
         this.wavesurfer.on('region-update-end', this.saveRegions);
         this.wavesurfer.on('region-mouseenter', this.handleHover)

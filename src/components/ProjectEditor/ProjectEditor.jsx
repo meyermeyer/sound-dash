@@ -27,14 +27,23 @@ class ProjectEditor extends Component {
    handleChange = (event) => {
        console.log('in handleChange', event.target.value)
        this.setState({
-           newFilePath: event.target.value
+           newFile: {
+               name:'',
+               path: event.target.value}
        })
    }
 
    handleSubmit = ()=>{
        console.log('in handleSubmit')
        //dispatch action to trigger SAGA for POST to /api/files
-       this.props.dispatch({type:'ADD_FILE', payload: this.state.newFilePath, currentProject:this.props.reduxState.currentProject})
+       let trackNumber = this.props.reduxState.files.length
+       this.setState({
+           newFile: {
+               ...this.state.newFile,
+               name: 'Track'+{trackNumber}
+           }
+       })
+       this.props.dispatch({type:'ADD_FILE', payload: this.state.newFile, currentProject:this.props.reduxState.currentProject})
    }
 
    componentDidMount = () => {
@@ -44,6 +53,8 @@ class ProjectEditor extends Component {
    }
     render() {
         console.log('ProjectEditor', this.state.newFilePath)
+        console.log('newFile',this.state.newFile);
+        
         return (
             <>
                 <h2>{this.props.reduxState.currentProject.name}</h2>
