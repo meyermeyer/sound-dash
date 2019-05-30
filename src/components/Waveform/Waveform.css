@@ -1,0 +1,9 @@
+.wavesurfer-region {
+    border-radius: 5px;
+    background-color: randomColor(.01)
+
+}
+
+.wavesurfer-handle {
+    background-color: pink;
+}
