@@ -39,7 +39,7 @@ function* fetchFilesSaga(action) {
 function* updateFileSaga(action) {
     try {
         console.log('in updateFileSaga', action.payload.trackName, action.id);
-        const url = '/api/files/'+action.id
+        const url = '/api/files/'+action.id+'/'+action.payload.project_id
         yield axios.put(url,action.payload)
         
     }

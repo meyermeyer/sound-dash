@@ -1,3 +1,5 @@
+const pool = require('../modules/pool')
+
 const rejectUnauthenticated = (req, res, next) => {
   // check if logged in
   if (req.isAuthenticated()) {
@@ -12,16 +14,29 @@ const rejectUnauthenticated = (req, res, next) => {
 
 const rejectUnauthorizedUser = (req,res,next) => {
   let query = `SELECT * FROM "users_projects" WHERE "users_projects"."user_id"=$1;`
-  let authorizedProjects = ''
-  pool.query(query,[req.user.id])
-      .then(result=>{
-        authorizedProjects = result.rows
-        res.Send(result.rows)
-      })
-      .catch(err=>{
-        console.log('error in rejectUnauthroizedUser, authorizedProjects query', err);
-        res.sendStatus(500)
-      })
+  
+  pool.query(query, [req.user.id])
+  .then(result => {
+    console.log('result.rows:',result.rows, req.params.id, req.params.project_id)
+    result.rows.map(project=>{
+      if (req.params.project_id===project.project_id) {
+        next()
+      }
+      else {
+        res.sendStatus(403)
+      }
+
+    })
+    
+  })
+  .catch(err => {
+    console.log('error in rejectUnauthroizedUser, authorizedProjects query', err);
+    res.sendStatus(500)
+  })
+  
+    
+  
+  
 }
 
-module.exports = { rejectUnauthenticated };
+module.exports = { rejectUnauthenticated, rejectUnauthorizedUser};

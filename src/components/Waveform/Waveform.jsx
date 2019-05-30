@@ -90,7 +90,7 @@ class Waveform extends React.Component {
             trackName: this.state.trackNameInput,
             
         })
-        this.props.dispatch({ type: 'UPDATE_FILE', payload: { trackName: this.state.trackNameInput }, id: this.props.file.id })
+        this.props.dispatch({ type: 'UPDATE_FILE', payload: { trackName: this.state.trackNameInput }, id: this.props.file.id, project_id:this.props.reduxState.currentProject.id })
 
     }
 
@@ -235,5 +235,9 @@ Waveform.defaultProps = {
     src: ""
 }
 
-export default connect()(Waveform);
+const mapStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapStateToProps)(Waveform);
 

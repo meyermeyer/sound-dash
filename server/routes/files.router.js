@@ -1,5 +1,5 @@
 const express = require('express');
-const { rejectUnauthenticated } = require('../modules/authentication-middleware');
+const { rejectUnauthorizedUser } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
 
@@ -52,13 +52,13 @@ router.post('/:id', (req,res)=> {
 })
 
 //PUT route to update file name
-router.put('/:id', (req,res)=>{
-    console.log('in PUT /api/files', req.body.trackName, req.params.id);
+router.put('/:project_id/:id', rejectUnauthorizedUser, (req,res)=>{
+    console.log('in PUT /api/files', req.body.trackName, req.params.id, );
     if (req.isAuthenticated()){
-        log
-        if(req.user.id=){
+        
+        
             const query = `UPDATE "files" SET "track_name"=$1 WHERE "id"=$2`
-            pool.query(query, [req.body.trackName, req.user.id])
+            pool.query(query, [req.body.trackName, req.params.id])
                 .then(response => {
                     console.log('back from PUT /api/files', response);
                     res.sendStatus(200)
@@ -70,7 +70,7 @@ router.put('/:id', (req,res)=>{
         }
 
         
-    }   
+      
     else {
         console.log('PUT /api/files forbidden');
         res.sendStatus(403)
