@@ -149,8 +149,8 @@ class Waveform extends React.Component {
     }
 
     componentDidMount() {
-        console.log('WaveSurfer object:', WaveSurfer);
-        console.log('props', this.props.file);
+        // console.log('WaveSurfer object:', WaveSurfer);
+        // console.log('props', this.props.file);
         
         // update track name
         this.setState({
@@ -198,7 +198,7 @@ class Waveform extends React.Component {
 
 
         console.log('setting regions', this.state.regionsList);
-
+        console.log('newFile', this.state.trackName);
 
         return (
             <div className='waveform'>

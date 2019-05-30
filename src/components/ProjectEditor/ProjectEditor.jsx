@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { Button, Card, CardContent, CardActions } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
+import ReactWavesurfer from '../ReactWavesurfer/ReactWavesurfer';
 
 
 const theme = createMuiTheme({
@@ -21,14 +22,19 @@ const theme = createMuiTheme({
 
 class ProjectEditor extends Component {
     state = {
-        newFilePath: ''
+        newFile: {
+            name: '',
+            path: ''
+        }
     }
     
    handleChange = (event) => {
-       console.log('in handleChange', event.target.value)
+       console.log('in handleChange', event.target.value);
+       console.log('trackNumber:', trackNumber)
+       let trackNumber = this.props.reduxState.files.length + 1
        this.setState({
            newFile: {
-               name:'',
+               name: 'Track ' + trackNumber,
                path: event.target.value}
        })
    }
@@ -36,13 +42,14 @@ class ProjectEditor extends Component {
    handleSubmit = ()=>{
        console.log('in handleSubmit')
        //dispatch action to trigger SAGA for POST to /api/files
-       let trackNumber = this.props.reduxState.files.length
-       this.setState({
-           newFile: {
-               ...this.state.newFile,
-               name: 'Track'+{trackNumber}
-           }
-       })
+    //    let trackNumber = this.props.reduxState.files.length+1
+       
+    //    this.setState({
+    //        newFile: {
+    //            ...this.state.newFile,
+    //            name: 'Track '+trackNumber
+    //        }
+    //    })
        this.props.dispatch({type:'ADD_FILE', payload: this.state.newFile, currentProject:this.props.reduxState.currentProject})
    }
 
@@ -52,8 +59,8 @@ class ProjectEditor extends Component {
        
    }
     render() {
-        console.log('ProjectEditor', this.state.newFilePath)
-        console.log('newFile',this.state.newFile);
+        console.log('ProjectEditor', this.state.newFile)
+        
         
         return (
             <>

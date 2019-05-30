@@ -9,6 +9,7 @@ class TrackItem extends Component {
 
     render() {
         console.log('track items', this.props.reduxState.files)
+        
         return(
             <>
                 {/* <ReactWavesurfer /> */}
