@@ -32,9 +32,45 @@ router.get('/:id',(req,res)=>{
 
 //POST for adding files
 router.post('/:id', (req,res)=> {
-    console.log('in POST /api/files', req.body, req.params.id)
-    const query = `INSERT INTO "files" ("track_name","path", "project_id") VALUES ($1,$2,$3);`
-    pool.query(query,[req.body.name,req.body.path,req.params.id])
+    if(req.isAuthenticated()){
+        console.log('in POST /api/files', req.body, req.params.id)
+        const query = `INSERT INTO "files" ("track_name","path", "project_id") VALUES ($1,$2,$3);`
+        pool.query(query, [req.body.name, req.body.path, req.params.id])
+            .then(response => {
+                console.log('in POST /api/files', response);
+                res.sendStatus(200)
+            })
+            .catch(error=>{
+                console.log('error in POST /api/files', error);
+                res.sendStatus(500)
+            })
+    }
+    else {
+        sendStatus(403)
+    }
+    
+})
+
+//PUT route to update file name
+router.put('/:id', (req,res)=>{
+    console.log('in PUT /api/files', req.body.trackName, req.params.id);
+    if (req.isAuthenticated()){
+        const query = `UPDATE "files" SET "track_name"=$1 WHERE "id"=$2`
+        pool.query(query,[req.body.trackName,req.user.id])
+            .then(response=>{
+                console.log('back from PUT /api/files', response);
+                res.sendStatus(200)
+            })
+            .catch(error=>{
+                console.log('error in PUT /api/files', error)
+                res.sendStatus(500)
+            })
+    }   
+    else {
+        console.log('PUT /api/files forbidden');
+        res.sendStatus(403)
+    }
+    
 })
 
 module.exports = router;

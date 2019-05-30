@@ -12,7 +12,8 @@ class Waveform extends React.Component {
     state = {
         regionsArray: [],
         trackName: '',
-        randomColor: ''
+        randomColor: '',
+        trackNameInput:''
     }
 
     // wavesurfer = WaveSurfer.create({
@@ -63,11 +64,12 @@ class Waveform extends React.Component {
         this.setState({
             ...this.state,
             trackName:
-                <form onSubmit={this.handleNameSubmit}>
-                    <input onChange={this.handleNameInput}></input>
+                <form class="form" onSubmit={this.handleNameSubmit} >
+                    <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
                 </form>
-
         })
+        //send name change to saga for PUT
+        
 
     }
 
@@ -77,6 +79,7 @@ class Waveform extends React.Component {
             ...this.state,
             trackNameInput: event.target.value
         })
+        
     }
 
     handleNameSubmit = (event) => {
@@ -85,9 +88,9 @@ class Waveform extends React.Component {
         this.setState({
             ...this.state,
             trackName: this.state.trackNameInput,
-            trackNameInput: ''
+            
         })
-
+        this.props.dispatch({ type: 'UPDATE_FILE', payload: { trackName: this.state.trackNameInput }, id: this.props.file.id })
 
     }
 

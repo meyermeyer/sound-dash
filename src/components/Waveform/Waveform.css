@@ -7,3 +7,7 @@
 .wavesurfer-handle {
     background-color: pink;
 }
+
+.form {
+    background-color: none !important
+}
