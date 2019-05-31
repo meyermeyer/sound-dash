@@ -9,27 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import { Button, Grid } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 
-// const useStyles = makeStyles(theme => ({
-//     container: {
-//         display: 'flex',
-//         flexWrap: 'wrap',
-//     },
-//     textField: {
-//         marginLeft: theme.spacing(1),
-//         marginRight: theme.spacing(1),
-//         width: 200,
-//         height: 400
-//     },
-//     dense: {
-//         marginTop: 19,
-//     },
-//     menu: {
-//         width: 200,
-//     },
-// }));
+
 
 const theme = createMuiTheme({
     palette: {
@@ -44,7 +25,11 @@ const styles = (theme)=>{
             marginLeft: theme.spacing(1),
             marginRight: theme.spacing(1),
             width: 200,
-            height: 400
+            height: 400,
+            borderStyle: 'solid',
+            borderColor: 'black',
+            borderWeight: 2
+
         }
     }
 };
@@ -55,9 +40,13 @@ class ProjectEditor extends Component {
         newFile: {
             name: '',
             path: ''
+        },
+        projectData: {
+            lyrics: '',
+            notes: ''
         }
     }
-    
+//New Track Input functions
    handleChange = (event) => {
        console.log('in handleChange', event.target.value);
        console.log('trackNumber:', trackNumber)
@@ -73,15 +62,28 @@ class ProjectEditor extends Component {
        console.log('in handleSubmit')
        
        //dispatch action to trigger SAGA for POST to /api/files
-    //    let trackNumber = this.props.reduxState.files.length+1
-       
-    //    this.setState({
-    //        newFile: {
-    //            ...this.state.newFile,
-    //            name: 'Track '+trackNumber
-    //        }
-    //    })
        this.props.dispatch({type:'ADD_FILE', payload: this.state.newFile, currentProject:this.props.reduxState.currentProject})
+   }
+
+//Lyrics and Notes change functions
+   handleLyricsChange = (event)=>{
+    console.log('in handleLyricsChange')
+    this.setState({
+        projectData: {
+            ...this.state.projectData,
+            lyrics: event.target.value
+        }
+    })
+   }
+
+   handleNotesChange = (event)=>{
+       console.log('in handleNotesChange')
+       this.setState({
+           projectData: {
+               ...this.state.projectData,
+               notes: event.target.value
+           }
+       })
    }
 
    componentDidMount = () => {
@@ -90,7 +92,8 @@ class ProjectEditor extends Component {
        
    }
     render() {
-        console.log('ProjectEditor', this.state.newFile)
+        console.log('ProjectEditor new file', this.state.newFile)
+        console.log('ProjectEditor project data', this.state.projectData);
         
         
         return (
@@ -114,13 +117,13 @@ class ProjectEditor extends Component {
                     </ThemeProvider>
                     {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <Grid container>
-                        <Grid item sm={9}>
+                        <Grid item sm={8}>
                             <ul>
                                 <TrackList />
                             </ul>
                         </Grid>
-                        <Grid container sm={3}>
-                            <Grid item sm={12}>
+                        <Grid container sm={4}>
+                            <Grid item sm={6}>
                                 <TextField
                                 id="lyrics-textarea"
                                 label="Lyrics"
@@ -128,9 +131,10 @@ class ProjectEditor extends Component {
                                 multiline
                                 className={this.props.classes.textField}
                                 margin="normal"
+                                onChange={this.handleLyricsChange}
                             />
                             </Grid>
-                            <Grid item sm={12}>
+                            <Grid item sm={6}>
                                 <TextField
                                     id="notes-textarea"
                                     label="Notes"
@@ -138,6 +142,7 @@ class ProjectEditor extends Component {
                                     multiline
                                     className={this.props.classes.textField}
                                     margin="normal"
+                                    onChange={this.handleNotesChange}
                                 />
                             </Grid>
 
