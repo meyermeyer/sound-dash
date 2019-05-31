@@ -2,11 +2,14 @@ import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
 
+
+
 //watcher Saga
 function* fileSaga() {
     yield takeEvery('ADD_FILE', addFileSaga)
     yield takeEvery('UPDATE_FILE', updateFileSaga)
     yield takeEvery('FETCH_FILES', fetchFilesSaga)
+    yield takeEvery('DELETE_FILE', deleteFileSaga)
 }
 
 function* addFileSaga(action) {
@@ -19,6 +22,18 @@ function* addFileSaga(action) {
     }
     catch (error) {
         console.log('error in POST addFileSaga', error);
+    }
+}
+
+function* deleteFileSaga(action) {
+    try{
+        const url = `/api/files?project_id=${action.payload.project_id}&track_id=${action.payload.track_id}`
+        console.log('in deleteFileSaga', action.payload);
+        yield axios.delete(url);
+        yield put({ type: 'FETCH_FILES', payload: action.payload})
+    }
+    catch (error) {
+        console.log('error in DELETE /api/files', error);
     }
 }
 
@@ -48,11 +63,14 @@ function* updateFileSaga(action) {
         //                     trackId: action.id,
         //                     projectId: action.project_id
         // })
+        console.log('sending to Fetch saga', action.payload)
+        yield axios.put({ type: 'FETCH_FILES', payload: action.payload })
         
     }
     catch(error){
         console.log('error in updateFileSaga', error)
     }
+    
 }
 
 
