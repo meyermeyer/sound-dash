@@ -8,6 +8,19 @@ import { connect } from 'react-redux'
 import Swal from 'sweetalert2'
 import './Waveform.css'
 
+//MUI stuff
+import {Button} from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: { main: '#9c27b0' },
+        secondary: { main: '#ffcc80' }
+    }
+})
+
+
 class Waveform extends React.Component {
     state = {
         regionsArray: [],
@@ -16,36 +29,9 @@ class Waveform extends React.Component {
         trackNameInput:''
     }
 
-    // wavesurfer = WaveSurfer.create({
-    //     container: this.$waveform,
-    //     waveColor: 'violet',
-    //     progressColor: 'purple',
-    //     backend: 'MediaElement',
-    //     plugins: [RegionsPlugin.create({})]
-    // })
-    // saveRegions = () => {
-    //     console.log('in saveRegions');
-    //     this.setState({
-    //         regions: 
-    //     })
+    
 
-    // }
-
-
-
-    randomColor = (alpha) => {
-        return (
-            'rgba(' +
-            [
-                ~~(Math.random() * 255),
-                ~~(Math.random() * 255),
-                ~~(Math.random() * 255),
-                alpha || 1
-            ] +
-            ')'
-        );
-    }
-
+//annotation/regions functions
     allowAnnotation = () => {
         console.log('in allowAnnotation');
         this.wavesurfer.enableDragSelection({
@@ -55,48 +41,6 @@ class Waveform extends React.Component {
 
     handleHover = (region) => {
         console.log('hovering over', region.data.regionTag);
-
-
-    }
-
-    editTrackName = () => {
-        console.log('in editTrackName');
-        this.setState({
-            ...this.state,
-            trackName:
-                <form class="form" onSubmit={this.handleNameSubmit} >
-                    <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
-                </form>
-        })
-        //send name change to saga for PUT
-        
-
-    }
-
-    handleNameInput = (event) => {
-        console.log('in handleNameInput', event.target.value);
-        this.setState({
-            ...this.state,
-            trackNameInput: event.target.value
-        })
-        
-    }
-
-    handleNameSubmit = (event) => {
-        event.preventDefault();
-        console.log('in handleNameSubmit');
-        this.setState({
-            ...this.state,
-            trackName: this.state.trackNameInput,
-            
-        })
-        this.props.dispatch({ type: 'UPDATE_FILE', 
-                                payload: { trackName: this.state.trackNameInput,
-                                           track_id: this.props.file.id,
-                                           project_id: this.props.reduxState.currentProject.project_id}
-        })
-                                                               
-
     }
 
     labelRegion = (region) => {
@@ -144,6 +88,66 @@ class Waveform extends React.Component {
 
     }
 
+    randomColor = (alpha) => {
+        return (
+            'rgba(' +
+            [
+                ~~(Math.random() * 255),
+                ~~(Math.random() * 255),
+                ~~(Math.random() * 255),
+                alpha || 1
+            ] +
+            ')'
+        );
+    }
+
+//file functions
+    //function re-renders track header as input field on click for track title update
+    editTrackName = () => {
+        console.log('in editTrackName');
+        this.setState({
+            ...this.state,
+            trackName:
+                <form className="form" onSubmit={this.handleNameSubmit} >
+                    <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
+                </form>
+        })
+    }
+
+    //function stores input value to local state
+    handleNameInput = (event) => {
+        console.log('in handleNameInput', event.target.value);
+        this.setState({
+            ...this.state,
+            trackNameInput: event.target.value
+        })
+        
+    }
+
+    //function changes input back to static h3 on 'enter', sends input value to SAGA for PUT to server/database
+    handleNameSubmit = (event) => {
+        event.preventDefault();
+        console.log('in handleNameSubmit');
+        this.setState({
+            ...this.state,
+            trackName: this.state.trackNameInput
+        })
+        this.props.dispatch({ type: 'UPDATE_FILE', 
+                                payload: { trackName: this.state.trackNameInput,
+                                           track_id: this.props.file.id,
+                                           project_id: this.props.reduxState.currentProject.project_id}
+        })
+    }
+
+    //function sends data to saga for file delete request
+    handleDelete = () => {
+        console.log('in handleDelete', this.props.file.id)
+        this.props.dispatch({type: 'DELETE_FILE', payload: {track_id:this.props.file.id, 
+                                                            project_id: this.props.reduxState.currentProject.project_id}})
+    }
+
+    
+//file play functions
     playAudio = () => {
         this.wavesurfer.play();
     }
@@ -211,6 +215,9 @@ class Waveform extends React.Component {
         return (
             <div className='waveform'>
                 <h3 onClick={this.editTrackName}>{this.state.trackName}</h3>
+                <ThemeProvider theme={theme}>
+                    <Button onClick={this.handleDelete} aria-label="create new project" variant="contained" color="primary">Delete</Button>
+                </ThemeProvider>
                 <div onClick={this.handleClick} className='wave'>
                     {/* {this.state.regionsArray.map((region)=>{
                         return(
@@ -220,9 +227,18 @@ class Waveform extends React.Component {
                     })} */}
                 </div>
                 <div className='wave2'></div>
-                <button onClick={this.playAudio}>Play</button>
+                <ThemeProvider theme={theme}>
+                    <Button onClick={this.playAudio} aria-label="create new project" variant="contained" color="primary">Play</Button>
+                </ThemeProvider>
+                <ThemeProvider theme={theme}>
+                    <Button onClick={this.pauseAudio} aria-label="create new project" variant="contained" color="primary">Pause</Button>
+                </ThemeProvider>
+                <ThemeProvider theme={theme}>
+                    <Button onClick={this.stopAudio} aria-label="create new project" variant="contained" color="primary">Stop</Button>
+                </ThemeProvider>
+                {/* <button onClick={this.playAudio}>Play</button>
                 <button onClick={this.pauseAudio}>Pause</button>
-                <button onClick={this.stopAudio}>Stop</button>
+                <button onClick={this.stopAudio}>Stop</button> */}
                 {/* <button onClick={this.allowAnnotation}>Annotate</button> */}
                 <ul>
                     {this.state.regionsArray.map((region) => {

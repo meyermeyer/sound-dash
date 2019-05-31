@@ -3,6 +3,24 @@ const { rejectUnauthorizedUser } = require('../modules/authentication-middleware
 const pool = require('../modules/pool');
 const router = express.Router();
 
+
+router.delete('/', rejectUnauthorizedUser, (req,res)=>{
+    if(req.isAuthenticated()){
+        console.log('in DELETE /api/files');
+        let query = `DELETE FROM "files" WHERE "id"=$1`
+        pool.query(query,[req.query.track_id])
+            .then(response=>{
+                console.log('back from DELETE /api/files', response)
+                res.sendStatus(204)
+            })
+            .catch(error=>{
+                console.log('error in DELETE /api/files', error);
+                res.sendStatus(500)
+            })
+    }
+    
+    
+})
 router.get('/:id',(req,res)=>{
     console.log('in GET /api/files');
     //return all files associated with selected project if user is authorized to view the project

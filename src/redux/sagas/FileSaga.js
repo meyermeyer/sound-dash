@@ -7,6 +7,7 @@ function* fileSaga() {
     yield takeEvery('ADD_FILE', addFileSaga)
     yield takeEvery('UPDATE_FILE', updateFileSaga)
     yield takeEvery('FETCH_FILES', fetchFilesSaga)
+    yield takeEvery('DELETE_FILE', deleteFileSaga)
 }
 
 function* addFileSaga(action) {
@@ -19,6 +20,18 @@ function* addFileSaga(action) {
     }
     catch (error) {
         console.log('error in POST addFileSaga', error);
+    }
+}
+
+function* deleteFileSaga(action) {
+    try{
+        const url = `/api/files?project_id=${action.payload.project_id}&track_id=${action.payload.track_id}`
+        console.log('in deleteFileSaga', action.payload);
+        yield axios.delete(url);
+        
+    }
+    catch (error) {
+        console.log('error in DELETE /api/files', error);
     }
 }
 
