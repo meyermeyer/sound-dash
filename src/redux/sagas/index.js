@@ -2,12 +2,12 @@ import { all } from 'redux-saga/effects';
 import loginSaga from './loginSaga';
 import registrationSaga from './registrationSaga';
 import userSaga from './userSaga';
-import fetchProjectsSaga from './fetchProjectsSaga';
-import deleteProjectSaga from './deleteProjectSaga'
-import addProjectSaga from './addProjectSaga'
-import updateProjectSaga from './updateProjectSaga'
+// import fetchProjectsSaga from './fetchProjectsSaga';
+// import deleteProjectSaga from './deleteProjectSaga'
+import projectSaga from './projectSaga'
+// import updateProjectSaga from './updateProjectSaga'
 // import fetchFilesSaga from './fetchFilesSaga'
-import FileSaga from './FileSaga'
+import fileSaga from './fileSaga'
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
 // This is imported in index.js as rootSaga
@@ -20,10 +20,11 @@ export default function* rootSaga() {
     loginSaga(),
     registrationSaga(),
     userSaga(),
-    fetchProjectsSaga(),
-    deleteProjectSaga(),
-    addProjectSaga(),
-    updateProjectSaga(),
-    FileSaga()
+    // fetchProjectsSaga(),
+    // deleteProjectSaga(),
+    // addProjectSaga(),
+    // updateProjectSaga(),
+    projectSaga(),
+    fileSaga()
   ]);
 }
