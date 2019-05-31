@@ -9,9 +9,11 @@ import Swal from 'sweetalert2'
 import './Waveform.css'
 
 //MUI stuff
-import {Button} from '@material-ui/core'
+import {Button, icons, CardContent, Card} from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
+import SvgIcon from '@material-ui/core/SvgIcon'
+
 
 const theme = createMuiTheme({
     palette: {
@@ -24,9 +26,10 @@ const theme = createMuiTheme({
 class Waveform extends React.Component {
     state = {
         regionsArray: [],
-        trackName: '',
+        // trackName: '',
         randomColor: '',
-        trackNameInput:''
+        trackNameInput:'',
+        trackNameIsClicked: false
     }
 
     
@@ -43,27 +46,35 @@ class Waveform extends React.Component {
         console.log('hovering over', region.data.regionTag);
     }
 
-    labelRegion = (region) => {
-
-    }
 
     saveRegions = (region) => {
-        // alert('you created a region');
-        let regionTag = prompt("Tag")
-        let regionNotes = prompt("Notes")
-        console.log('region:', region);
-        //update 'region' created by clicking to include user's data
-        region.update({
-            data: {
-                regionTag,
-                regionNotes
+        //sweet alert for labeling region
+        Swal.fire({
+            title: 'New Region',
+            text: 'Region',
+            html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+                '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+            confirmButtonText: 'Create',
+            showCancelButton: true,
+            //capture input text
+            preConfirm: () => {
+                let regionTag = document.getElementById('regionTagInput').value;
+                let regionNotes = document.getElementById('regionNotesInput').value;
+                console.log('SWAL', regionTag, regionNotes);
+                
+                // update 'region' created by clicking to include user's data
+                region.update({
+                    data: {
+                        regionTag,
+                        regionNotes
+                    }
+                })
             }
         })
         console.log('updated region', region);
-        console.log('prompt responses:', regionTag, regionNotes);
-        console.log(this.wavesurfer.regions);
+        // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
 
-        //add regions.list objects to arrat
+        //add regions.list objects to array
         let regionsArray = []
         for (let i in this.wavesurfer.regions.list) {
             regionsArray.push(this.wavesurfer.regions.list[i])
@@ -102,16 +113,44 @@ class Waveform extends React.Component {
     }
 
 //file functions
-    //function re-renders track header as input field on click for track title update
-    editTrackName = () => {
-        console.log('in editTrackName');
-        this.setState({
-            ...this.state,
-            trackName:
+
+    checkNameIsClicked = () => {
+        console.log('in checkNameIsClicked')
+        if (this.state.trackNameIsClicked) {
+            return(
                 <form className="form" onSubmit={this.handleNameSubmit} >
                     <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
                 </form>
+            )
+        }
+        else {
+            return(
+                this.props.file.track_name
+            )
+        }
+    }
+    //function re-renders track header as input field on click for track title update
+    editTrackName = () => {
+        console.log('in editTrackName',this.state.trackNameIsClicked);
+        // this.setState({
+        //     ...this.state,
+        //     trackName:
+        //         <form className="form" onSubmit={this.handleNameSubmit} >
+        //             <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
+        //         </form>
+        // })
+        this.setState({
+            ...this.state,
+            trackNameIsClicked: true
         })
+        
+        // if (this.state.trackNameIsClicked){
+        //     return(
+        //         <form className="form" onSubmit={this.handleNameSubmit} >
+        //             <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
+        //         </form>
+        //     )
+        // }
     }
 
     //function stores input value to local state
@@ -128,9 +167,13 @@ class Waveform extends React.Component {
     handleNameSubmit = (event) => {
         event.preventDefault();
         console.log('in handleNameSubmit');
+        // this.setState({
+        //     ...this.state,
+        //     trackName: this.state.trackNameInput
+        // })
         this.setState({
             ...this.state,
-            trackName: this.state.trackNameInput
+            trackNameIsClicked: false
         })
         this.props.dispatch({ type: 'UPDATE_FILE', 
                                 payload: { trackName: this.state.trackNameInput,
@@ -144,6 +187,9 @@ class Waveform extends React.Component {
         console.log('in handleDelete', this.props.file.id)
         this.props.dispatch({type: 'DELETE_FILE', payload: {track_id:this.props.file.id, 
                                                             project_id: this.props.reduxState.currentProject.project_id}})
+        this.setState({
+            trackName: this.props.file.track_name
+        })                                                    
     }
 
     
@@ -165,9 +211,9 @@ class Waveform extends React.Component {
         // console.log('props', this.props.file);
         
         // update track name
-        this.setState({
-            trackName: this.props.file.track_name
-        })
+        // this.setState({
+        //     trackName: this.props.file.track_name
+        // })
         this.$el = ReactDOM.findDOMNode(this)
         this.$waveform = this.$el.querySelector('.wave')
         this.wavesurfer = WaveSurfer.create({
@@ -205,47 +251,62 @@ class Waveform extends React.Component {
     // }
    
     render() {
-
-
-        console.log('setting regions', this.state.regionsList);
+        console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
 
         return (
-            <div className='waveform'>
-                <h3 onClick={this.editTrackName}>{this.state.trackName}</h3>
-                <ThemeProvider theme={theme}>
-                    <Button onClick={this.handleDelete} aria-label="create new project" variant="contained" color="primary">Delete</Button>
-                </ThemeProvider>
-                <div onClick={this.handleClick} className='wave'>
-                    {/* {this.state.regionsArray.map((region)=>{
-                        return(
-                            <p id='tag'>{region.data.regionTag}</p>
-                        )
-                        
-                    })} */}
-                </div>
-                <div className='wave2'></div>
-                <ThemeProvider theme={theme}>
-                    <Button onClick={this.playAudio} aria-label="create new project" variant="contained" color="primary">Play</Button>
-                </ThemeProvider>
-                <ThemeProvider theme={theme}>
-                    <Button onClick={this.pauseAudio} aria-label="create new project" variant="contained" color="primary">Pause</Button>
-                </ThemeProvider>
-                <ThemeProvider theme={theme}>
-                    <Button onClick={this.stopAudio} aria-label="create new project" variant="contained" color="primary">Stop</Button>
-                </ThemeProvider>
-                {/* <button onClick={this.playAudio}>Play</button>
+            <Card>
+                <CardContent>
+                    <div className='waveform'>
+                        <h3 onClick={this.editTrackName}>{this.checkNameIsClicked()}</h3>
+
+                        <div onClick={this.handleClick} className='wave'>
+                        </div>
+                        <div className='wave2'></div>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={this.playAudio} aria-label="play audio" variant="contained" color="primary">Play
+                        <i className="material-icons">
+                                    play_circle_outline
+                        </i>
+                            </Button>
+                        </ThemeProvider>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={this.pauseAudio} aria-label="pause audio" variant="contained" color="primary">Pause
+                        <i class="material-icons">
+                                    pause_circle_filled
+                        </i>
+                            </Button>
+                        </ThemeProvider>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={this.stopAudio} aria-label="stop audio" variant="contained" color="primary">Stop
+                        <i class="material-icons">
+                                    stop
+                        </i>
+                            </Button>
+                        </ThemeProvider>
+                        {/* <button onClick={this.playAudio}>Play</button>
                 <button onClick={this.pauseAudio}>Pause</button>
                 <button onClick={this.stopAudio}>Stop</button> */}
-                {/* <button onClick={this.allowAnnotation}>Annotate</button> */}
-                <ul>
-                    {this.state.regionsArray.map((region) => {
-                        return (
-                            <li>{region.data.regionTag}</li>
-                        )
-                    })}
-                </ul>
-            </div>
+                        {/* <button onClick={this.allowAnnotation}>Annotate</button> */}
+                        <ul>
+                            {this.state.regionsArray.map((region) => {
+                                return (
+                                    <li>{region.data.regionTag}</li>
+                                )
+                            })}
+                        </ul>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={this.handleDelete} aria-label="delete track" variant="contained" color="primary">Delete
+                        <i class="material-icons">
+                                    delete
+                        </i>
+                            </Button>
+                        </ThemeProvider>
+                    </div>
+                </CardContent>
+                
+            </Card>
+            
         )
     }
 }

@@ -6,11 +6,30 @@ import TrackList from '../TrackList/TrackList'
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
-import { Button, Card, CardContent, CardActions } from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles'
+import { Button } from '@material-ui/core';
+import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
-import ReactWavesurfer from '../ReactWavesurfer/ReactWavesurfer';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
 
+// const useStyles = makeStyles(theme => ({
+//     container: {
+//         display: 'flex',
+//         flexWrap: 'wrap',
+//     },
+//     textField: {
+//         marginLeft: theme.spacing(1),
+//         marginRight: theme.spacing(1),
+//         width: 200,
+//         height: 400
+//     },
+//     dense: {
+//         marginTop: 19,
+//     },
+//     menu: {
+//         width: 200,
+//     },
+// }));
 
 const theme = createMuiTheme({
     palette: {
@@ -18,6 +37,17 @@ const theme = createMuiTheme({
         secondary: { main: '#ffcc80' }
     }
 })
+
+const styles = (theme)=>{
+    return{
+        textField: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+            width: 200,
+            height: 400
+        }
+    }
+};
 
 
 class ProjectEditor extends Component {
@@ -76,14 +106,34 @@ class ProjectEditor extends Component {
                         onChange={this.handleChange}
                     />
                     <ThemeProvider theme={theme}>
-                        <Button  onClick={this.handleSubmit} variant="contained" color="secondary">Submit</Button>
+                        <Button  onClick={this.handleSubmit} variant="contained" color="secondary">Submit
+                            <i class="material-icons">
+                                library_add
+                            </i>
+                        </Button>
                     </ThemeProvider>
                     {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <ul>
-                        <TrackList />
+                            <TrackList />
                     </ul>
-                    <input aria-label="lyrics" type="text" placeholder="lyrics"></input>
-                    <input aria-label="notes" type="text" placeholder="notes"></input>
+                    {/* <input aria-label="lyrics" type="text" placeholder="lyrics"></input>
+                    <input aria-label="notes" type="text" placeholder="notes"></input> */}
+                    <TextField
+                        id="lyrics-textarea"
+                        label="Lyrics"
+                        placeholder="Lyrics Here"
+                        multiline
+                        className={this.props.classes.textField}
+                        margin="normal"
+                    />
+                    <TextField
+                        id="notes-textarea"
+                        label="Notes"
+                        placeholder="Notes Here"
+                        multiline
+                        className={this.props.classes.textField}
+                        margin="normal"
+                    />
                 </div>
             </>
             
@@ -95,4 +145,5 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-export default connect(mapStateToProps)(ProjectEditor)
+// export default withStyles(styles)connect(mapStateToProps)(ProjectEditor)
+export default connect(mapStateToProps)(withStyles(styles)(ProjectEditor))

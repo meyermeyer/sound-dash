@@ -2,6 +2,8 @@ import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
 
+
+
 //watcher Saga
 function* fileSaga() {
     yield takeEvery('ADD_FILE', addFileSaga)
@@ -61,11 +63,14 @@ function* updateFileSaga(action) {
         //                     trackId: action.id,
         //                     projectId: action.project_id
         // })
+        console.log('sending to Fetch saga', action.payload)
+        yield axios.put({ type: 'FETCH_FILES', payload: action.payload })
         
     }
     catch(error){
         console.log('error in updateFileSaga', error)
     }
+    
 }
 
 
