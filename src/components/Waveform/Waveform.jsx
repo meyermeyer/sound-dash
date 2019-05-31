@@ -203,9 +203,7 @@ class Waveform extends React.Component {
     //         color: this.randomColor(0.1)
     //     });
     // }
-    componentWillUnmount() {
-
-    }
+   
     render() {
 
 
