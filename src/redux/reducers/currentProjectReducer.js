@@ -3,7 +3,6 @@ const currentProjectReducer = (state=[], action) => {
         case 'SELECT_PROJECT':
             console.log('in currentProjectReducer', action.payload)
             return action.payload;
-            // return 8;
         default:
             return state;
     }

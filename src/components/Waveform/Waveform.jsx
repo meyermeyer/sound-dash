@@ -90,7 +90,12 @@ class Waveform extends React.Component {
             trackName: this.state.trackNameInput,
             
         })
-        this.props.dispatch({ type: 'UPDATE_FILE', payload: { trackName: this.state.trackNameInput }, id: this.props.file.id, project_id:this.props.reduxState.currentProject.id })
+        this.props.dispatch({ type: 'UPDATE_FILE', 
+                                payload: { trackName: this.state.trackNameInput,
+                                           track_id: this.props.file.id,
+                                           project_id: this.props.reduxState.currentProject.project_id}
+        })
+                                                               
 
     }
 

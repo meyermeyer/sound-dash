@@ -20,7 +20,9 @@ const rejectUnauthorizedUser = (req,res,next) => {
     // console.log('result.rows:',result.rows, req.params.projectId, req.params.trackId)
     console.log('result.rows:', result.rows, req.query.project_id, req.query.track_id)
     result.rows.map(project=>{
-      if (req.params.project_id===project.project_id) {
+      console.log('project:', project.project_id, req.query.project_id);
+      if (req.query.project_id==project.project_id) {
+        console.log('YESSS');
         next()
       }
       else {
@@ -29,9 +31,10 @@ const rejectUnauthorizedUser = (req,res,next) => {
 
     })
     
+    
   })
   .catch(err => {
-    console.log('error in rejectUnauthroizedUser, authorizedProjects query', err);
+    console.log('error in rejectUnauthorizedUser, authorizedProjects query', err);
     res.sendStatus(500)
   })
   

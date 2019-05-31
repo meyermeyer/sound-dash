@@ -9,8 +9,12 @@ router.get('/:id',(req,res)=>{
     if(req.isAuthenticated()){
         console.log('user.id', req.user.id,'project_id', req.params.id);
         
-        let query = `SELECT * FROM "files" JOIN "projects" ON "files".project_id = "projects".id 
-                    JOIN "users_projects" ON "users_projects".project_id = "projects".id
+        // let query = `SELECT * FROM "files" JOIN "projects" ON "files".project_id = "projects".id 
+        //             JOIN "users_projects" ON "users_projects".project_id = "projects".id
+        //             WHERE "users_projects".user_id = $1
+        //             AND "files".project_id = $2;`
+        let query = `SELECT * FROM "users_projects" JOIN "projects" ON "users_projects".project_id = "projects".id
+                    JOIN "files" ON "files".project_id = "projects".id
                     WHERE "users_projects".user_id = $1
                     AND "files".project_id = $2;`
         pool.query(query,[1,5]) //just for dev purposes so it stops losing the data on state change
@@ -53,12 +57,10 @@ router.post('/:id', (req,res)=> {
 
 //PUT route to update file name
 router.put('/', rejectUnauthorizedUser, (req,res)=>{
-    console.log('in PUT /api/files', req.params.trackName, req.params.trackId, req.params.projectId );
+    console.log('in PUT /api/files', req.body.trackName, req.query.project_id, req.query.track_id );
     if (req.isAuthenticated()){
-        
-        
             const query = `UPDATE "files" SET "track_name"=$1 WHERE "id"=$2`
-            pool.query(query, [req.body.trackName, req.params.id])
+            pool.query(query, [req.body.trackName, req.query.track_id])
                 .then(response => {
                     console.log('back from PUT /api/files', response);
                     res.sendStatus(200)
@@ -68,9 +70,6 @@ router.put('/', rejectUnauthorizedUser, (req,res)=>{
                     res.sendStatus(500)
                 })
         }
-
-        
-      
     else {
         console.log('PUT /api/files forbidden');
         res.sendStatus(403)
