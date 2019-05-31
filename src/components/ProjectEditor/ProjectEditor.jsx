@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { Button, Grid } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 
 
@@ -86,6 +87,15 @@ class ProjectEditor extends Component {
        })
    }
 
+   handleLyricsSubmit = ()=>{
+       console.log('in handleLyricsSubmit')
+   }
+
+   handleNotesSubmit = ()=>{
+       console.log('in handleNotesSubmit');
+       
+   }
+
    componentDidMount = () => {
        this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
         
@@ -124,26 +134,31 @@ class ProjectEditor extends Component {
                         </Grid>
                         <Grid container sm={4}>
                             <Grid item sm={6}>
-                                <TextField
-                                id="lyrics-textarea"
-                                label="Lyrics"
-                                placeholder="Lyrics Here"
-                                multiline
-                                className={this.props.classes.textField}
-                                margin="normal"
-                                onChange={this.handleLyricsChange}
-                            />
+                                <ClickAwayListener onClickAway={this.handleLyricsSubmit}>
+                                    <TextField
+                                        id="lyrics-textarea"
+                                        label="Lyrics"
+                                        placeholder="Lyrics Here"
+                                        multiline
+                                        className={this.props.classes.textField}
+                                        margin="normal"
+                                        onChange={this.handleLyricsChange}
+                                    />
+                                </ClickAwayListener>
                             </Grid>
-                            <Grid item sm={6}>
-                                <TextField
-                                    id="notes-textarea"
-                                    label="Notes"
-                                    placeholder="Notes Here"
-                                    multiline
-                                    className={this.props.classes.textField}
-                                    margin="normal"
-                                    onChange={this.handleNotesChange}
-                                />
+                            <Grid item sm={6} >
+                                <ClickAwayListener onClickAway={this.handleNotesSubmit}>
+                                    <TextField
+                                        id="notes-textarea"
+                                        label="Notes"
+                                        placeholder="Notes Here"
+                                        multiline
+                                        className={this.props.classes.textField}
+                                        margin="normal"
+                                        onChange={this.handleNotesChange}
+                                    />
+                                </ClickAwayListener>
+                                
                             </Grid>
 
 
