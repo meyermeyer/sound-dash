@@ -41,6 +41,7 @@ class ProjectEditor extends Component {
 
    handleSubmit = ()=>{
        console.log('in handleSubmit')
+       
        //dispatch action to trigger SAGA for POST to /api/files
     //    let trackNumber = this.props.reduxState.files.length+1
        
