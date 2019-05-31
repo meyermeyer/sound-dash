@@ -24,9 +24,10 @@ const theme = createMuiTheme({
 class Waveform extends React.Component {
     state = {
         regionsArray: [],
-        trackName: '',
+        // trackName: '',
         randomColor: '',
-        trackNameInput:''
+        trackNameInput:'',
+        trackNameIsClicked: false
     }
 
     
@@ -58,6 +59,7 @@ class Waveform extends React.Component {
                 let regionTag = document.getElementById('regionTagInput').value;
                 let regionNotes = document.getElementById('regionNotesInput').value;
                 console.log('SWAL', regionTag, regionNotes);
+                
                 // update 'region' created by clicking to include user's data
                 region.update({
                     data: {
@@ -109,16 +111,44 @@ class Waveform extends React.Component {
     }
 
 //file functions
-    //function re-renders track header as input field on click for track title update
-    editTrackName = () => {
-        console.log('in editTrackName');
-        this.setState({
-            ...this.state,
-            trackName:
+
+    checkNameIsClicked = () => {
+        console.log('in checkNameIsClicked')
+        if (this.state.trackNameIsClicked) {
+            return(
                 <form className="form" onSubmit={this.handleNameSubmit} >
                     <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
                 </form>
+            )
+        }
+        else {
+            return(
+                this.props.file.track_name
+            )
+        }
+    }
+    //function re-renders track header as input field on click for track title update
+    editTrackName = () => {
+        console.log('in editTrackName',this.state.trackNameIsClicked);
+        // this.setState({
+        //     ...this.state,
+        //     trackName:
+        //         <form className="form" onSubmit={this.handleNameSubmit} >
+        //             <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
+        //         </form>
+        // })
+        this.setState({
+            ...this.state,
+            trackNameIsClicked: true
         })
+        
+        // if (this.state.trackNameIsClicked){
+        //     return(
+        //         <form className="form" onSubmit={this.handleNameSubmit} >
+        //             <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
+        //         </form>
+        //     )
+        // }
     }
 
     //function stores input value to local state
@@ -135,9 +165,13 @@ class Waveform extends React.Component {
     handleNameSubmit = (event) => {
         event.preventDefault();
         console.log('in handleNameSubmit');
+        // this.setState({
+        //     ...this.state,
+        //     trackName: this.state.trackNameInput
+        // })
         this.setState({
             ...this.state,
-            trackName: this.state.trackNameInput
+            trackNameIsClicked: false
         })
         this.props.dispatch({ type: 'UPDATE_FILE', 
                                 payload: { trackName: this.state.trackNameInput,
@@ -151,6 +185,9 @@ class Waveform extends React.Component {
         console.log('in handleDelete', this.props.file.id)
         this.props.dispatch({type: 'DELETE_FILE', payload: {track_id:this.props.file.id, 
                                                             project_id: this.props.reduxState.currentProject.project_id}})
+        this.setState({
+            trackName: this.props.file.track_name
+        })                                                    
     }
 
     
@@ -172,9 +209,9 @@ class Waveform extends React.Component {
         // console.log('props', this.props.file);
         
         // update track name
-        this.setState({
-            trackName: this.props.file.track_name
-        })
+        // this.setState({
+        //     trackName: this.props.file.track_name
+        // })
         this.$el = ReactDOM.findDOMNode(this)
         this.$waveform = this.$el.querySelector('.wave')
         this.wavesurfer = WaveSurfer.create({
@@ -212,14 +249,12 @@ class Waveform extends React.Component {
     // }
    
     render() {
-
-
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
 
         return (
             <div className='waveform'>
-                <h3 onClick={this.editTrackName}>{this.state.trackName}</h3>
+                <h3 onClick={this.editTrackName}>{this.checkNameIsClicked()}</h3>
                 <ThemeProvider theme={theme}>
                     <Button onClick={this.handleDelete} aria-label="create new project" variant="contained" color="primary">Delete</Button>
                 </ThemeProvider>
