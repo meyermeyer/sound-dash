@@ -6,7 +6,7 @@ import TrackList from '../TrackList/TrackList'
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import clsx from 'clsx';
@@ -113,27 +113,42 @@ class ProjectEditor extends Component {
                         </Button>
                     </ThemeProvider>
                     {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
-                    <ul>
-                            <TrackList />
-                    </ul>
-                    {/* <input aria-label="lyrics" type="text" placeholder="lyrics"></input>
-                    <input aria-label="notes" type="text" placeholder="notes"></input> */}
-                    <TextField
-                        id="lyrics-textarea"
-                        label="Lyrics"
-                        placeholder="Lyrics Here"
-                        multiline
-                        className={this.props.classes.textField}
-                        margin="normal"
-                    />
-                    <TextField
-                        id="notes-textarea"
-                        label="Notes"
-                        placeholder="Notes Here"
-                        multiline
-                        className={this.props.classes.textField}
-                        margin="normal"
-                    />
+                    <Grid container>
+                        <Grid item sm={9}>
+                            <ul>
+                                <TrackList />
+                            </ul>
+                        </Grid>
+                        <Grid container sm={3}>
+                            <Grid item sm={12}>
+                                <TextField
+                                id="lyrics-textarea"
+                                label="Lyrics"
+                                placeholder="Lyrics Here"
+                                multiline
+                                className={this.props.classes.textField}
+                                margin="normal"
+                            />
+                            </Grid>
+                            <Grid item sm={12}>
+                                <TextField
+                                    id="notes-textarea"
+                                    label="Notes"
+                                    placeholder="Notes Here"
+                                    multiline
+                                    className={this.props.classes.textField}
+                                    margin="normal"
+                                />
+                            </Grid>
+
+
+                            
+                        </Grid>
+                        
+                        
+                    </Grid>
+
+                    
                 </div>
             </>
             
