@@ -11,6 +11,8 @@
     "cookie-session": "^2.0.0-beta.3",
     "dotenv": "^4.0.0",
     "express": "^4.16.4",
+    "material-design-icons": "^3.0.1",
+    "material-ui": "^0.20.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "peaks": "^1.0.1",

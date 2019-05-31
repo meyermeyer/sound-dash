@@ -9,9 +9,11 @@ import Swal from 'sweetalert2'
 import './Waveform.css'
 
 //MUI stuff
-import {Button} from '@material-ui/core'
+import {Button, icons, CardContent, Card} from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
+import SvgIcon from '@material-ui/core/SvgIcon'
+
 
 const theme = createMuiTheme({
     palette: {
@@ -253,41 +255,58 @@ class Waveform extends React.Component {
         console.log('newFile', this.state.trackName);
 
         return (
-            <div className='waveform'>
-                <h3 onClick={this.editTrackName}>{this.checkNameIsClicked()}</h3>
-                <ThemeProvider theme={theme}>
-                    <Button onClick={this.handleDelete} aria-label="create new project" variant="contained" color="primary">Delete</Button>
-                </ThemeProvider>
-                <div onClick={this.handleClick} className='wave'>
-                    {/* {this.state.regionsArray.map((region)=>{
-                        return(
-                            <p id='tag'>{region.data.regionTag}</p>
-                        )
-                        
-                    })} */}
-                </div>
-                <div className='wave2'></div>
-                <ThemeProvider theme={theme}>
-                    <Button onClick={this.playAudio} aria-label="create new project" variant="contained" color="primary">Play</Button>
-                </ThemeProvider>
-                <ThemeProvider theme={theme}>
-                    <Button onClick={this.pauseAudio} aria-label="create new project" variant="contained" color="primary">Pause</Button>
-                </ThemeProvider>
-                <ThemeProvider theme={theme}>
-                    <Button onClick={this.stopAudio} aria-label="create new project" variant="contained" color="primary">Stop</Button>
-                </ThemeProvider>
-                {/* <button onClick={this.playAudio}>Play</button>
+            <Card>
+                <CardContent>
+                    <div className='waveform'>
+                        <h3 onClick={this.editTrackName}>{this.checkNameIsClicked()}</h3>
+
+                        <div onClick={this.handleClick} className='wave'>
+                        </div>
+                        <div className='wave2'></div>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={this.playAudio} aria-label="play audio" variant="contained" color="primary">Play
+                        <i className="material-icons">
+                                    play_circle_outline
+                        </i>
+                            </Button>
+                        </ThemeProvider>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={this.pauseAudio} aria-label="pause audio" variant="contained" color="primary">Pause
+                        <i class="material-icons">
+                                    pause_circle_filled
+                        </i>
+                            </Button>
+                        </ThemeProvider>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={this.stopAudio} aria-label="stop audio" variant="contained" color="primary">Stop
+                        <i class="material-icons">
+                                    stop
+                        </i>
+                            </Button>
+                        </ThemeProvider>
+                        {/* <button onClick={this.playAudio}>Play</button>
                 <button onClick={this.pauseAudio}>Pause</button>
                 <button onClick={this.stopAudio}>Stop</button> */}
-                {/* <button onClick={this.allowAnnotation}>Annotate</button> */}
-                <ul>
-                    {this.state.regionsArray.map((region) => {
-                        return (
-                            <li>{region.data.regionTag}</li>
-                        )
-                    })}
-                </ul>
-            </div>
+                        {/* <button onClick={this.allowAnnotation}>Annotate</button> */}
+                        <ul>
+                            {this.state.regionsArray.map((region) => {
+                                return (
+                                    <li>{region.data.regionTag}</li>
+                                )
+                            })}
+                        </ul>
+                        <ThemeProvider theme={theme}>
+                            <Button onClick={this.handleDelete} aria-label="delete track" variant="contained" color="primary">Delete
+                        <i class="material-icons">
+                                    delete
+                        </i>
+                            </Button>
+                        </ThemeProvider>
+                    </div>
+                </CardContent>
+                
+            </Card>
+            
         )
     }
 }
