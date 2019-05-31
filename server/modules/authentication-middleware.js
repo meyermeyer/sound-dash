@@ -19,19 +19,21 @@ const rejectUnauthorizedUser = (req,res,next) => {
   .then(result => {
     // console.log('result.rows:',result.rows, req.params.projectId, req.params.trackId)
     console.log('result.rows:', result.rows, req.query.project_id, req.query.track_id)
+    let isAuthorized;
     result.rows.map(project=>{
       console.log('project:', project.project_id, req.query.project_id);
       if (req.query.project_id==project.project_id) {
         console.log('YESSS');
-        next()
+        isAuthorized = true;
+        
       }
-      else {
-        res.sendStatus(403)
-      }
-
     })
-    
-    
+    if (isAuthorized){
+      next()
+    }
+    else{
+      res.sendStatus(403)
+    }
   })
   .catch(err => {
     console.log('error in rejectUnauthorizedUser, authorizedProjects query', err);

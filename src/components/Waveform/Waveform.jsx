@@ -5,7 +5,7 @@ import dogBarking from '../../audio/Big_Dog_Barking.mp3'
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.js'
 import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js'
 import { connect } from 'react-redux'
-import redux from 'redux'
+import Swal from 'sweetalert2'
 import './Waveform.css'
 
 class Waveform extends React.Component {
