@@ -85,7 +85,7 @@ function ControlledExpansionPanels(props) {
         <div className={classes.root}>
             {props.reduxState.projects.map((project, i) => {
                 return (
-                    <li className="projectList">
+                    <li key={i} className="projectList">
                         {/* <ThemeProvider theme={theme}>
                             <Button onClick={()=>handleEdit(project)} variant="contained" color="primary">Rename</Button>
                         </ThemeProvider> */}
@@ -103,8 +103,8 @@ function ControlledExpansionPanels(props) {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
-                                    <p>Created On:  {project.date_created}</p>
-                                    <p>Notes:  {project.notes}</p>
+                                    <>Created On:  {project.date_created}</>
+                                    <>Notes:  {project.notes}</>
 
                                 </Typography>
                             </ExpansionPanelDetails>
