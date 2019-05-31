@@ -43,27 +43,34 @@ class Waveform extends React.Component {
         console.log('hovering over', region.data.regionTag);
     }
 
-    labelRegion = (region) => {
-
-    }
 
     saveRegions = (region) => {
-        // alert('you created a region');
-        let regionTag = prompt("Tag")
-        let regionNotes = prompt("Notes")
-        console.log('region:', region);
-        //update 'region' created by clicking to include user's data
-        region.update({
-            data: {
-                regionTag,
-                regionNotes
+        //sweet alert for labeling region
+        Swal.fire({
+            title: 'New Region',
+            text: 'Region',
+            html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+                '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+            confirmButtonText: 'Create',
+            showCancelButton: true,
+            //capture input text
+            preConfirm: () => {
+                let regionTag = document.getElementById('regionTagInput').value;
+                let regionNotes = document.getElementById('regionNotesInput').value;
+                console.log('SWAL', regionTag, regionNotes);
+                // update 'region' created by clicking to include user's data
+                region.update({
+                    data: {
+                        regionTag,
+                        regionNotes
+                    }
+                })
             }
         })
         console.log('updated region', region);
-        console.log('prompt responses:', regionTag, regionNotes);
-        console.log(this.wavesurfer.regions);
+        // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
 
-        //add regions.list objects to arrat
+        //add regions.list objects to array
         let regionsArray = []
         for (let i in this.wavesurfer.regions.list) {
             regionsArray.push(this.wavesurfer.regions.list[i])
@@ -207,7 +214,7 @@ class Waveform extends React.Component {
     render() {
 
 
-        console.log('setting regions', this.state.regionsList);
+        console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
 
         return (
