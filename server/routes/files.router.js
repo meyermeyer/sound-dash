@@ -52,8 +52,8 @@ router.post('/:id', (req,res)=> {
 })
 
 //PUT route to update file name
-router.put('/:project_id/:id', rejectUnauthorizedUser, (req,res)=>{
-    console.log('in PUT /api/files', req.body.trackName, req.params.id, );
+router.put('/', rejectUnauthorizedUser, (req,res)=>{
+    console.log('in PUT /api/files', req.params.trackName, req.params.trackId, req.params.projectId );
     if (req.isAuthenticated()){
         
         

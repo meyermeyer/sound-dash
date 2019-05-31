@@ -39,8 +39,14 @@ function* fetchFilesSaga(action) {
 function* updateFileSaga(action) {
     try {
         console.log('in updateFileSaga', action.payload.trackName, action.id);
-        const url = '/api/files/'+action.id+'/'+action.payload.project_id
+        // const url = '/api/files/'+action.id+'/'+action.payload.project_id
+        const url = `/api/files?project_id=${action.payload.project_id}?track_id=${action.id}`
         yield axios.put(url,action.payload)
+        // yield axios.put('/api/files', {
+        //                     trackName: action.payload.trackName,
+        //                     trackId: action.id,
+        //                     projectId: action.project_id
+        // })
         
     }
     catch(error){
@@ -48,8 +54,5 @@ function* updateFileSaga(action) {
     }
 }
 
-const mapStateToProps = reduxState => ({
-    reduxState
-});
 
 export default fileSaga

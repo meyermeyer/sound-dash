@@ -17,7 +17,8 @@ const rejectUnauthorizedUser = (req,res,next) => {
   
   pool.query(query, [req.user.id])
   .then(result => {
-    console.log('result.rows:',result.rows, req.params.id, req.params.project_id)
+    // console.log('result.rows:',result.rows, req.params.projectId, req.params.trackId)
+    console.log('result.rows:', result.rows, req.query.project_id, req.query.track_id)
     result.rows.map(project=>{
       if (req.params.project_id===project.project_id) {
         next()
