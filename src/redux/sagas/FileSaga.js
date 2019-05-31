@@ -28,7 +28,7 @@ function* deleteFileSaga(action) {
         const url = `/api/files?project_id=${action.payload.project_id}&track_id=${action.payload.track_id}`
         console.log('in deleteFileSaga', action.payload);
         yield axios.delete(url);
-        
+        yield put({ type: 'FETCH_FILES', payload: action.payload})
     }
     catch (error) {
         console.log('error in DELETE /api/files', error);
