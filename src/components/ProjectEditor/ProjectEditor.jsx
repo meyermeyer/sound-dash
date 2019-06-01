@@ -159,6 +159,7 @@ class ProjectEditor extends Component {
                                         className={this.props.classes.textField}
                                         margin="normal"
                                         onChange={this.handleLyricsChange}
+                                        // value={this.props.reduxState.currentProject.lyrics}
                                     />
                                 </ClickAwayListener>
 
@@ -174,6 +175,7 @@ class ProjectEditor extends Component {
                                         className={this.props.classes.textField}
                                         margin="normal"
                                         onChange={this.handleNotesChange}
+                                        // value={this.props.reduxState.currentProject.notes}
                                     />
                                 </ClickAwayListener>
 

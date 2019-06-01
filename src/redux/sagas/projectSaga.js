@@ -28,6 +28,7 @@ function* updateProjectDataSaga(action) {
         const url = `/api/project?project_id=${action.payload.project_id}`
         // let url = '/api/project/' + action.payload.project_id
         yield axios.put(url, action.payload)
+        yield put({type:'FETCH_PROJECTS'})
     }
     catch (err) {
 
