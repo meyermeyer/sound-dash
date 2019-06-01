@@ -6,19 +6,31 @@ function* projectSaga() {
     yield takeEvery('FETCH_PROJECTS', fetchProjectsSaga);
     yield takeEvery('UPDATE_PROJECT', updateProjectSaga);
     yield takeEvery('ADD_PROJECT', addProjectSaga);
-    yield takeEvery('DELETE_PROJECT', deleteProjectSaga)
+    yield takeEvery('DELETE_PROJECT', deleteProjectSaga);
+    yield takeEvery('UPDATE_PROJECT_DATA', updateProjectDataSaga)
 
 }
 
 function* fetchProjectsSaga() {
     try {
-        
         const allProjects = yield axios.get('/api/project');
         yield put({type: 'STORE_PROJECTS', payload: allProjects.data})
         console.log('in fetchProjectsSaga', allProjects.data)
     }
     catch(error){
         console.log('error in fetchProjectsSaga', error);
+    }
+}
+
+function* updateProjectDataSaga(action){
+    try{
+        console.log('in updateProjectDataSaga', action.payload.project_id)
+        const url = `/api/project?project_id=${action.payload.project_id}`
+        // let url = '/api/project/' + action.payload.project_id
+        yield axios.put(url, action.payload)
+    }
+    catch(err){
+
     }
 }
 

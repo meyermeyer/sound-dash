@@ -1,6 +1,6 @@
 const express = require('express');
 const pool = require('../modules/pool');
-
+const { rejectUnauthorizedUser } = require('../modules/authentication-middleware');
 const router = express.Router();
 
 router.get('/', (req,res) => {
@@ -107,24 +107,27 @@ router.post('/users', (req,res)=>{
 })
 
 
-router.put('/:id', (req,res)=>{
-    console.log('in PUT /api/project', req.body);
-    
-    if (req.isAuthenticated()){
-        let query = `UPDATE "projects" SET "name"=$1 WHERE "id"=$3 AND "author_id"=$4;`
-        pool.query(query,[req.body.name,req.params.id,req.body.author_id])
-            .then(response =>{
-                console.log('in PUT /api/project', response);
-                res.sendStatus(200)
+//  
+
+router.put('/', rejectUnauthorizedUser, (req,res)=>{
+    console.log('in PUT /api/project(data)', req.body, req.query.project_id);
+    if(req.isAuthenticated()){
+        let query = `UPDATE "projects" SET "lyrics"=$1, "notes"=$2 WHERE "id"=$3;`
+        pool.query(query, [req.body.projectData.lyrics, req.body.projectData.notes, req.query.project_id])
+            .then(response => {
+                console.log('back from PUT /api/project(data)', response);
+                res.sendStatus(204)
             })
-            .catch(error => {
-                console.log('error in PUT /api/project', error)
+            .catch(err => {
+                console.log('error in PUT /api/project(data)', err);
                 res.sendStatus(500)
             })
     }
     else {
+        console.log('forbidden in PUT /api/project')
         res.sendStatus(403)
     }
-
+    
 })
+
 module.exports = router;

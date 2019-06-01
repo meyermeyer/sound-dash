@@ -89,11 +89,22 @@ class ProjectEditor extends Component {
 
    handleLyricsSubmit = ()=>{
        console.log('in handleLyricsSubmit')
+       this.props.dispatch({
+           type:'UPDATE_PROJECT_DATA', 
+            payload: {
+                projectData:this.state.projectData,
+                project_id: this.props.reduxState.currentProject}})
    }
 
    handleNotesSubmit = ()=>{
-       console.log('in handleNotesSubmit');
-       
+       console.log('in handleNotesSubmit', this.props.reduxState);
+       this.props.dispatch({
+           type: 'UPDATE_PROJECT_DATA', 
+            payload: {
+               projectData: this.state.projectData,
+               project_id: this.props.reduxState.currentProject.project_id
+           }
+       })
    }
 
    componentDidMount = () => {
