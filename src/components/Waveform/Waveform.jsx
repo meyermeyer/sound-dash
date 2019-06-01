@@ -29,7 +29,14 @@ class Waveform extends React.Component {
         // trackName: '',
         randomColor: '',
         trackNameInput:'',
-        trackNameIsClicked: false
+        trackNameIsClicked: false,
+        newRegion: {
+            start: '',
+            end: '',
+            tag:'',
+            notes: '',
+            file_id:0
+        }
     }
 
     
@@ -69,9 +76,11 @@ class Waveform extends React.Component {
                         regionNotes
                     }
                 })
+                
             }
         })
         console.log('updated region', region);
+        
         // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
 
         //add regions.list objects to array
@@ -86,7 +95,19 @@ class Waveform extends React.Component {
             ...this.state,
             regionsArray: regionsArray
         })
-        this.props.dispatch({ type: "SEND_REGIONS", payload: regionsArray, })
+        let newRegion = this.state.regionsArray[this.state.regionsArray.length-1]
+            this.setState({
+                ...this.state,
+                newRegion: {
+                    start: newRegion.start,
+                    end: newRegion.end,
+                    data: newRegion.data,
+                    file_id: this.props.file.id
+                }
+            })
+       
+        
+        // this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.reduxState.currentProject.project_id}})
     }
 
     loopRegion = (region) => {
@@ -221,7 +242,9 @@ class Waveform extends React.Component {
             waveColor: 'violet',
             progressColor: 'purple',
             backend: 'MediaElement',
-            plugins: [RegionsPlugin.create({}), MicrophonePlugin.create({})]
+            plugins: [RegionsPlugin.create({
+
+            }), MicrophonePlugin.create({})]
         })
         // this.$waveform2 = this.$el.querySelector('.wave2')
         // this.wavesurfer2 = WaveSurfer.create({
@@ -236,6 +259,7 @@ class Waveform extends React.Component {
         // this.wavesurfer .load(dogBarking);
         console.log(this.wavesurfer.regions);
         this.wavesurfer.on('region-update-end', this.saveRegions);
+        // this.wavesurfer.on('region-created', this.saveRegions)
         this.wavesurfer.on('region-mouseenter', this.handleHover)
         this.wavesurfer.on('ready', this.allowAnnotation)
         this.wavesurfer.on('region-dblclick', this.loopRegion)
@@ -253,6 +277,7 @@ class Waveform extends React.Component {
     render() {
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
+        console.log('newRegion', this.state.newRegion);
 
         return (
             <Card>

@@ -110,7 +110,7 @@ router.post('/users', (req,res)=>{
 //  
 
 router.put('/', rejectUnauthorizedUser, (req,res)=>{
-    console.log('in PUT /api/project(data)', req.body, req.query.project_id);
+    // console.log('in PUT /api/project(data)', req.body, req.query.project_id);
     if(req.isAuthenticated()){
         let query = `UPDATE "projects" SET "lyrics"=$1, "notes"=$2 WHERE "id"=$3;`
         pool.query(query, [req.body.projectData.lyrics, req.body.projectData.notes, req.query.project_id])

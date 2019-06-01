@@ -69,7 +69,7 @@ class ProjectEditor extends Component {
 
     //Lyrics and Notes change functions
     handleLyricsChange = (event) => {
-        console.log('in handleLyricsChange')
+        // console.log('in handleLyricsChange')
         this.setState({
             projectData: {
                 ...this.state.projectData,
@@ -79,7 +79,7 @@ class ProjectEditor extends Component {
     }
 
     handleNotesChange = (event) => {
-        console.log('in handleNotesChange')
+        // console.log('in handleNotesChange')
         this.setState({
             projectData: {
                 ...this.state.projectData,
@@ -89,7 +89,7 @@ class ProjectEditor extends Component {
     }
 
     handleLyricsSubmit = () => {
-        console.log('in handleLyricsSubmit')
+        // console.log('in handleLyricsSubmit')
         this.props.dispatch({
             type: 'UPDATE_PROJECT_DATA',
             payload: {
@@ -100,7 +100,7 @@ class ProjectEditor extends Component {
     }
 
     handleNotesSubmit = () => {
-        console.log('in handleNotesSubmit', this.props.reduxState);
+        // console.log('in handleNotesSubmit', this.props.reduxState);
         this.props.dispatch({
             type: 'UPDATE_PROJECT_DATA',
             payload: {
