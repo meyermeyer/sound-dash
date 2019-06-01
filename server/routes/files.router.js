@@ -34,7 +34,8 @@ router.get('/:id',(req,res)=>{
         let query = `SELECT * FROM "users_projects" JOIN "projects" ON "users_projects".project_id = "projects".id
                     JOIN "files" ON "files".project_id = "projects".id
                     WHERE "users_projects".user_id = $1
-                    AND "files".project_id = $2;`
+                    AND "files".project_id = $2
+                    ORDER BY "files".id;`
         pool.query(query,[1,5]) //just for dev purposes so it stops losing the data on state change
         // pool.query(query,[req.user.id,req.params.id])
             .then(result=>{
