@@ -63,8 +63,9 @@ function* updateFileSaga(action) {
         //                     trackId: action.id,
         //                     projectId: action.project_id
         // })
+        yield put({ type: 'FETCH_FILES', payload: action.payload })
         console.log('sending to Fetch saga', action.payload)
-        yield axios.put({ type: 'FETCH_FILES', payload: action.payload })
+        
         
     }
     catch(error){
