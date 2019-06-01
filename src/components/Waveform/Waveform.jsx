@@ -33,8 +33,10 @@ class Waveform extends React.Component {
         newRegion: {
             start: '',
             end: '',
-            tag:'',
-            notes: '',
+            data: {
+                regionTag: '',
+                regionNotes: ''
+            },
             file_id:0
         }
     }
@@ -63,6 +65,7 @@ class Waveform extends React.Component {
                 '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
             confirmButtonText: 'Create',
             showCancelButton: true,
+            allowEnterKey: true,
             //capture input text
             preConfirm: () => {
                 let regionTag = document.getElementById('regionTagInput').value;
@@ -96,16 +99,16 @@ class Waveform extends React.Component {
             regionsArray: regionsArray
         })
         let newRegion = this.state.regionsArray[this.state.regionsArray.length-1]
-            this.setState({
-                ...this.state,
-                newRegion: {
-                    start: newRegion.start,
-                    end: newRegion.end,
-                    data: newRegion.data,
-                    file_id: this.props.file.id
-                }
-            })
-       
+        this.setState({
+            ...this.state,
+            newRegion: {
+                start: newRegion.start,
+                end: newRegion.end,
+                data: newRegion.data,
+                file_id: this.props.file.id
+            }
+        })
+    
         
         // this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.reduxState.currentProject.project_id}})
     }
@@ -277,7 +280,7 @@ class Waveform extends React.Component {
     render() {
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
-        console.log('newRegion', this.state.newRegion);
+        console.log('newRegion', this.state);
 
         return (
             <Card>
