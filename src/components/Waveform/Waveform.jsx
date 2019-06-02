@@ -74,7 +74,7 @@ class Waveform extends React.Component {
     createRegion = (region) => {
         console.log('created region', region);
         let regionsArray = []
-        // regionsArray.push(region);
+        regionsArray.push(region);
         for (let i in this.wavesurfer.regions.list) {
             regionsArray.push(this.wavesurfer.regions.list[i])
         }
@@ -91,7 +91,8 @@ class Waveform extends React.Component {
         
 
         // let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
-
+        // console.log('newRegion = ', newRegion);
+        
         // this.setState({
         //     ...this.state,
         //     newRegion: {
@@ -102,6 +103,17 @@ class Waveform extends React.Component {
         //         region_id: newRegion.id
         //     }
         // })
+        let newRegionIndex = this.state.regionsArray.length-1
+        let newRegion = {
+            color: this.state.regionsArray[newRegionIndex].color,
+            data: this.state.regionsArray[newRegionIndex].data,
+            start: this.state.regionsArray[newRegionIndex].start,
+            end: this.state.regionsArray[newRegionIndex].end,
+            region_id: this.state.regionsArray[newRegionIndex].id,
+            file_id: this.props.file.id
+        }
+        //send newRegion to saga to save in database
+        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.reduxState.currentProject.project_id } })
     }
     saveRegions = (region) => {
         //sweet alert for labeling region
@@ -357,7 +369,7 @@ class Waveform extends React.Component {
         // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.props.reduxState.currentProject.project_id } })
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
-        console.log('newRegion', this.state.newRegion);
+        console.log('this.state.newRegion', this.state.newRegion);
         console.log('newest region:', this.state.regionsArray[this.state.regionsArray.length - 1])
 
         return (
