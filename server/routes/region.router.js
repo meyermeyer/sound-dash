@@ -5,11 +5,12 @@ const router = express.Router();
 
 
 //GET regions from database
-router.get('/'), rejectUnauthorizedUser, (req,res)=>{
+router.get('/', rejectUnauthorizedUser, (req,res)=>{
     console.log('in GET /api/region', req.query.project_id);
+    
 
     
-}
+})
 //add new region to database
 router.post('/', rejectUnauthorizedUser,(req,res)=>{
     console.log('in POST /api/region', req.body, req.query.project_id);
