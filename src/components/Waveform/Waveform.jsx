@@ -44,7 +44,31 @@ class Waveform extends React.Component {
     
 
 //annotation/regions functions
+    loadRegions = () => {
+        console.log('current project:', this.props.reduxState.currentProject.project_id);
     
+        
+        // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.state.currentProject.project_id}})
+        console.log('in loadRegions', this.props.reduxState.regions);
+        this.allowAnnotation();
+        // this.wavesurfer.addRegion()
+        for (let region of this.props.reduxState.regions){
+            console.log('map regions:', region);
+            
+            if (region.file_id === this.props.file.id) {
+                console.log('map regions:', region);
+                this.wavesurfer.addRegion(region)
+            }
+        }
+            
+            
+            // else {
+            //     console.log('nope');
+                
+            // }
+        
+        
+    }
     allowAnnotation = () => {
         console.log('in allowAnnotation');
         this.wavesurfer.enableDragSelection({
@@ -249,7 +273,7 @@ class Waveform extends React.Component {
             progressColor: 'purple',
             backend: 'MediaElement',
             plugins: [RegionsPlugin.create({
-                
+                    
 
             }), MicrophonePlugin.create({})]
         })
@@ -268,7 +292,7 @@ class Waveform extends React.Component {
         this.wavesurfer.on('region-update-end', this.saveRegions);
         // this.wavesurfer.on('region-created', this.saveRegions)
         this.wavesurfer.on('region-mouseenter', this.handleHover)
-        this.wavesurfer.on('ready', this.allowAnnotation)
+        this.wavesurfer.on('ready', this.loadRegions)
         this.wavesurfer.on('region-dblclick', this.loopRegion)
         // this.wavesurfer.on('region-click', this.labelRegion)
 
@@ -284,6 +308,7 @@ class Waveform extends React.Component {
     // }
    
     render() {
+        // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.props.reduxState.currentProject.project_id } })
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
         console.log('newRegion', this.state.newRegion);
@@ -320,10 +345,20 @@ class Waveform extends React.Component {
                             </Button>
                         </ThemeProvider>
                         <ul>
-                            {this.state.regionsArray.map((region,i) => {
+                            {/* {this.state.regionsArray.map((region,i) => {
                                 return (
                                     <li key={i}>{region.data.regionTag}</li>
                                 )
+                            })} */}
+                            {this.props.reduxState.regions.map((region, i)=>{
+                                if (region.file_id === this.props.file.id){
+                                    // console.log('map regions:', region);
+                                    
+                                    return (
+                                        <li key={i}>{region.start}</li>
+                                    )
+                                }
+                                
                             })}
                         </ul>
                         <ThemeProvider theme={theme}>

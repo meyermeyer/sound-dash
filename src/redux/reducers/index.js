@@ -5,6 +5,7 @@ import user from './userReducer';
 import projects from './storeProjectsReducer'
 import currentProject from './currentProjectReducer'
 import files from './filesReducer'
+import regions from './storeRegionsReducer'
 
 
 // rootReducer is the primary reducer for our entire project
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   projects, // stores user's authorized projects
   currentProject, //stores currently selected project
   files, //stores current project's files
+  regions //stores current project's regions data
 
 });
 
