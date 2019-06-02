@@ -7,7 +7,18 @@ const router = express.Router();
 //GET regions from database
 router.get('/', rejectUnauthorizedUser, (req,res)=>{
     console.log('in GET /api/region', req.query.project_id);
-    
+    let query = `SELECT * FROM "regions" JOIN "files" ON "regions"."file_id"="files".id
+                WHERE "files"."project_id"=$1`
+    pool.query(query,[req.query.project_id])
+        .then(result=>{
+            console.log('back from GET /api/region with:', result.rows);
+            res.send(result.rows)
+        })
+        .catch(error=>{
+            console.log('error in GET /api/region', error);
+            res.sendStatus(500);
+            
+        })
 
     
 })
