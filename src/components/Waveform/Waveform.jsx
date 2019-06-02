@@ -46,7 +46,7 @@ class Waveform extends React.Component {
 //annotation/regions functions
     loadRegions = () => {
         console.log('current project:', this.props.reduxState.currentProject.project_id);
-    
+        // this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.reduxState.currentProject })
         
         // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.state.currentProject.project_id}})
         console.log('in loadRegions', this.props.reduxState.regions);
@@ -57,6 +57,7 @@ class Waveform extends React.Component {
             
             if (region.file_id === this.props.file.id) {
                 console.log('map regions:', region);
+                region.color = this.randomColor(0.1);
                 this.wavesurfer.addRegion(region)
             }
         }
