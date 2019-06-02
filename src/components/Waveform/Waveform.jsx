@@ -58,30 +58,31 @@ class Waveform extends React.Component {
 
     saveRegions = (region) => {
         //sweet alert for labeling region
-        Swal.fire({
-            title: 'New Region',
-            text: 'Region',
-            html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
-                '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
-            confirmButtonText: 'Create',
-            showCancelButton: true,
-            allowEnterKey: true,
-            //capture input text
-            preConfirm: () => {
-                let regionTag = document.getElementById('regionTagInput').value;
-                let regionNotes = document.getElementById('regionNotesInput').value;
-                console.log('SWAL', regionTag, regionNotes);
+        // Swal.fire({
+        //     title: 'New Region',
+        //     text: 'Region',
+        //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+        //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+        //     confirmButtonText: 'Create',
+        //     showCancelButton: true,
+        //     allowEnterKey: true,
+        //     //capture input text
+        //     preConfirm: () => {
                 
-                // update 'region' created by clicking to include user's data
-                region.update({
-                    data: {
-                        regionTag,
-                        regionNotes
-                    }
-                })
+        //         let regionTag = document.getElementById('regionTagInput').value;
+        //         let regionNotes = document.getElementById('regionNotesInput').value;
+        //         console.log('SWAL', regionTag, regionNotes);
                 
-            }
-        })
+        //         // update 'region' created by clicking to include user's data
+        //         region.update({
+        //             data: {
+        //                 regionTag,
+        //                 regionNotes
+        //             }
+        //         })
+                
+        //     }
+        // })
         console.log('updated region', region);
         
         // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
@@ -108,9 +109,8 @@ class Waveform extends React.Component {
                 file_id: this.props.file.id
             }
         })
-    
-        
-        // this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.reduxState.currentProject.project_id}})
+        //send newRegion to saga to save in database
+        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id}})
     }
 
     loopRegion = (region) => {
@@ -281,6 +281,7 @@ class Waveform extends React.Component {
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
         console.log('newRegion', this.state.newRegion);
+        console.log('newest region:',this.state.regionsArray[this.state.regionsArray.length-1])
 
         return (
             <Card>
@@ -313,9 +314,9 @@ class Waveform extends React.Component {
                             </Button>
                         </ThemeProvider>
                         <ul>
-                            {this.state.regionsArray.map((region) => {
+                            {this.state.regionsArray.map((region,i) => {
                                 return (
-                                    <li>{region.data.regionTag}</li>
+                                    <li key={i}>{region.data.regionTag}</li>
                                 )
                             })}
                         </ul>
