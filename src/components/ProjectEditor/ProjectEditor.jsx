@@ -113,7 +113,7 @@ class ProjectEditor extends Component {
     }
 
     componentDidMount = () => {
-        this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
+        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
         this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.reduxState.currentProject })
 
     }
