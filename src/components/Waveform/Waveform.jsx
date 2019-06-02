@@ -44,6 +44,7 @@ class Waveform extends React.Component {
     
 
 //annotation/regions functions
+    
     allowAnnotation = () => {
         console.log('in allowAnnotation');
         this.wavesurfer.enableDragSelection({
@@ -109,8 +110,10 @@ class Waveform extends React.Component {
                 file_id: this.props.file.id
             }
         })
+
         //send newRegion to saga to save in database
         this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id}})
+        
     }
 
     loopRegion = (region) => {
@@ -246,6 +249,7 @@ class Waveform extends React.Component {
             progressColor: 'purple',
             backend: 'MediaElement',
             plugins: [RegionsPlugin.create({
+                
 
             }), MicrophonePlugin.create({})]
         })
@@ -267,6 +271,8 @@ class Waveform extends React.Component {
         this.wavesurfer.on('ready', this.allowAnnotation)
         this.wavesurfer.on('region-dblclick', this.loopRegion)
         // this.wavesurfer.on('region-click', this.labelRegion)
+
+        
 
 
     }

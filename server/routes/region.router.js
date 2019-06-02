@@ -3,8 +3,15 @@ const { rejectUnauthorizedUser } = require('../modules/authentication-middleware
 const pool = require('../modules/pool');
 const router = express.Router();
 
+
+//GET regions from database
+router.get('/'), rejectUnauthorizedUser, (req,res)=>{
+    console.log('in GET /api/region', req.query.project_id);
+
+    
+}
 //add new region to database
-router.post('/', (req,res)=>{
+router.post('/', rejectUnauthorizedUser,(req,res)=>{
     console.log('in POST /api/region', req.body, req.query.project_id);
     if (req.isAuthenticated()){
         let query = `INSERT INTO "regions" ("start","end","file_id") 
