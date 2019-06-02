@@ -88,19 +88,21 @@ class ProjectEditor extends Component {
         })
     }
 
-    handleLyricsSubmit = () => {
+    handleLyricsSubmit = (event) => {
+        event.preventDefault();
         // console.log('in handleLyricsSubmit')
         this.props.dispatch({
             type: 'UPDATE_PROJECT_DATA',
             payload: {
                 projectData: this.state.projectData,
-                project_id: this.props.reduxState.currentProject
+                project_id: this.props.reduxState.currentProject.project_id
             }
         })
     }
 
-    handleNotesSubmit = () => {
-        // console.log('in handleNotesSubmit', this.props.reduxState);
+    handleNotesSubmit = (event) => {
+        event.preventDefault();
+        console.log('in handleNotesSubmit', this.props.reduxState);
         this.props.dispatch({
             type: 'UPDATE_PROJECT_DATA',
             payload: {
@@ -159,6 +161,7 @@ class ProjectEditor extends Component {
                                         className={this.props.classes.textField}
                                         margin="normal"
                                         onChange={this.handleLyricsChange}
+                                        // onSubmit={this.handleLyricsSubmit}
                                         // value={this.props.reduxState.currentProject.lyrics}
                                     />
                                 </ClickAwayListener>
@@ -175,6 +178,7 @@ class ProjectEditor extends Component {
                                         className={this.props.classes.textField}
                                         margin="normal"
                                         onChange={this.handleNotesChange}
+                                        // onSubmit={this.handleNotesSubmit}
                                         // value={this.props.reduxState.currentProject.notes}
                                     />
                                 </ClickAwayListener>

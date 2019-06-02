@@ -13,8 +13,9 @@ const rejectUnauthenticated = (req, res, next) => {
 };
 
 const rejectUnauthorizedUser = (req,res,next) => {
-  let query = `SELECT * FROM "users_projects" WHERE "users_projects"."user_id"=$1;`
+  console.log('in rejectUnauthorizedUser. userId:', req.user.id, 'project_id:',req.query.project_id,'track_id:', req.query.track_id);
   
+  let query = `SELECT * FROM "users_projects" WHERE "users_projects"."user_id"=$1;`
   pool.query(query, [req.user.id])
   .then(result => {
     // console.log('result.rows:',result.rows, req.params.projectId, req.params.trackId)

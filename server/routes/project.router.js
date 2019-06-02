@@ -4,12 +4,12 @@ const { rejectUnauthorizedUser } = require('../modules/authentication-middleware
 const router = express.Router();
 
 router.get('/', (req,res) => {
-    console.log('in GET /api/project');
-    console.log('is authenticated?', req.isAuthenticated());
-    console.log('user', req.user);
+    // console.log('in GET /api/project');
+    // console.log('is authenticated?', req.isAuthenticated());
+    // console.log('user', req.user);
     
     if(req.isAuthenticated()){
-        console.log('isAuthenticated in GET /api/project');
+        // console.log('isAuthenticated in GET /api/project');
         let query = `SELECT * FROM "projects" JOIN "users_projects"
                     ON "projects".id = "users_projects"."project_id"
                     WHERE "users_projects"."user_id"=$1;`
@@ -29,11 +29,11 @@ router.get('/', (req,res) => {
 })
 
 router.delete('/:id', (req,res) => {
-    console.log('in DELETE /api/project', req.params.id, req.user.id);
+    // console.log('in DELETE /api/project', req.params.id, req.user.id);
     
     
     if(req.isAuthenticated()){
-        console.log('isAuthenticated in DELETE /api/project');
+        // console.log('isAuthenticated in DELETE /api/project');
         //some syntax error in this query, waiting for help
         let query = `DELETE FROM "projects" WHERE "projects".id =$1 AND "projects".author_id = $2;`
         pool.query(query,[req.params.id, req.user.id])

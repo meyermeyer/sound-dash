@@ -280,7 +280,7 @@ class Waveform extends React.Component {
     render() {
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
-        console.log('newRegion', this.state);
+        console.log('newRegion', this.state.newRegion);
 
         return (
             <Card>
@@ -312,10 +312,6 @@ class Waveform extends React.Component {
                         </i>
                             </Button>
                         </ThemeProvider>
-                        {/* <button onClick={this.playAudio}>Play</button>
-                <button onClick={this.pauseAudio}>Pause</button>
-                <button onClick={this.stopAudio}>Stop</button> */}
-                        {/* <button onClick={this.allowAnnotation}>Annotate</button> */}
                         <ul>
                             {this.state.regionsArray.map((region) => {
                                 return (
