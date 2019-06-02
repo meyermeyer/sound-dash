@@ -70,29 +70,28 @@ class Waveform extends React.Component {
     handleHover = (region) => {
         console.log('hovering over', region.data.regionTag);
     }
+    addNewRegion = (region) => {
+        console.log('in addNewRegion', region)
+        // let regionsArray = [];
+        // regionsArray.push(region);
+        // for (let i in this.wavesurfer.regions.list) {
+        //     regionsArray.push(this.wavesurfer.regions.list[i])
+        // }
 
-    createRegion = (region) => {
-        console.log('created region', region);
-        let regionsArray = []
-        regionsArray.push(region);
-        for (let i in this.wavesurfer.regions.list) {
-            regionsArray.push(this.wavesurfer.regions.list[i])
-        }
-
-        this.wavesurfer.regions.list && this.setState({
-            ...this.state,
-            regionsArray: regionsArray
-        })
+        // this.wavesurfer.regions.list && this.setState({
+        //     ...this.state,
+        //     regionsArray: [...this.state.regionsArray, region]
+        // })
 
         console.log('in createRegion', this.wavesurfer.regions.list);
-        
-        console.log('regionsArray', regionsArray);
 
-        
+        // console.log('regionsArray', regionsArray);
+
+
 
         // let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
         // console.log('newRegion = ', newRegion);
-        
+
         // this.setState({
         //     ...this.state,
         //     newRegion: {
@@ -103,74 +102,84 @@ class Waveform extends React.Component {
         //         region_id: newRegion.id
         //     }
         // })
-        let newRegionIndex = this.state.regionsArray.length-1
+        // let newRegionIndex = this.state.regionsArray.length-1
         let newRegion = {
-            color: this.state.regionsArray[newRegionIndex].color,
-            data: this.state.regionsArray[newRegionIndex].data,
-            start: this.state.regionsArray[newRegionIndex].start,
-            end: this.state.regionsArray[newRegionIndex].end,
-            region_id: this.state.regionsArray[newRegionIndex].id,
+            color: region.color,
+            data: region.data,
+            start: region.start,
+            end: region.end,
+            region_id: region.id,
             file_id: this.props.file.id
         }
+        console.log('newRegion in addRegion', newRegion);
+        
         //send newRegion to saga to save in database
         this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.reduxState.currentProject.project_id } })
     }
-    saveRegions = (region) => {
-        //sweet alert for labeling region
-        // Swal.fire({
-        //     title: 'New Region',
-        //     text: 'Region',
-        //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
-        //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
-        //     confirmButtonText: 'Create',
-        //     showCancelButton: true,
-        //     allowEnterKey: true,
-        //     //capture input text
-        //     preConfirm: () => {
 
-        //         let regionTag = document.getElementById('regionTagInput').value;
-        //         let regionNotes = document.getElementById('regionNotesInput').value;
-        //         console.log('SWAL', regionTag, regionNotes);
-
-        //         // update 'region' created by clicking to include user's data
-        //         region.update({
-        //             data: {
-        //                 regionTag,
-        //                 regionNotes
-        //             }
-        //         })
-
-        //     }
-        // })
-        console.log('updated region', region);
-
-        // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
-
-        //add regions.list objects to array
-        let regionsArray = []
-        for (let i in this.wavesurfer.regions.list) {
-            regionsArray.push(this.wavesurfer.regions.list[i])
-        }
+    
+    createRegion = (region) => {
+        console.log('created region', region);
         
-        console.log('in saveRegions', this.wavesurfer.regions.list);
-        console.log('regionsArray', regionsArray);
+        this.wavesurfer.on('region-update-complete',this.addNewRegion(region))
+    //     r
+    // }
+    // saveRegions = (region) => {
+    //     //sweet alert for labeling region
+    //     // Swal.fire({
+    //     //     title: 'New Region',
+    //     //     text: 'Region',
+    //     //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+    //     //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+    //     //     confirmButtonText: 'Create',
+    //     //     showCancelButton: true,
+    //     //     allowEnterKey: true,
+    //     //     //capture input text
+    //     //     preConfirm: () => {
 
-        this.wavesurfer.regions.list && this.setState({
-            ...this.state,
-            regionsArray: regionsArray
-        })
+    //     //         let regionTag = document.getElementById('regionTagInput').value;
+    //     //         let regionNotes = document.getElementById('regionNotesInput').value;
+    //     //         console.log('SWAL', regionTag, regionNotes);
 
-        let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
-        this.setState({
-            ...this.state,
-            newRegion: {
-                start: newRegion.start,
-                end: newRegion.end,
-                data: newRegion.data,
-                file_id: this.props.file.id,
-                region_id: newRegion.id
-            }
-        })
+    //     //         // update 'region' created by clicking to include user's data
+    //     //         region.update({
+    //     //             data: {
+    //     //                 regionTag,
+    //     //                 regionNotes
+    //     //             }
+    //     //         })
+
+    //     //     }
+    //     // })
+    //     console.log('updated region', region);
+
+    //     // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
+
+    //     //add regions.list objects to array
+    //     let regionsArray = []
+    //     for (let i in this.wavesurfer.regions.list) {
+    //         regionsArray.push(this.wavesurfer.regions.list[i])
+    //     }
+        
+    //     console.log('in saveRegions', this.wavesurfer.regions.list);
+    //     console.log('regionsArray', regionsArray);
+
+    //     this.wavesurfer.regions.list && this.setState({
+    //         ...this.state,
+    //         regionsArray: regionsArray
+    //     })
+
+    //     let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
+    //     this.setState({
+    //         ...this.state,
+    //         newRegion: {
+    //             start: newRegion.start,
+    //             end: newRegion.end,
+    //             data: newRegion.data,
+    //             file_id: this.props.file.id,
+    //             region_id: newRegion.id
+    //         }
+    //     })
 
         
         //send newRegion to saga to save in database
