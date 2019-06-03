@@ -17,7 +17,7 @@ class AddCollaborators extends Component {
         // ]
         return(
             <>
-            <Autocomplete props={this.props.reduxState}/>
+            <Autocomplete />
             {/* <Autocomplete2 />    */}
             
              {/* <TextField
