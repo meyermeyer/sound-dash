@@ -4,7 +4,8 @@ import registrationSaga from './registrationSaga';
 import userSaga from './userSaga';
 import projectSaga from './projectSaga'
 import fileSaga from './fileSaga'
-// import regionSaga from './regionSaga'
+import regionSaga from './regionSaga'
+
 
 export default function* rootSaga() {
   yield all([
@@ -13,6 +14,6 @@ export default function* rootSaga() {
     userSaga(),
     projectSaga(),
     fileSaga(),
-    // regionSaga()
+    regionSaga()
   ]);
 }

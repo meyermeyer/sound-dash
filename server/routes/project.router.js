@@ -1,15 +1,15 @@
 const express = require('express');
 const pool = require('../modules/pool');
-
+const { rejectUnauthorizedUser } = require('../modules/authentication-middleware');
 const router = express.Router();
 
 router.get('/', (req,res) => {
-    console.log('in GET /api/project');
-    console.log('is authenticated?', req.isAuthenticated());
-    console.log('user', req.user);
+    // console.log('in GET /api/project');
+    // console.log('is authenticated?', req.isAuthenticated());
+    // console.log('user', req.user);
     
     if(req.isAuthenticated()){
-        console.log('isAuthenticated in GET /api/project');
+        // console.log('isAuthenticated in GET /api/project');
         let query = `SELECT * FROM "projects" JOIN "users_projects"
                     ON "projects".id = "users_projects"."project_id"
                     WHERE "users_projects"."user_id"=$1;`
@@ -29,11 +29,11 @@ router.get('/', (req,res) => {
 })
 
 router.delete('/:id', (req,res) => {
-    console.log('in DELETE /api/project', req.params.id, req.user.id);
+    // console.log('in DELETE /api/project', req.params.id, req.user.id);
     
     
     if(req.isAuthenticated()){
-        console.log('isAuthenticated in DELETE /api/project');
+        // console.log('isAuthenticated in DELETE /api/project');
         //some syntax error in this query, waiting for help
         let query = `DELETE FROM "projects" WHERE "projects".id =$1 AND "projects".author_id = $2;`
         pool.query(query,[req.params.id, req.user.id])
@@ -107,24 +107,27 @@ router.post('/users', (req,res)=>{
 })
 
 
-router.put('/:id', (req,res)=>{
-    console.log('in PUT /api/project', req.body);
-    
-    if (req.isAuthenticated()){
-        let query = `UPDATE "projects" SET "name"=$1 WHERE "id"=$3 AND "author_id"=$4;`
-        pool.query(query,[req.body.name,req.params.id,req.body.author_id])
-            .then(response =>{
-                console.log('in PUT /api/project', response);
-                res.sendStatus(200)
+//  
+
+router.put('/', rejectUnauthorizedUser, (req,res)=>{
+    // console.log('in PUT /api/project(data)', req.body, req.query.project_id);
+    if(req.isAuthenticated()){
+        let query = `UPDATE "projects" SET "lyrics"=$1, "notes"=$2 WHERE "id"=$3;`
+        pool.query(query, [req.body.projectData.lyrics, req.body.projectData.notes, req.query.project_id])
+            .then(response => {
+                console.log('back from PUT /api/project(data)', response);
+                res.sendStatus(204)
             })
-            .catch(error => {
-                console.log('error in PUT /api/project', error)
+            .catch(err => {
+                console.log('error in PUT /api/project(data)', err);
                 res.sendStatus(500)
             })
     }
     else {
+        console.log('forbidden in PUT /api/project')
         res.sendStatus(403)
     }
-
+    
 })
+
 module.exports = router;
