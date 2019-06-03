@@ -48,19 +48,19 @@ function renderInput(inputProps) {
 function renderSuggestion(suggestionProps) {
     const { suggestion, index, itemProps, highlightedIndex, selectedItem } = suggestionProps;
     const isHighlighted = highlightedIndex === index;
-    const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
+    const isSelected = (selectedItem || '').indexOf(suggestion.username) > -1;
 
     return (
         <MenuItem
             {...itemProps}
-            key={suggestion.label}
+            key={suggestion.username}
             selected={isHighlighted}
             component="div"
             style={{
                 fontWeight: isSelected ? 500 : 400,
             }}
         >
-            {suggestion.label}
+            {suggestion.username}
         </MenuItem>
     );
 }
@@ -72,16 +72,23 @@ renderSuggestion.propTypes = {
     suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
 };
 
-function getSuggestions(value,{ showEmpty = false } = {}) {
+function getSuggestions(value,props,{ showEmpty = false } = {}) {
+    console.log('getSuggestions', props.props.allUsers)
+    // const allUsers = [props.props.allUsers.map(user=>{
+    //     return(
+    //         { label: user.username }
+    //     )
+        
+    // })]
     const inputValue = deburr(value.trim()).toLowerCase();
     const inputLength = inputValue.length;
     let count = 0;
 
     return inputLength === 0 && !showEmpty
         ? []
-        : suggestions.filter(suggestion => {
+        : props.props.allUsers.filter(suggestion => {
             const keep =
-                count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
+                count < 5 && suggestion.username.slice(0, inputLength).toLowerCase() === inputValue;
 
             if (keep) {
                 count += 1;
@@ -92,6 +99,7 @@ function getSuggestions(value,{ showEmpty = false } = {}) {
 }
 
 function DownshiftMultiple(props) {
+    console.log('in DownShiftMultiple', props)
     const { classes } = props;
     const [inputValue, setInputValue] = React.useState('');
     const [selectedItem, setSelectedItem] = React.useState([]);
@@ -152,18 +160,18 @@ function DownshiftMultiple(props) {
                                 )),
                                 onChange: handleInputChange,
                                 onKeyDown: handleKeyDown,
-                                placeholder: 'Select multiple countries',
+                                placeholder: 'Add Collaborators',
                             }),
-                            label: 'Label',
+                            label: 'Username',
                         })}
 
                         {isOpen ? (
                             <Paper className={classes.paper} square>
-                                {getSuggestions(inputValue2).map((suggestion, index) =>
+                                {getSuggestions(inputValue2, props).map((suggestion, index) =>
                                     renderSuggestion({
                                         suggestion,
                                         index,
-                                        itemProps: getItemProps({ item: suggestion.label }),
+                                        itemProps: getItemProps({ item: suggestion.username }),
                                         highlightedIndex,
                                         selectedItem: selectedItem2,
                                     }),
@@ -229,7 +237,7 @@ class IntegrationDownshift extends Component {
             <div className={this.props.classes.root}>
                 <div className={this.props.classes.divider} />
                     <form onSubmit={this.handleSubmit}>
-                        <DownshiftMultiple classes={this.props.classes} />
+                        <DownshiftMultiple props={this.props.reduxState} classes={this.props.classes} />
                         <div className={this.props.classes.divider} />
                         <Button onClick={this.handleSubmit} type="submit">Add Collaborators</Button>
                     </form>
