@@ -12,21 +12,6 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 
-const suggestions = [
-
-    { label: 'Afghanistan' },
-    { label: 'Aland Islands' },
-    { label: 'Albania' },
-    { label: 'Algeria' },
-    
-];
-
-
-
-
-
-
-
 function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps;
 
@@ -49,11 +34,11 @@ function renderSuggestion(suggestionProps) {
     const { suggestion, index, itemProps, highlightedIndex, selectedItem } = suggestionProps;
     const isHighlighted = highlightedIndex === index;
     const isSelected = (selectedItem || '').indexOf(suggestion.username) > -1;
-
+    
     return (
         <MenuItem
             {...itemProps}
-            key={suggestion.username}
+            key={suggestion.id}
             selected={isHighlighted}
             component="div"
             style={{
@@ -69,17 +54,12 @@ renderSuggestion.propTypes = {
     index: PropTypes.number,
     itemProps: PropTypes.object,
     selectedItem: PropTypes.string,
+    selectedItemId: PropTypes.array,
     suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
 };
 
 function getSuggestions(value,props,{ showEmpty = false } = {}) {
     console.log('getSuggestions', props.props.allUsers)
-    // const allUsers = [props.props.allUsers.map(user=>{
-    //     return(
-    //         { label: user.username }
-    //     )
-        
-    // })]
     const inputValue = deburr(value.trim()).toLowerCase();
     const inputLength = inputValue.length;
     let count = 0;
@@ -98,11 +78,12 @@ function getSuggestions(value,props,{ showEmpty = false } = {}) {
         });
 }
 
+let newItemIds = [];
 function DownshiftMultiple(props) {
     console.log('in DownShiftMultiple', props)
     const { classes } = props;
     const [inputValue, setInputValue] = React.useState('');
-    const [selectedItem, setSelectedItem] = React.useState([]);
+    const [selectedItem, setSelectedItem, selectedItemId] = React.useState([]);
 
     function handleKeyDown(event) {
         if (selectedItem.length && !inputValue.length && event.key === 'Backspace') {
@@ -112,18 +93,23 @@ function DownshiftMultiple(props) {
 
     function handleInputChange(event) {
         setInputValue(event.target.value);
-        
-
     }
-
+    
     function handleChange(item) {
         let newSelectedItem = [...selectedItem];
-        if (newSelectedItem.indexOf(item) === -1) {
-            newSelectedItem = [...newSelectedItem, item];
+        if (newSelectedItem.indexOf(item.username) === -1) {
+            newSelectedItem = [...newSelectedItem, item.username];
         }
+
+       
+        if(newItemIds.indexOf(item.id)===-1){
+            newItemIds.push(item.id)
+        }
+        console.log('newItemIds', newItemIds)
         setInputValue('');
         setSelectedItem(newSelectedItem);
-        props.captureInput(newSelectedItem)
+        //send IDS of selected users to class component to send to SAGA 
+        props.captureInput(newItemIds)
     }
 
     const handleDelete = item => () => {
@@ -175,7 +161,7 @@ function DownshiftMultiple(props) {
                                     renderSuggestion({
                                         suggestion,
                                         index,
-                                        itemProps: getItemProps({ item: suggestion.username }),
+                                        itemProps: getItemProps({ item: { username: suggestion.username, id: suggestion.id}}),
                                         highlightedIndex,
                                         selectedItem: selectedItem2,
                                     }),

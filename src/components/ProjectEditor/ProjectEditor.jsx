@@ -145,14 +145,14 @@ class ProjectEditor extends Component {
                     </ThemeProvider>
                     {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <Grid container>
-                        <Grid item sm={8}>
+                        <Grid item xs={8}>
                             <ul>
                                 <TrackList />
                             </ul>
                         </Grid>
-                        <Grid container sm={4}>
+                        <Grid container xs={4} direction="column">
 
-                            <Grid item sm={6}>
+                            <Grid item xs={6}>
 
                                 <ClickAwayListener onClickAway={this.handleLyricsSubmit}>
                                     <TextField
