@@ -13,6 +13,7 @@ const userRouter = require('./routes/user.router');
 const projectRouter = require('./routes/project.router')
 const filesRouter = require('./routes/files.router.js')
 const regionRouter = require('./routes/region.router')
+const allUsersRouter = require('./routes/all.users.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -30,6 +31,7 @@ app.use('/api/user', userRouter);
 app.use('/api/project', projectRouter)
 app.use('/api/files', filesRouter)
 app.use('/api/region', regionRouter)
+app.use('/api/all_users', allUsersRouter)
 
 // Serve static files
 app.use(express.static('build'));

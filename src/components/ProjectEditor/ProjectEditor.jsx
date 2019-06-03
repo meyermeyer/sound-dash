@@ -10,6 +10,7 @@ import { Button, Grid, Card, CardContent } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import AddCollaborators from '../AddCollaborators/AddCollaborators';
 
 
 
@@ -126,6 +127,7 @@ class ProjectEditor extends Component {
             <>
                 <h2>{this.props.reduxState.currentProject.name}</h2>
                 <div>
+                    <AddCollaborators/>
                     <h3>Add New Files</h3>
                     <TextField
                         id="outlined-dense"
