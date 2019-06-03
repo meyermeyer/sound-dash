@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import Downshift from 'downshift';
+
+import { Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -11,42 +13,19 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 
 const suggestions = [
-    
+
     { label: 'Afghanistan' },
     { label: 'Aland Islands' },
     { label: 'Albania' },
     { label: 'Algeria' },
-    { label: 'American Samoa' },
-    { label: 'Andorra' },
-    { label: 'Angola' },
-    { label: 'Anguilla' },
-    { label: 'Antarctica' },
-    { label: 'Antigua and Barbuda' },
-    { label: 'Argentina' },
-    { label: 'Armenia' },
-    { label: 'Aruba' },
-    { label: 'Australia' },
-    { label: 'Austria' },
-    { label: 'Azerbaijan' },
-    { label: 'Bahamas' },
-    { label: 'Bahrain' },
-    { label: 'Bangladesh' },
-    { label: 'Barbados' },
-    { label: 'Belarus' },
-    { label: 'Belgium' },
-    { label: 'Belize' },
-    { label: 'Benin' },
-    { label: 'Bermuda' },
-    { label: 'Bhutan' },
-    { label: 'Bolivia, Plurinational State of' },
-    { label: 'Bonaire, Sint Eustatius and Saba' },
-    { label: 'Bosnia and Herzegovina' },
-    { label: 'Botswana' },
-    { label: 'Bouvet Island' },
-    { label: 'Brazil' },
-    { label: 'British Indian Ocean Territory' },
-    { label: 'Brunei Darussalam' },
+    
 ];
+
+
+
+
+
+
 
 function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps;
@@ -93,7 +72,7 @@ renderSuggestion.propTypes = {
     suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
 };
 
-function getSuggestions(value, { showEmpty = false } = {}) {
+function getSuggestions(value,{ showEmpty = false } = {}) {
     const inputValue = deburr(value.trim()).toLowerCase();
     const inputLength = inputValue.length;
     let count = 0;
@@ -234,7 +213,12 @@ const styles = theme => ({
 
 
 class IntegrationDownshift extends Component {
+    handleSubmit = (event) => {
+        event.preventDefault();
+        console.log('in handleSubmit', )
+    }
     componentDidMount = () => {
+
         //get all users from database for autocomplete options
         this.props.dispatch({ type: 'FETCH_ALL_USERS'})
     }
@@ -244,8 +228,14 @@ class IntegrationDownshift extends Component {
         return(
             <div className={this.props.classes.root}>
                 <div className={this.props.classes.divider} />
-                <DownshiftMultiple classes={this.props.classes} />
-                <div className={this.props.classes.divider} />
+                    <form onSubmit={this.handleSubmit}>
+                        <DownshiftMultiple classes={this.props.classes} />
+                        <div className={this.props.classes.divider} />
+                        <Button onClick={this.handleSubmit} type="submit">Add Collaborators</Button>
+                    </form>
+                   
+                
+                
             </div>
         )
             
@@ -254,6 +244,8 @@ class IntegrationDownshift extends Component {
     }
 }
 
+const mapStateToProps = reduxState => ({
+    reduxState
+});
 
-
-export default connect()(withStyles(styles)(IntegrationDownshift));
+export default connect(mapStateToProps)(withStyles(styles)(IntegrationDownshift));

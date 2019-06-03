@@ -28,6 +28,7 @@ function* fetchAllUsers() {
   console.log('in fetchAllUsers saga')
   try{
     let allUsers = yield axios.get('/api/all_users')
+    console.log('in fetchAllUsers saga', allUsers.data)
     yield put({type:'STORE_ALL_USERS', payload: allUsers.data})
   }
   catch(err){

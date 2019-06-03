@@ -1,5 +1,5 @@
 const express = require('express');
-const { rejectUnauthenticated } = require('../modules/authentication-middleware');
+const { rejectUnauthenticated, rejectUnauthorizedUser } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
 
@@ -17,5 +17,7 @@ router.get('/', rejectUnauthenticated, (req,res)=>{
         })
     
 })
+
+
 
 module.exports = router;

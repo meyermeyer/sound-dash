@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Autocomplete from '../Autocomplete/Autocomplete'
+import Autocomplete2 from '../Autocomplete2/Autocomplete2'
 
 import TextField from '@material-ui/core/TextField';
+
 
 class AddCollaborators extends Component {
     
@@ -15,16 +17,19 @@ class AddCollaborators extends Component {
         // ]
         return(
             <>
-            <Autocomplete/>
-            <p>add collab stuff</p>
-            <TextField
+            <Autocomplete props={this.props.reduxState}/>
+            {/* <Autocomplete2 />    */}
+            
+             {/* <TextField
                 id="outlined-search"
                 label="Search field"
                 type="search"
                 // className={classes.textField}
                 margin="normal"
                 variant="outlined"
-            />
+            /> */}
+            
+            
             </>
         )
     }
