@@ -49,15 +49,15 @@ class Waveform extends React.Component {
         console.log('in loadRegions', this.props.reduxState.regions);
         this.allowAnnotation();
         // this.wavesurfer.addRegion()
-        for (let region of this.props.reduxState.regions) {
-            console.log('map regions:', region);
+        // for (let region of this.props.reduxState.regions) {
+        //     console.log('map regions:', region);
 
-            if (region.file_id === this.props.file.id) {
-                console.log('map regions:', region);
-                region.color = this.randomColor(0.1);
-                this.wavesurfer.addRegion(region)
-            }
-        }
+        //     if (region.file_id === this.props.file.id) {
+        //         console.log('map regions:', region);
+        //         region.color = this.randomColor(0.1);
+        //         this.wavesurfer.addRegion(region)
+        //     }
+        // }
     }
 
     allowAnnotation = () => {
@@ -70,10 +70,11 @@ class Waveform extends React.Component {
     handleHover = (region) => {
         console.log('hovering over', region.data.regionTag);
     }
+
     addNewRegion = (region) => {
-        console.log('in addNewRegion', region)
-        // let regionsArray = [];
-        // regionsArray.push(region);
+        console.log(`in addNewRegion:{start:${region.start} id:${region.id}}`, region, region.start)
+        let regionsArray = [];
+        regionsArray.push(region);
         // for (let i in this.wavesurfer.regions.list) {
         //     regionsArray.push(this.wavesurfer.regions.list[i])
         // }
@@ -84,8 +85,7 @@ class Waveform extends React.Component {
         // })
 
         console.log('in createRegion', this.wavesurfer.regions.list);
-
-        // console.log('regionsArray', regionsArray);
+        console.log('regionsArray', regionsArray);
 
 
 
@@ -121,7 +121,7 @@ class Waveform extends React.Component {
     createRegion = (region) => {
         console.log('created region', region);
         
-        this.wavesurfer.on('region-update-complete',this.addNewRegion(region))
+        this.wavesurfer.on('region-update-complete',this.addNewRegion)
     //     r
     // }
     // saveRegions = (region) => {
