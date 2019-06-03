@@ -54,7 +54,6 @@ renderSuggestion.propTypes = {
     index: PropTypes.number,
     itemProps: PropTypes.object,
     selectedItem: PropTypes.string,
-    selectedItemId: PropTypes.array,
     suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
 };
 
@@ -83,7 +82,7 @@ function DownshiftMultiple(props) {
     console.log('in DownShiftMultiple', props)
     const { classes } = props;
     const [inputValue, setInputValue] = React.useState('');
-    const [selectedItem, setSelectedItem, selectedItemId] = React.useState([]);
+    const [selectedItem, setSelectedItem] = React.useState([]);
 
     function handleKeyDown(event) {
         if (selectedItem.length && !inputValue.length && event.key === 'Backspace') {
@@ -103,7 +102,8 @@ function DownshiftMultiple(props) {
 
        
         if(newItemIds.indexOf(item.id)===-1){
-            newItemIds.push(item.id)
+            // newItemIds.push(item.id)
+            newItemIds=[...newItemIds, item.id]
         }
         console.log('newItemIds', newItemIds)
         setInputValue('');
@@ -113,9 +113,18 @@ function DownshiftMultiple(props) {
     }
 
     const handleDelete = item => () => {
+        
         const newSelectedItem = [...selectedItem];
+        // const newSelectedItemIds = [...newItemIds];
+        console.log('in handleDelete', item, newSelectedItem, selectedItem, newSelectedItem.indexOf(item))
         newSelectedItem.splice(newSelectedItem.indexOf(item), 1);
+        newItemIds.splice(selectedItem.indexOf(item), 1);
+        console.log('delete', item, newItemIds, selectedItem.indexOf(item))
         setSelectedItem(newSelectedItem);
+        
+        
+        // newItemIds.splice(0,1)
+        
     };
 
     return (
@@ -214,7 +223,11 @@ class IntegrationDownshift extends Component {
     state = {
         collaborators: []
     }
-
+    clearState = () => {
+        this.setState({
+            collaborators:[]
+        })
+    }
     //retrieve user inputs from DownshiftMultiple
     captureInput = (value) => {
         // event.preventDefault();
@@ -232,7 +245,9 @@ class IntegrationDownshift extends Component {
                                 collaborators: this.state.collaborators,
                                 project_id: this.props.reduxState.currentProject.project_id}
                             })
+        this.clearState()
     }
+    
 
     componentDidMount = () => {
 
