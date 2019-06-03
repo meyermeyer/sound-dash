@@ -112,6 +112,8 @@ function DownshiftMultiple(props) {
 
     function handleInputChange(event) {
         setInputValue(event.target.value);
+        
+
     }
 
     function handleChange(item) {
@@ -121,6 +123,7 @@ function DownshiftMultiple(props) {
         }
         setInputValue('');
         setSelectedItem(newSelectedItem);
+        props.captureInput(newSelectedItem)
     }
 
     const handleDelete = item => () => {
@@ -135,6 +138,7 @@ function DownshiftMultiple(props) {
             inputValue={inputValue}
             onChange={handleChange}
             selectedItem={selectedItem}
+            
         >
             {({
                 getInputProps,
@@ -221,10 +225,29 @@ const styles = theme => ({
 
 
 class IntegrationDownshift extends Component {
-    handleSubmit = (event) => {
-        event.preventDefault();
-        console.log('in handleSubmit', )
+    state = {
+        collaborators: []
     }
+
+    //retrieve user inputs from DownshiftMultiple
+    captureInput = (value) => {
+        // event.preventDefault();
+        console.log('in captureInput', value)
+        this.setState({
+            collaborators:value
+        })
+    }
+
+    handleSubmit = (event) =>{
+        event.preventDefault();
+        console.log('in handleSubmit', this.state.collaborators)
+        this.props.dispatch({ type: 'ADD_COLLABORATORS', 
+                            payload: {
+                                collaborators: this.state.collaborators,
+                                project_id: this.props.reduxState.currentProject.project_id}
+                            })
+    }
+
     componentDidMount = () => {
 
         //get all users from database for autocomplete options
@@ -232,12 +255,12 @@ class IntegrationDownshift extends Component {
     }
     
     render(){
-
+        console.log('collaborators:', this.state.collaborators)
         return(
             <div className={this.props.classes.root}>
                 <div className={this.props.classes.divider} />
                     <form onSubmit={this.handleSubmit}>
-                        <DownshiftMultiple props={this.props.reduxState} classes={this.props.classes} />
+                        <DownshiftMultiple props={this.props.reduxState} captureInput={this.captureInput} classes={this.props.classes} />
                         <div className={this.props.classes.divider} />
                         <Button onClick={this.handleSubmit} type="submit">Add Collaborators</Button>
                     </form>
