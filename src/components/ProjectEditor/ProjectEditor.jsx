@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TrackList from '../TrackList/TrackList'
+import Loading from '../Loading/Loading'
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
@@ -145,6 +146,7 @@ class ProjectEditor extends Component {
                     </ThemeProvider>
                     {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <Grid container>
+                        <Loading/>
                         <Grid item xs={8}>
                             <ul>
                                 <TrackList />
