@@ -13,6 +13,8 @@ import { Button, Grid, Card, CardContent } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
 
 
 
@@ -133,9 +135,16 @@ class ProjectEditor extends Component {
                     <CurrentUser />
                         <div id="currentCollaborators">
                             <h3>Shared with:</h3>
+
                             {this.props.reduxState.collaborators.map((collaborator,i)=>{
                                 return (
-                                    <p key={i}>{collaborator.username}</p>
+                                    <Chip
+                                        key={i}
+                                        avatar={<Avatar>{this.props.reduxState.user.username.charAt(0).toUpperCase()}</Avatar>}
+                                        label={collaborator.username}
+
+                                    />
+                                    // <p key={i}>{collaborator.username}</p>
                                 )
                             })}
                                 
