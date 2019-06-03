@@ -7,6 +7,7 @@ import currentProject from './currentProjectReducer'
 import files from './filesReducer'
 import regions from './storeRegionsReducer'
 import allUsers from './allUsersReducer'
+import collaborators from './storeCollaboratorsReducer'
 
 
 // rootReducer is the primary reducer for our entire project
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   currentProject, //stores currently selected project
   files, //stores current project's files
   regions, //stores current project's regions data
-  allUsers
+  allUsers, //stores all registered users
+  collaborators //stores all users authorized to access current project
 });
 
 export default rootReducer;

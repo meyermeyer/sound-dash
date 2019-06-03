@@ -3,6 +3,26 @@ const { rejectUnauthenticated, rejectUnauthorizedUser } = require('../modules/au
 const pool = require('../modules/pool');
 const router = express.Router();
 
+
+//get collaborators for current project
+router.get('/', rejectUnauthenticated, rejectUnauthorizedUser, (req, res)=>{
+    console.log('in GET /api/collaborators')
+    let query=`
+        SELECT * FROM "users_projects" 
+        JOIN "users" 
+        ON "users_projects"."user_id"="users".id 
+        WHERE "project_id"=$1`
+    pool.query(query,[req.query.project_id])
+        .then(result=>{
+            console.log('back from GET /api/collaborators', result.rows)
+            res.send(result.rows)
+        })
+        .catch(err=>{
+            console.log('error in GET /api/collaborators', err)
+            res.sendStatus(500)
+        })
+})
+
 //add collaborator to "users_projects"
 router.post('/', rejectUnauthenticated, rejectUnauthorizedUser, (req, res) => {
     console.log('in POST /api/collaborators', req.body)

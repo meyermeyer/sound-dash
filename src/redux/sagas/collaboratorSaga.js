@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function* collaboratorSaga() {
     yield takeEvery ('ADD_COLLABORATORS', addCollaboratorSaga)
+    yield takeEvery ('FETCH_COLLABORATORS', fetchCollaboratorsSaga)
 }
 
 function* addCollaboratorSaga(action){
@@ -14,7 +15,15 @@ function* addCollaboratorSaga(action){
              axios.post(url, {user_id: collaborator})
         )
     })
-    // yield axios.post(url, action.payload.collaborators)
+    
+}
+
+function* fetchCollaboratorsSaga(action) {
+    console.log('in fetchCollaboratorsSaga', action.payload)
+    let url = `/api/collaborators?project_id=${action.payload.project_id}`
+    let allCollaborators = yield axios.get(url) 
+    console.log('in fetchCollaboratorsSaga',allCollaborators)
+    yield put({ type:'STORE_COLLABORATORS', payload: allCollaborators.data})
 }
 
 export default collaboratorSaga

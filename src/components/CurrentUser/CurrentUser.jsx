@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import './CurrentUser.css'
 
 
 //materialUI
@@ -22,7 +23,7 @@ class CurrentUser extends Component {
     render(){
         if (this.props.reduxState.user.username){
             return (
-                <>
+                <div className="CurrentUserChip">
 
                     <Chip
                         avatar={<Avatar>{this.props.reduxState.user.username.charAt(0).toUpperCase()}</Avatar>}
@@ -30,7 +31,7 @@ class CurrentUser extends Component {
                         onClick={this.handleClick}
                     // className={classes.chip}
                     />
-                </>
+                </div>
             )
         }
         else {
