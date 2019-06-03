@@ -23,8 +23,10 @@ import InfoPage from '../InfoPage/InfoPage';
 import Header from '../Header/Header'
 import UserDashboard from '../UserDashboard/UserDashboard'
 import ProjectEditor from '../ProjectEditor/ProjectEditor'
+import CurrentUser from '../CurrentUser/CurrentUser';
 
 import './App.css';
+
 
 
 const theme = createMuiTheme({
@@ -46,7 +48,9 @@ class App extends Component {
         <Router>
           <div>
             <Header />
+            
             <Nav />
+            {/* <CurrentUser /> */}
             <Switch>
               {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
               <Redirect exact from="/" to="/home" />

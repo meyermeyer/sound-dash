@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TrackList from '../TrackList/TrackList'
+import CurrentUser from '../CurrentUser/CurrentUser'
+import AddCollaborators from '../AddCollaborators/AddCollaborators';
+import Loading from '../Loading/Loading'
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +13,7 @@ import { Button, Grid, Card, CardContent } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+
 
 
 
@@ -115,7 +119,7 @@ class ProjectEditor extends Component {
     componentDidMount = () => {
         this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
         this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.reduxState.currentProject })
-
+        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: this.props.reduxState.currentProject})
     }
     render() {
         console.log('ProjectEditor new file', this.state.newFile)
@@ -126,6 +130,20 @@ class ProjectEditor extends Component {
             <>
                 <h2>{this.props.reduxState.currentProject.name}</h2>
                 <div>
+                    <CurrentUser />
+                        <div id="currentCollaborators">
+                            <h3>Shared with:</h3>
+                            {this.props.reduxState.collaborators.map((collaborator,i)=>{
+                                return (
+                                    <p key={i}>{collaborator.username}</p>
+                                )
+                            })}
+                                
+                            
+                        </div>
+                    
+                    <AddCollaborators/>
+
                     <h3>Add New Files</h3>
                     <TextField
                         id="outlined-dense"
@@ -134,6 +152,7 @@ class ProjectEditor extends Component {
                         variant="outlined"
                         onChange={this.handleChange}
                     />
+                    
                     <ThemeProvider theme={theme}>
                         <Button onClick={this.handleSubmit} variant="contained" color="secondary">Submit
                             <i class="material-icons">
@@ -143,14 +162,15 @@ class ProjectEditor extends Component {
                     </ThemeProvider>
                     {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <Grid container>
-                        <Grid item sm={8}>
+                        <Loading/>
+                        <Grid item xs={8}>
                             <ul>
                                 <TrackList />
                             </ul>
                         </Grid>
-                        <Grid container sm={4}>
+                        <Grid container xs={4} direction="column">
 
-                            <Grid item sm={6}>
+                            <Grid item xs={6}>
 
                                 <ClickAwayListener onClickAway={this.handleLyricsSubmit}>
                                     <TextField

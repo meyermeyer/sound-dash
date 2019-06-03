@@ -308,6 +308,10 @@ class Waveform extends React.Component {
 
 
     //file play functions
+
+    handleLoading = () =>{
+        console.log('loading waveform')
+    }
     playAudio = () => {
         this.wavesurfer.play();
     }
@@ -335,6 +339,9 @@ class Waveform extends React.Component {
             waveColor: 'violet',
             progressColor: 'purple',
             backend: 'MediaElement',
+            preload:true,
+            minPxPerSec: 3,
+            pixelRatio:1,
             plugins: [
                 RegionsPlugin.create({}),
                 MicrophonePlugin.create({}),
@@ -352,11 +359,13 @@ class Waveform extends React.Component {
         //     backend: 'MediaElement',
         //     plugins: [MicrophonePlugin.create({})]
         // })
-        this.wavesurfer.load('https://reelcrafter-east.s3.amazonaws.com/aux/test.m4a');
+        // this.wavesurfer.load('https://sound-dash.s3.us-east-2.amazonaws.com/dunn.mp3', null,'auto');
+        this.wavesurfer.load(this.props.file.path, null,'auto');
         // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
         // this.wavesurfer .load(dogBarking);
         console.log(this.wavesurfer.regions);
         // this.wavesurfer.on('region-update-end', this.saveRegions);
+        this.wavesurfer.on('loading', this.handleLoading)
         this.wavesurfer.on('ready', this.loadRegions)
         this.wavesurfer.on('region-created', this.createRegion)
         this.wavesurfer.on('region-mouseenter', this.handleHover)
