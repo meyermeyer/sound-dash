@@ -1,6 +1,6 @@
-import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
 
 import './ProjectItem.css'
 
@@ -39,6 +39,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ControlledExpansionPanels(props) {
+    // const [initialized, setInitialized] = useState(false);
+    // useEffect(()=>{
+    //     if (!initialized){
+    //         props.dispatch({ type: 'FETCH_PROJECTS' })
+    //         setInitialized(true);
+    //     }
+    // })
+    
     const handleDelete = (project) => {
         console.log('in handleDelete', project)
         Swal.fire({
@@ -63,7 +71,6 @@ function ControlledExpansionPanels(props) {
                 console.log('in SWAL delete, cancel', project)
             }
         })
-        // props.dispatch({ type: 'DELETE_PROJECT', payload: project })
     }
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -73,9 +80,7 @@ function ControlledExpansionPanels(props) {
     };
     const handleOpen = (project) => {
         console.log('in handleOpen', project)
-        props.history.push('/project-editor')
-        props.dispatch({ type:'SELECT_PROJECT', payload: project})
-        props.dispatch({ type: 'FETCH_FILES', payload: props.reduxState.currentProject })
+        props.history.push(`/project-editor/${project.project_id}`)
     }
     // const handleEdit = (project) => {
     //     console.log('in handleEdit')
@@ -106,6 +111,7 @@ function ControlledExpansionPanels(props) {
     
 
     return (
+        
         <div className={classes.root}>
             {props.reduxState.projects.map((project, i) => {
                 return (

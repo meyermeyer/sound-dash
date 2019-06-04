@@ -85,7 +85,7 @@ class App extends Component {
               />
               <ProtectedRoute
                 exact
-                path="/project-editor"
+                path="/project-editor/:id"
                 component={ProjectEditor}
               />
               {/* If none of the other routes matched, we will show a 404. */}

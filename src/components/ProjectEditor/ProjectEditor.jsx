@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, BrowserRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TrackList from '../TrackList/TrackList.jsx'
@@ -71,7 +71,7 @@ class ProjectEditor extends Component {
         console.log('in handleSubmit')
 
         //dispatch action to trigger SAGA for POST to /api/files
-        this.props.dispatch({ type: 'ADD_FILE', payload: this.state.newFile, currentProject: this.props.reduxState.currentProject })
+        this.props.dispatch({ type: 'ADD_FILE', payload: this.state.newFile, currentProject: this.props.match.params })
     }
 
     //Lyrics and Notes change functions
@@ -102,7 +102,7 @@ class ProjectEditor extends Component {
             type: 'UPDATE_PROJECT_DATA',
             payload: {
                 projectData: this.state.projectData,
-                project_id: this.props.reduxState.currentProject.project_id
+                project_id: this.props.match.params
             }
         })
     }
@@ -114,24 +114,35 @@ class ProjectEditor extends Component {
             type: 'UPDATE_PROJECT_DATA',
             payload: {
                 projectData: this.state.projectData,
-                project_id: this.props.reduxState.currentProject.project_id
+                project_id: this.props.match.params
             }
         })
     }
 
     componentDidMount = () => {
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.reduxState.currentProject })
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: this.props.reduxState.currentProject})
+        const {id} = this.props.match.params
+        console.log('ProjectEditor project_id', id)
+        this.props.dispatch({ type: 'FETCH_FILES', payload: id })
+        this.props.dispatch({ type: 'FETCH_REGIONS', payload: id })
+        this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: id})
     }
     render() {
         console.log('ProjectEditor new file', this.state.newFile)
         console.log('ProjectEditor project data', this.state.projectData);
+        
 
 
         return (
             <>
-                <h2>{this.props.reduxState.currentProject.name}</h2>
+                {this.props.reduxState.projects.map((project,i)=>{
+                    console.log('project', project.project_id, this.props.match.params)
+                    if(project.project_id == this.props.match.params.id){
+                        return(
+                            <h2>{project.name}</h2>
+                        )
+                    }
+                })}
+                
                 <div>
                     <CurrentUser />
                     <div id="currentCollaborators">
@@ -139,10 +150,11 @@ class ProjectEditor extends Component {
                             <CardContent>
                                 <h3>Shared with:</h3>
                                 {this.props.reduxState.collaborators.map((collaborator, i) => {
+                                    if(collaborator.id!=this.props.reduxState.user.id)
                                     return (
                                         <Chip
                                             key={i}
-                                            avatar={<Avatar>{this.props.reduxState.user.username.charAt(0).toUpperCase()}</Avatar>}
+                                            avatar={<Avatar>{collaborator.username.charAt(0).toUpperCase()}</Avatar>}
                                             label={collaborator.username}
                                         />
                                     )

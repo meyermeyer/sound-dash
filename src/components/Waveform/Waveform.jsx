@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { withRouter } from 'react-router-dom'
 import WaveSurfer from 'wavesurfer.js'
 import dogBarking from '../../audio/Big_Dog_Barking.mp3'
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.js'
@@ -114,14 +115,13 @@ class Waveform extends React.Component {
         console.log('newRegion in addRegion', newRegion);
         
         //send newRegion to saga to save in database
-        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.reduxState.currentProject.project_id } })
+        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.match.params } })
     }
 
     
     createRegion = (region) => {
         console.log('created region', region);
-        
-        this.wavesurfer.on('region-update-complete',this.addNewRegion)
+        this.wavesurfer.on('region-update-complete',()=>this.addNewRegion(region))
     //     r
     // }
     // saveRegions = (region) => {
@@ -287,7 +287,7 @@ class Waveform extends React.Component {
             payload: {
                 trackName: this.state.trackNameInput,
                 track_id: this.props.file.id,
-                project_id: this.props.reduxState.currentProject.project_id
+                project_id: this.props.match.params
             }
         })
     }
@@ -298,7 +298,7 @@ class Waveform extends React.Component {
         this.props.dispatch({
             type: 'DELETE_FILE', payload: {
                 track_id: this.props.file.id,
-                project_id: this.props.reduxState.currentProject.project_id
+                project_id: this.props.match.params
             }
         })
         this.setState({
@@ -325,13 +325,6 @@ class Waveform extends React.Component {
     }
 
     componentDidMount() {
-        // console.log('WaveSurfer object:', WaveSurfer);
-        // console.log('props', this.props.file);
-
-        // update track name
-        // this.setState({
-        //     trackName: this.props.file.track_name
-        // })
         this.$el = ReactDOM.findDOMNode(this)
         this.$waveform = this.$el.querySelector('.wave')
         this.wavesurfer = WaveSurfer.create({
@@ -462,5 +455,5 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-export default connect(mapStateToProps)(Waveform);
+export default withRouter(connect(mapStateToProps)(Waveform));
 
