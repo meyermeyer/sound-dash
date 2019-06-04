@@ -71,7 +71,7 @@ class ProjectEditor extends Component {
         console.log('in handleSubmit')
 
         //dispatch action to trigger SAGA for POST to /api/files
-        this.props.dispatch({ type: 'ADD_FILE', payload: this.state.newFile, currentProject: this.props.reduxState.currentProject })
+        this.props.dispatch({ type: 'ADD_FILE', payload: this.state.newFile, currentProject: this.props.match.params })
     }
 
     //Lyrics and Notes change functions
@@ -102,7 +102,7 @@ class ProjectEditor extends Component {
             type: 'UPDATE_PROJECT_DATA',
             payload: {
                 projectData: this.state.projectData,
-                project_id: this.props.reduxState.currentProject.project_id
+                project_id: this.props.match.params
             }
         })
     }
@@ -114,7 +114,7 @@ class ProjectEditor extends Component {
             type: 'UPDATE_PROJECT_DATA',
             payload: {
                 projectData: this.state.projectData,
-                project_id: this.props.reduxState.currentProject.project_id
+                project_id: this.props.match.params
             }
         })
     }
@@ -123,8 +123,8 @@ class ProjectEditor extends Component {
         const {id} = this.props.match.params
         console.log('ProjectEditor project_id', id)
         this.props.dispatch({ type: 'FETCH_FILES', payload: id })
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_REGIONS', payload: id })
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: id})
+        this.props.dispatch({ type: 'FETCH_REGIONS', payload: id })
+        this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: id})
     }
     render() {
         console.log('ProjectEditor new file', this.state.newFile)

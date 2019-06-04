@@ -14,10 +14,10 @@ function* fileSaga() {
 
 function* addFileSaga(action) {
     try {
-        let url = '/api/files/'+action.currentProject.project_id
+        let url = `/api/files/?project_id=${action.currentProject.id}`
         console.log('in addFileSaga', action.payload, action.currentProject.project_id, url);
         yield axios.post(url, action.payload);
-        yield put({ type: 'FETCH_FILES', payload: action.currentProject.project_id})
+        yield put({ type: 'FETCH_FILES', payload: action.currentProject.id})
 
     }
     catch (error) {
@@ -27,10 +27,10 @@ function* addFileSaga(action) {
 
 function* deleteFileSaga(action) {
     try{
-        const url = `/api/files?project_id=${action.payload.project_id}&track_id=${action.payload.track_id}`
+        const url = `/api/files?project_id=${action.payload.project_id.id}&track_id=${action.payload.track_id}`
         console.log('in deleteFileSaga', action.payload);
         yield axios.delete(url);
-        yield put({ type: 'FETCH_FILES', payload: action.payload})
+        yield put({ type: 'FETCH_FILES', payload: action.payload.project_id.id})
     }
     catch (error) {
         console.log('error in DELETE /api/files', error);
@@ -56,7 +56,7 @@ function* updateFileSaga(action) {
     try {
         
         // const url = '/api/files/'+action.id+'/'+action.payload.project_id
-        const url = `/api/files?project_id=${action.payload.project_id}&track_id=${action.payload.track_id}`
+        const url = `/api/files?project_id=${action.payload.project_id.id}&track_id=${action.payload.track_id}`
         // console.log('in updateFileSaga', action.payload.trackName, action.payload.track_id, action.payload.project_id, url);
         yield axios.put(url,action.payload)
         // yield axios.put('/api/files', {
@@ -64,7 +64,7 @@ function* updateFileSaga(action) {
         //                     trackId: action.id,
         //                     projectId: action.project_id
         // })
-        yield put({ type: 'FETCH_FILES', payload: action.payload })
+        yield put({ type: 'FETCH_FILES', payload: action.payload.project_id.id })
         // console.log('sending to Fetch saga', action.payload)
         
         

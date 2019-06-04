@@ -54,11 +54,12 @@ router.get('/',(req,res)=>{
 })
 
 //POST for adding files
-router.post('/:id', (req,res)=> {
+router.post('/', rejectUnauthorizedUser, (req,res)=> {
+    console.log('in POST /api/files', req.body, req.query)
     if(req.isAuthenticated()){
-        console.log('in POST /api/files', req.body, req.params.id)
+        console.log('in POST /api/files', req.body, req.query.project_id)
         const query = `INSERT INTO "files" ("track_name","path", "project_id") VALUES ($1,$2,$3);`
-        pool.query(query, [req.body.name, req.body.path, req.params.id])
+        pool.query(query, [req.body.name, req.body.path, req.query.project_id])
             .then(response => {
                 console.log('in POST /api/files', response);
                 res.sendStatus(200)

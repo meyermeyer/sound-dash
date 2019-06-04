@@ -12,7 +12,7 @@ function* regionSaga() {
 //GET to server to fetch regions on page load
 function* fetchRegionSaga(action) {
     console.log('in fetchRegionSaga');
-    const url = `/api/region?project_id=${action.payload.project_id}`
+    const url = `/api/region?project_id=${action.payload}`
     console.log(url)
     const allRegions = yield axios.get(url);
     
@@ -24,7 +24,7 @@ function* fetchRegionSaga(action) {
 function* saveRegionSaga(action) {
     console.log('in saveRegionSaga', action.payload)
     try{
-    const url = `/api/region?project_id=${action.payload.project_id}`
+    const url = `/api/region?project_id=${action.payload.project_id.id}`
     yield axios.post(url, action.payload)
         yield put({ type: 'FETCH_REGIONS', payload: { project_id: action.payload.project_id}})
     

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
@@ -240,11 +241,16 @@ class IntegrationDownshift extends Component {
     handleSubmit = (event) =>{
         event.preventDefault();
         console.log('in handleSubmit', this.state.collaborators)
-        this.props.dispatch({ type: 'ADD_COLLABORATORS', 
-                            payload: {
-                                collaborators: this.state.collaborators,
-                                project_id: this.props.reduxState.currentProject.project_id}
-                            })
+        const id = this.props.match.params
+        this.state.collaborators.map(collaborator=>{
+            this.props.dispatch({
+                type: 'ADD_COLLABORATORS',
+                payload: {
+                    collaborators: collaborator,
+                    project_id: id
+                }
+            })
+        })
         this.clearState()
     }
     
@@ -280,4 +286,4 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(IntegrationDownshift));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(IntegrationDownshift)));

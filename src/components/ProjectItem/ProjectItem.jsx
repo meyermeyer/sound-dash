@@ -71,7 +71,6 @@ function ControlledExpansionPanels(props) {
                 console.log('in SWAL delete, cancel', project)
             }
         })
-        // props.dispatch({ type: 'DELETE_PROJECT', payload: project })
     }
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -82,8 +81,6 @@ function ControlledExpansionPanels(props) {
     const handleOpen = (project) => {
         console.log('in handleOpen', project)
         props.history.push(`/project-editor/${project.project_id}`)
-        // props.dispatch({ type:'SELECT_PROJECT', payload: project})
-        // props.dispatch({ type: 'FETCH_FILES', payload: props.reduxState.currentProject })
     }
     // const handleEdit = (project) => {
     //     console.log('in handleEdit')

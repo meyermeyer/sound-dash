@@ -7,14 +7,11 @@ function* collaboratorSaga() {
 }
 
 function* addCollaboratorSaga(action){
-    
-    let url = `/api/collaborators?project_id=${action.payload}`
+    console.log('addCollaborator project_id:',action.payload.project_id.id)
+    let url = `/api/collaborators?project_id=${action.payload.project_id.id}`
     console.log('in addCollaboratorSaga', action.payload, url);
-    yield action.payload.collaborators.map(collaborator=>{
-        return(
-             axios.post(url, {user_id: collaborator})
-        )
-    })
+    yield axios.post(url, {user_id:action.payload.collaborators})
+    yield put({type: 'FETCH_COLLABORATORS', payload: action.payload.project_id.id})
     
 }
 
