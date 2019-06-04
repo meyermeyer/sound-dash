@@ -60,8 +60,10 @@ function* addProjectSaga(action) {
 
 function* deleteProjectSaga(action) {
     try {
-        console.log('in deleteProjectSaga', action.payload)
-        yield axios.delete('/api/project/' + action.payload.project_id)
+        
+        let url = `/api/project?project_id=${action.payload.project_id}`
+        console.log('in deleteProjectSaga', action.payload, url)
+        yield axios.delete(url)
         yield put({ type: 'FETCH_PROJECTS' })
 
     }
