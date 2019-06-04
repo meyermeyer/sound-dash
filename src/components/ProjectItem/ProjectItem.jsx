@@ -1,6 +1,6 @@
-import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
 
 import './ProjectItem.css'
 
@@ -39,6 +39,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ControlledExpansionPanels(props) {
+    const [initialized, setInitialized] = useState(false);
+    useEffect(()=>{
+        if (!initialized){
+            props.dispatch({ type: 'FETCH_PROJECTS' })
+            setInitialized(true);
+        }
+    })
+    
     const handleDelete = (project) => {
         console.log('in handleDelete', project)
         Swal.fire({
@@ -106,6 +114,7 @@ function ControlledExpansionPanels(props) {
     
 
     return (
+        
         <div className={classes.root}>
             {props.reduxState.projects.map((project, i) => {
                 return (
