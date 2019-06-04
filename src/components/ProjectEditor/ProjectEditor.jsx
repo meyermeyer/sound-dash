@@ -122,9 +122,9 @@ class ProjectEditor extends Component {
     componentDidMount = () => {
         const {id} = this.props.match.params
         console.log('ProjectEditor project_id', id)
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.reduxState.currentProject })
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: this.props.reduxState.currentProject})
+        this.props.dispatch({ type: 'FETCH_FILES', payload: id })
+        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_REGIONS', payload: id })
+        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: id})
     }
     render() {
         console.log('ProjectEditor new file', this.state.newFile)
@@ -134,7 +134,15 @@ class ProjectEditor extends Component {
 
         return (
             <>
-                <h2>{this.props.reduxState.currentProject.name}</h2>
+                {this.props.reduxState.projects.map((project,i)=>{
+                    console.log('project', project.project_id, this.props.match.params)
+                    if(project.project_id == this.props.match.params.id){
+                        return(
+                            <h2>{project.name}</h2>
+                        )
+                    }
+                })}
+                
                 <div>
                     <CurrentUser />
                     <div id="currentCollaborators">

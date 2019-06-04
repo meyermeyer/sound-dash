@@ -40,7 +40,8 @@ function* deleteFileSaga(action) {
 function* fetchFilesSaga(action) {
     console.log('in fetchFilesSaga', action.payload)
     try {
-        const url = '/api/files/' + action.payload.project_id
+        
+        const url =`/api/files?project_id=${action.payload}`
         console.log(url);
         const allFiles = yield axios.get(url);
         yield put({ type: 'STORE_FILES', payload: allFiles.data })

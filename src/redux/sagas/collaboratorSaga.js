@@ -8,7 +8,7 @@ function* collaboratorSaga() {
 
 function* addCollaboratorSaga(action){
     
-    let url = `/api/collaborators?project_id=${action.payload.project_id}`
+    let url = `/api/collaborators?project_id=${action.payload}`
     console.log('in addCollaboratorSaga', action.payload, url);
     yield action.payload.collaborators.map(collaborator=>{
         return(
@@ -20,7 +20,7 @@ function* addCollaboratorSaga(action){
 
 function* fetchCollaboratorsSaga(action) {
     console.log('in fetchCollaboratorsSaga', action.payload)
-    let url = `/api/collaborators?project_id=${action.payload.project_id}`
+    let url = `/api/collaborators?project_id=${action.payload}`
     let allCollaborators = yield axios.get(url) 
     console.log('in fetchCollaboratorsSaga',allCollaborators)
     yield put({ type:'STORE_COLLABORATORS', payload: allCollaborators.data})

@@ -81,9 +81,9 @@ function ControlledExpansionPanels(props) {
     };
     const handleOpen = (project) => {
         console.log('in handleOpen', project)
-        props.history.push('/project-editor')
-        props.dispatch({ type:'SELECT_PROJECT', payload: project})
-        props.dispatch({ type: 'FETCH_FILES', payload: props.reduxState.currentProject })
+        props.history.push(`/project-editor/${project.project_id}`)
+        // props.dispatch({ type:'SELECT_PROJECT', payload: project})
+        // props.dispatch({ type: 'FETCH_FILES', payload: props.reduxState.currentProject })
     }
     // const handleEdit = (project) => {
     //     console.log('in handleEdit')
