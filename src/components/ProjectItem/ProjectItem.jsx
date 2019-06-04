@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import './ProjectItem.css'
 
@@ -40,7 +41,29 @@ const useStyles = makeStyles(theme => ({
 function ControlledExpansionPanels(props) {
     const handleDelete = (project) => {
         console.log('in handleDelete', project)
-        props.dispatch({ type: 'DELETE_PROJECT', payload: project })
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                console.log('in SWAL delete confirmed', project)
+                props.dispatch({ type: 'DELETE_PROJECT', payload: project })
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+            else {
+                console.log('in SWAL delete, cancel', project)
+            }
+        })
+        // props.dispatch({ type: 'DELETE_PROJECT', payload: project })
     }
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
@@ -50,6 +73,7 @@ function ControlledExpansionPanels(props) {
     };
     const handleOpen = (project) => {
         console.log('in handleOpen', project)
+        props.history.push('/project-editor')
         props.dispatch({ type:'SELECT_PROJECT', payload: project})
         props.dispatch({ type: 'FETCH_FILES', payload: props.reduxState.currentProject })
     }
@@ -131,4 +155,5 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-export default connect(mapStateToProps)(ControlledExpansionPanels);
+export default withRouter(connect(mapStateToProps)(ControlledExpansionPanels));
+// withRouter(connect(mapReduxStateToProps)(Review))

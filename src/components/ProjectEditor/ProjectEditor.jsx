@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import TrackList from '../TrackList/TrackList'
+import TrackList from '../TrackList/TrackList.jsx'
 import CurrentUser from '../CurrentUser/CurrentUser'
 import AddCollaborators from '../AddCollaborators/AddCollaborators';
 import Loading from '../Loading/Loading'
+import './ProjectEditor.css'
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
@@ -13,6 +14,8 @@ import { Button, Grid, Card, CardContent } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
 
 
 
@@ -131,16 +134,23 @@ class ProjectEditor extends Component {
                 <h2>{this.props.reduxState.currentProject.name}</h2>
                 <div>
                     <CurrentUser />
-                        <div id="currentCollaborators">
-                            <h3>Shared with:</h3>
-                            {this.props.reduxState.collaborators.map((collaborator,i)=>{
-                                return (
-                                    <p key={i}>{collaborator.username}</p>
-                                )
-                            })}
-                                
-                            
-                        </div>
+                    <div id="currentCollaborators">
+                        <Card>
+                            <CardContent>
+                                <h3>Shared with:</h3>
+                                {this.props.reduxState.collaborators.map((collaborator, i) => {
+                                    return (
+                                        <Chip
+                                            key={i}
+                                            avatar={<Avatar>{this.props.reduxState.user.username.charAt(0).toUpperCase()}</Avatar>}
+                                            label={collaborator.username}
+                                        />
+                                    )
+                                })}
+                            </CardContent>
+                        </Card>
+                        
+                    </div>
                     
                     <AddCollaborators/>
 

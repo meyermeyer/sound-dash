@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+
 // import Time from 'react-time'
 
 import ProjectList from '../ProjectList/ProjectList'
@@ -81,4 +83,8 @@ class UserDashboard extends Component {
     }
 }
 
-export default connect()(UserDashboard)
+const mapStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapStateToProps)(UserDashboard)
