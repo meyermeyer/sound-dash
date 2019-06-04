@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import ProjectItem from '../ProjectItem/ProjectItem'
 
 class ProjectList extends Component {
+    componentDidMount = () => {
+        this.props.dispatch({ type: 'FETCH_PROJECTS' })
+    }
     render() {
         return(
             <ul>
