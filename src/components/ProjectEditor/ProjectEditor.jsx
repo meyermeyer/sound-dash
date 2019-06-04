@@ -106,7 +106,7 @@ class ProjectEditor extends Component {
     }
 
     handleLyricsChange = (event) => {
-        console.log('in handleLyricsChange')
+        console.log('in handleLyricsChange', event.target.value)
         
         this.setState({
             projectData: {
@@ -117,7 +117,7 @@ class ProjectEditor extends Component {
     }
 
     handleNotesChange = (event) => {
-        console.log('in handleNotesChange')
+        console.log('in handleNotesChange', event.target.value)
         this.setState({
             projectData: {
                 ...this.state.projectData,
@@ -128,7 +128,7 @@ class ProjectEditor extends Component {
 
     handleLyricsSubmit = (event) => {
         event.preventDefault();
-        console.log('in handleLyricsSubmit')
+        // console.log('in handleLyricsSubmit')
         if (this.state.inputIsOpen.lyrics){
             console.log('in handleLyricsSubmit')
             this.props.dispatch({

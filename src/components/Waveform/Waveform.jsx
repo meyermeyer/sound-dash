@@ -392,7 +392,7 @@ class Waveform extends React.Component {
                 <CardContent>
                     <div className="wave-timeline"></div>
                     <div className="waveform">
-                        <h3 onClick={this.editTrackName}>{this.checkNameIsClicked()}</h3>
+                        <h3 onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>{this.checkNameIsClicked()}</h3>
 
                         <div onClick={this.handleClick} className='wave'>
                         </div>
