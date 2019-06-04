@@ -34,10 +34,10 @@ router.delete('/', rejectUnauthorizedUser, (req,res) => {
     
     
     if(req.isAuthenticated()){
-        // console.log('isAuthenticated in DELETE /api/project');
+        console.log('isAuthenticated in DELETE /api/project', req.query);
         //some syntax error in this query, waiting for help
         let query = `DELETE FROM "projects" WHERE "projects".id =$1;`
-        pool.query(query,[req.params.id])
+        pool.query(query,[req.query.project_id])
             .then(response => {
                 console.log('in DELETE /api/project', response);
                 res.sendStatus(200)
