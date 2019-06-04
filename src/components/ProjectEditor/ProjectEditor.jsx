@@ -52,6 +52,10 @@ class ProjectEditor extends Component {
         projectData: {
             lyrics: '',
             notes: ''
+        },
+        inputIsOpen: {
+            lyrics: false,
+            notes: false
         }
     }
     //New Track Input functions
@@ -75,8 +79,35 @@ class ProjectEditor extends Component {
     }
 
     //Lyrics and Notes change functions
+    setLyricsInput = () => {
+        console.log('in setLyricsInput')
+        if(!this.state.inputIsOpen.lyrics){
+            this.setState({
+            ...this.state,
+            inputIsOpen: {
+                ...this.state.inputIsOpen,
+                lyrics: true
+            }
+        })
+        } 
+    }
+
+    setNotesInput = () => {
+        if (!this.state.inputIsOpen.notes) {
+            console.log('in setNotesInput, switching')
+            this.setState({
+                ...this.state,
+                inputIsOpen: {
+                    ...this.state.inputIsOpen,
+                    notes: true
+                }
+            })
+        } 
+    }
+
     handleLyricsChange = (event) => {
-        // console.log('in handleLyricsChange')
+        console.log('in handleLyricsChange')
+        
         this.setState({
             projectData: {
                 ...this.state.projectData,
@@ -86,7 +117,7 @@ class ProjectEditor extends Component {
     }
 
     handleNotesChange = (event) => {
-        // console.log('in handleNotesChange')
+        console.log('in handleNotesChange')
         this.setState({
             projectData: {
                 ...this.state.projectData,
@@ -97,26 +128,48 @@ class ProjectEditor extends Component {
 
     handleLyricsSubmit = (event) => {
         event.preventDefault();
-        // console.log('in handleLyricsSubmit')
-        this.props.dispatch({
-            type: 'UPDATE_PROJECT_DATA',
-            payload: {
-                projectData: this.state.projectData,
-                project_id: this.props.match.params
-            }
-        })
+        console.log('in handleLyricsSubmit')
+        if (this.state.inputIsOpen.lyrics){
+            console.log('in handleLyricsSubmit')
+            this.props.dispatch({
+                type: 'UPDATE_PROJECT_DATA',
+                payload: {
+                    projectData: this.state.projectData,
+                    project_id: this.props.match.params
+                }
+            })
+            this.setState({
+                ...this.state,
+                inputIsOpen: {
+                    ...this.state.inputIsOpen,
+                    lyrics: false
+                }
+            })
+        }
+        
     }
 
     handleNotesSubmit = (event) => {
         event.preventDefault();
         console.log('in handleNotesSubmit', this.props.reduxState);
-        this.props.dispatch({
-            type: 'UPDATE_PROJECT_DATA',
-            payload: {
-                projectData: this.state.projectData,
-                project_id: this.props.match.params
-            }
-        })
+        if (this.state.inputIsOpen.notes){
+            console.log('in handleNotesSubmit', this.state.inputIsOpen)
+            this.props.dispatch({
+                type: 'UPDATE_PROJECT_DATA',
+                payload: {
+                    projectData: this.state.projectData,
+                    project_id: this.props.match.params
+                }
+            })
+            this.setState({
+                ...this.state,
+                inputIsOpen: {
+                    ...this.state.inputIsOpen,
+                    notes: false
+                }
+            })
+        }
+        
     }
 
     componentDidMount = () => {
@@ -129,6 +182,7 @@ class ProjectEditor extends Component {
     render() {
         console.log('ProjectEditor new file', this.state.newFile)
         console.log('ProjectEditor project data', this.state.projectData);
+        console.log('local state:', this.state.inputIsOpen)
         
 
 
@@ -203,6 +257,7 @@ class ProjectEditor extends Component {
                                         className={this.props.classes.textField}
                                         margin="normal"
                                         onChange={this.handleLyricsChange}
+                                        onClick={this.setLyricsInput}
                                         // onSubmit={this.handleLyricsSubmit}
                                         // value={this.props.reduxState.currentProject.lyrics}
                                     />
@@ -220,6 +275,7 @@ class ProjectEditor extends Component {
                                         className={this.props.classes.textField}
                                         margin="normal"
                                         onChange={this.handleNotesChange}
+                                        onClick={this.setNotesInput}
                                         // onSubmit={this.handleNotesSubmit}
                                         // value={this.props.reduxState.currentProject.notes}
                                     />

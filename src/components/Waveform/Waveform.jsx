@@ -237,7 +237,10 @@ class Waveform extends React.Component {
         }
     }
     //function re-renders track header as input field on click for track title update
-    editTrackName = () => {
+    editTrackName = (event) => {
+        if (document.activeElement!=event.target){
+            console.log('cool')
+        }
         console.log('in editTrackName', this.state.trackNameIsClicked);
         // this.setState({
         //     ...this.state,
@@ -378,6 +381,7 @@ class Waveform extends React.Component {
 
     render() {
         // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.props.reduxState.currentProject.project_id } })
+        console.log('currently selected', document.activeElement)
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
         console.log('this.state.newRegion', this.state.newRegion);
