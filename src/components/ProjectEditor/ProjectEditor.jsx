@@ -139,10 +139,11 @@ class ProjectEditor extends Component {
                             <CardContent>
                                 <h3>Shared with:</h3>
                                 {this.props.reduxState.collaborators.map((collaborator, i) => {
+                                    if(collaborator.id!=this.props.reduxState.user.id)
                                     return (
                                         <Chip
                                             key={i}
-                                            avatar={<Avatar>{this.props.reduxState.user.username.charAt(0).toUpperCase()}</Avatar>}
+                                            avatar={<Avatar>{collaborator.username.charAt(0).toUpperCase()}</Avatar>}
                                             label={collaborator.username}
                                         />
                                     )

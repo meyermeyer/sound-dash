@@ -325,13 +325,6 @@ class Waveform extends React.Component {
     }
 
     componentDidMount() {
-        // console.log('WaveSurfer object:', WaveSurfer);
-        // console.log('props', this.props.file);
-
-        // update track name
-        // this.setState({
-        //     trackName: this.props.file.track_name
-        // })
         this.$el = ReactDOM.findDOMNode(this)
         this.$waveform = this.$el.querySelector('.wave')
         this.wavesurfer = WaveSurfer.create({
