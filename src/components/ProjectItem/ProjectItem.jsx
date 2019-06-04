@@ -39,13 +39,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ControlledExpansionPanels(props) {
-    const [initialized, setInitialized] = useState(false);
-    useEffect(()=>{
-        if (!initialized){
-            props.dispatch({ type: 'FETCH_PROJECTS' })
-            setInitialized(true);
-        }
-    })
+    // const [initialized, setInitialized] = useState(false);
+    // useEffect(()=>{
+    //     if (!initialized){
+    //         props.dispatch({ type: 'FETCH_PROJECTS' })
+    //         setInitialized(true);
+    //     }
+    // })
     
     const handleDelete = (project) => {
         console.log('in handleDelete', project)

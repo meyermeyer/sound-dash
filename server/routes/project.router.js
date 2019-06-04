@@ -7,7 +7,7 @@ router.get('/', (req,res) => {
     // console.log('in GET /api/project');
     // console.log('is authenticated?', req.isAuthenticated());
     // console.log('user', req.user);
-    
+    console.log('in GET /api/projects')
     if(req.isAuthenticated()){
         // console.log('isAuthenticated in GET /api/project');
         let query = `SELECT * FROM "projects" JOIN "users_projects"
@@ -16,6 +16,7 @@ router.get('/', (req,res) => {
                     ORDER BY "projects".id;`
         pool.query(query,[req.user.id])
             .then((result => {
+                console.log('in .then /api/project')
                 res.send(result.rows)
             }))
             .catch(error => {

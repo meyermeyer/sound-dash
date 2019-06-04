@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, BrowserRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TrackList from '../TrackList/TrackList.jsx'
@@ -120,6 +120,8 @@ class ProjectEditor extends Component {
     }
 
     componentDidMount = () => {
+        const {id} = this.props.match.params
+        console.log('ProjectEditor project_id', id)
         this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
         this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.reduxState.currentProject })
         this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: this.props.reduxState.currentProject})
@@ -127,6 +129,7 @@ class ProjectEditor extends Component {
     render() {
         console.log('ProjectEditor new file', this.state.newFile)
         console.log('ProjectEditor project data', this.state.projectData);
+        
 
 
         return (
