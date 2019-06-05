@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link, BrowserRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Upload from '../Upload/Upload'
+import UppyModal from '../UppyModal/UppyModal'
 import TrackList from '../TrackList/TrackList.jsx'
 import CurrentUser from '../CurrentUser/CurrentUser'
 import AddCollaborators from '../AddCollaborators/AddCollaborators';
@@ -188,6 +190,9 @@ class ProjectEditor extends Component {
 
         return (
             <>
+                <Upload/>
+
+                <UppyModal/>
                 {this.props.reduxState.projects.map((project,i)=>{
                     console.log('project', project.project_id, this.props.match.params)
                     if(project.project_id == this.props.match.params.id){

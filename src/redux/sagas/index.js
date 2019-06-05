@@ -6,6 +6,7 @@ import projectSaga from './projectSaga';
 import fileSaga from './fileSaga';
 import regionSaga from './regionSaga';
 import collaboratorSaga from './collaboratorSaga';
+import uploadSaga from './uploadSaga'
 
 
 export default function* rootSaga() {
@@ -16,7 +17,8 @@ export default function* rootSaga() {
     projectSaga(),
     fileSaga(),
     regionSaga(),
-    collaboratorSaga()
+    collaboratorSaga(),
+    uploadSaga()
 
   ]);
 }
