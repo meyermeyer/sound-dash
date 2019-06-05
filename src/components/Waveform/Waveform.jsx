@@ -120,77 +120,82 @@ class Waveform extends React.Component {
 
     
     createRegion = (region) => {
-        console.log('created region', region);
-        this.wavesurfer.on('region-update-complete',()=>this.addNewRegion(region))
-    //     r
-    // }
-    // saveRegions = (region) => {
-    //     //sweet alert for labeling region
-    //     // Swal.fire({
-    //     //     title: 'New Region',
-    //     //     text: 'Region',
-    //     //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
-    //     //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
-    //     //     confirmButtonText: 'Create',
-    //     //     showCancelButton: true,
-    //     //     allowEnterKey: true,
-    //     //     //capture input text
-    //     //     preConfirm: () => {
-
-    //     //         let regionTag = document.getElementById('regionTagInput').value;
-    //     //         let regionNotes = document.getElementById('regionNotesInput').value;
-    //     //         console.log('SWAL', regionTag, regionNotes);
-
-    //     //         // update 'region' created by clicking to include user's data
-    //     //         region.update({
-    //     //             data: {
-    //     //                 regionTag,
-    //     //                 regionNotes
-    //     //             }
-    //     //         })
-
-    //     //     }
-    //     // })
-    //     console.log('updated region', region);
-
-    //     // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
-
-    //     //add regions.list objects to array
-    //     let regionsArray = []
-    //     for (let i in this.wavesurfer.regions.list) {
-    //         regionsArray.push(this.wavesurfer.regions.list[i])
-    //     }
+        // console.log('region start', Object.keys(region),Object.values(region),region.start)
+        console.log('created region', region, region.start, region.end);
+        // console.log('color', region.color)
         
-    //     console.log('in saveRegions', this.wavesurfer.regions.list);
-    //     console.log('regionsArray', regionsArray);
+        // this.wavesurfer.on('region-update-complete',()=>this.addNewRegion(region))
+        region.on('update', console.log('updating', region))
+        
+    }
+    saveRegions = (region) => {
+        //sweet alert for labeling region
+        // Swal.fire({
+        //     title: 'New Region',
+        //     text: 'Region',
+        //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+        //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+        //     confirmButtonText: 'Create',
+        //     showCancelButton: true,
+        //     allowEnterKey: true,
+        //     //capture input text
+        //     preConfirm: () => {
 
-    //     this.wavesurfer.regions.list && this.setState({
-    //         ...this.state,
-    //         regionsArray: regionsArray
-    //     })
+        //         let regionTag = document.getElementById('regionTagInput').value;
+        //         let regionNotes = document.getElementById('regionNotesInput').value;
+        //         console.log('SWAL', regionTag, regionNotes);
 
-    //     let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
-    //     this.setState({
-    //         ...this.state,
-    //         newRegion: {
-    //             start: newRegion.start,
-    //             end: newRegion.end,
-    //             data: newRegion.data,
-    //             file_id: this.props.file.id,
-    //             region_id: newRegion.id
-    //         }
-    //     })
+        //         // update 'region' created by clicking to include user's data
+        //         region.update({
+        //             data: {
+        //                 regionTag,
+        //                 regionNotes
+        //             }
+        //         })
+
+        //     }
+        // })
+        console.log('updated region', region);
+
+        // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
+
+        //add regions.list objects to array
+        let regionsArray = []
+        for (let i in this.wavesurfer.regions.list) {
+            regionsArray.push(this.wavesurfer.regions.list[i])
+        }
+        
+        console.log('in saveRegions', this.wavesurfer.regions.list);
+        console.log('regionsArray', regionsArray);
+
+        this.wavesurfer.regions.list && this.setState({
+            ...this.state,
+            regionsArray: regionsArray
+        })
+
+        let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
+        this.setState({
+            ...this.state,
+            newRegion: {
+                start: newRegion.start,
+                end: newRegion.end,
+                data: newRegion.data,
+                file_id: this.props.file.id,
+                region_id: newRegion.id
+            }
+        })
 
         
-        //send newRegion to saga to save in database
-        // region.created = ()=>{
-        //     console.log('new region crreated')
+        // send newRegion to saga to save in database
+        region.created = ()=>{
+            console.log('new region crreated')
             
-        // }
+        }
         // this.wavesurfer.regions.list.map(region=>{
         //     if(region.id != this.state.newRegion.region_id)
         // })
-        // this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id } })
+
+        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id } })
         
         
 
@@ -360,10 +365,10 @@ class Waveform extends React.Component {
         // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
         // this.wavesurfer .load(dogBarking);
         console.log(this.wavesurfer.regions);
-        // this.wavesurfer.on('region-update-end', this.saveRegions);
+        this.wavesurfer.on('region-update-end', this.createRegion);
         this.wavesurfer.on('loading', this.handleLoading)
         this.wavesurfer.on('ready', this.loadRegions)
-        this.wavesurfer.on('region-created', this.createRegion)
+        // this.wavesurfer.on('region-created', this.createRegion)
         this.wavesurfer.on('region-mouseenter', this.handleHover)
         this.wavesurfer.on('region-dblclick', this.loopRegion)
         // this.wavesurfer.on('region-click', this.labelRegion)

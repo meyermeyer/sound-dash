@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import './Upload.css'
 import axios from 'axios';
+import {withRouter} from 'react-router'
+
 
 class Upload extends Component {
     state = {
@@ -18,11 +20,13 @@ class Upload extends Component {
 
     handleUpload = () =>{
         console.log('in handleUpload', this.state.selectedFile)
-        const formData = {
-            file: this.state.selectedFile
-        }
+        let trackNumber = this.props.reduxState.files.length + 1
+        let name = 'Track ' + trackNumber
         // data.append('file', this.state.selectedFile)
-        this.props.dispatch({ type: 'SAVE_FILE', payload: formData})
+        this.props.dispatch({ type: 'SAVE_FILE', payload: {
+                                                    file:this.state.selectedFile,
+                                                    project_id: this.props.match.params.id,
+                                                    track_name: name}})
     }
 
     render(){
@@ -50,5 +54,7 @@ class Upload extends Component {
         )
     }
 };
-
-export default connect()(Upload)
+const mapStateToProps = reduxState => ({
+    reduxState
+});
+export default withRouter(connect(mapStateToProps)(Upload))

@@ -192,7 +192,7 @@ class ProjectEditor extends Component {
             <>
                 <Upload/>
 
-                <UppyModal/>
+                {/* <UppyModal/> */}
                 {this.props.reduxState.projects.map((project,i)=>{
                     console.log('project', project.project_id, this.props.match.params)
                     if(project.project_id == this.props.match.params.id){
