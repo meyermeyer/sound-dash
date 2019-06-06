@@ -51,15 +51,15 @@ class Waveform extends React.Component {
         console.log('in loadRegions', this.props.reduxState.regions);
         this.allowAnnotation();
         // this.wavesurfer.addRegion()
-        // for (let region of this.props.reduxState.regions) {
-        //     console.log('map regions:', region);
+        for (let region of this.props.reduxState.regions) {
+            console.log('map regions:', region);
 
-        //     if (region.file_id === this.props.file.id) {
-        //         console.log('map regions:', region);
-        //         region.color = this.randomColor(0.1);
-        //         this.wavesurfer.addRegion(region)
-        //     }
-        // }
+            if (region.file_id === this.props.file.id) {
+                console.log('map regions:', region);
+                region.color = this.randomColor(0.1);
+                this.wavesurfer.addRegion(region)
+            }
+        }
     }
 
     allowAnnotation = () => {
@@ -162,12 +162,12 @@ class Waveform extends React.Component {
 
         //add regions.list objects to array
         let regionsArray = []
-        for (let i in this.wavesurfer.regions.list) {
-            regionsArray.push(this.wavesurfer.regions.list[i])
-        }
+        // for (let i in this.wavesurfer.regions.list) {
+        //     regionsArray.push(this.wavesurfer.regions.list[i])
+        // }
         
-        console.log('in saveRegions', this.wavesurfer.regions.list);
-        console.log('regionsArray', regionsArray);
+        // console.log('in saveRegions', this.wavesurfer.regions.list);
+        // console.log('regionsArray', regionsArray);
 
         this.wavesurfer.regions.list && this.setState({
             ...this.state,
@@ -198,6 +198,34 @@ class Waveform extends React.Component {
 
         this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id } })
         
+        
+
+    }
+
+    handleUnmount = () =>{
+        // console.log('this.wavesurfer.list.length',this.wavesurfer.list.length)
+        if(this.wavesurfer.regions.list!={}){
+            console.log('in handleUnmount. wavesurfer.regions.list', this.wavesurfer.regions.list)
+            let regionsArray = []
+            for (let i in this.wavesurfer.regions.list) {
+                regionsArray.push(this.wavesurfer.regions.list[i])
+            }
+
+            console.log('in handleUnmount', this.wavesurfer.regions.list);
+            console.log('regionsArray', regionsArray);
+            regionsArray.map(currentRegion=>{
+                this.props.reduxState.regions.map(loadedRegion => {
+                    console.log('reduxState regions', loadedRegion)
+                    console.log('each currentRegion', currentRegion)
+                    if (loadedRegion.wavesurfer_id == currentRegion.id){
+                        console.log('region already in redux')
+                    }
+                })
+            })
+            
+
+            
+        }
         
 
     }
@@ -319,9 +347,9 @@ class Waveform extends React.Component {
 
     //file play functions
 
-    // handleLoading = () =>{
-    //     console.log('loading waveform')
-    // }
+    handleLoading = () =>{
+        console.log('loading waveform')
+    }
     playAudio = () => {
         this.wavesurfer.play();
     }
@@ -333,10 +361,9 @@ class Waveform extends React.Component {
     stopAudio = () => {
         this.wavesurfer.stop();
     }
-
-    componentWillUnmount() {
-        console.log('component unmounting')
-        this.saveRegions()
+    componentWillUnmount(){
+        console.log('unmounting')
+        this.handleUnmount()
     }
 
     componentDidMount() {
@@ -364,10 +391,10 @@ class Waveform extends React.Component {
         // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
         // this.wavesurfer .load(dogBarking);
         console.log(this.wavesurfer.regions);
-        // this.wavesurfer.on('region-update-end', this.createRegion);
+        this.wavesurfer.on('region-update-end', this.createRegion);
         this.wavesurfer.on('loading', this.handleLoading)
         this.wavesurfer.on('ready', this.loadRegions)
-        this.wavesurfer.on('region-created', this.createRegion)
+        // this.wavesurfer.on('region-created', this.createRegion)
         this.wavesurfer.on('region-mouseenter', this.handleHover)
         this.wavesurfer.on('region-dblclick', this.loopRegion)
         // this.wavesurfer.on('region-click', this.labelRegion)
@@ -384,6 +411,7 @@ class Waveform extends React.Component {
     // }
 
     render() {
+        // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.props.reduxState.currentProject.project_id } })
         console.log('currently selected', document.activeElement)
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
