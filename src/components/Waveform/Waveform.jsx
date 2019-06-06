@@ -313,6 +313,7 @@ class Waveform extends React.Component {
         this.setState({
             trackName: this.props.file.track_name
         })
+        this.wavesurfer.load(this.props.file.path, null, 'auto');
     }
 
 
@@ -353,15 +354,7 @@ class Waveform extends React.Component {
             
             ]
         })
-        // this.$waveform2 = this.$el.querySelector('.wave2')
-        // this.wavesurfer2 = WaveSurfer.create({
-        //     container: this.$waveform2,
-        //     waveColor: 'violet',
-        //     progressColor: 'purple',
-        //     backend: 'MediaElement',
-        //     plugins: [MicrophonePlugin.create({})]
-        // })
-        // this.wavesurfer.load('https://sound-dash.s3.us-east-2.amazonaws.com/dunn.mp3', null,'auto');
+        
         this.wavesurfer.load(this.props.file.path, null,'auto');
         // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
         // this.wavesurfer .load(dogBarking);
@@ -403,7 +396,7 @@ class Waveform extends React.Component {
 
                         <div onClick={this.handleClick} className='wave'>
                         </div>
-                        <div className='wave2'></div>
+                        {/* <div className='wave2'></div> */}
                         <ThemeProvider theme={theme}>
                             <Button onClick={this.playAudio} aria-label="play audio" variant="contained" color="primary">Play
                         <i className="material-icons">

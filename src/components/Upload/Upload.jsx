@@ -19,7 +19,7 @@ class Upload extends Component {
     }
 
     handleUpload = () =>{
-        console.log('in handleUpload', this.state.selectedFile)
+        // console.log('in handleUpload', this.state.selectedFile)
         let trackNumber = this.props.reduxState.files.length + 1
         let name = 'Track ' + trackNumber
         // data.append('file', this.state.selectedFile)
@@ -45,13 +45,7 @@ class Upload extends Component {
                         
                     </div>
                 </div>
-                <input type="file" name="file" />
             </div>
-            // <div>
-            //     <label>Upload Your File</label>
-            //     <input type="file"/>
-            //     <button type="button">Upload</button>
-            // </div>
         )
     }
 };

@@ -8,7 +8,7 @@ function *uploadSaga (){
 
 function* saveFileSaga(action) {
     try {
-        console.log('in sageFileSaga', action.payload.file)
+        console.log('in saveFileSaga', action.payload.file)
         const data = new FormData();
         data.append('file', action.payload.file);
         const url =`/upload?project_id=${action.payload.project_id}&track_name=${action.payload.track_name}`
@@ -19,13 +19,15 @@ function* saveFileSaga(action) {
                 'Content-Type': action.payload.type
             }
         })
+        console.log('in saveFileSaga, response', response)
+        yield put({ type: 'FETCH_FILES', payload: action.payload.project_id })
     }
     catch(error){
         console.log('error in saveFileSaga', error)
     }
     
-    console.log('in saveFileSaga', action.payload)
-    // try {
+    // console.log('in saveFileSaga2', action.payload)
+    // // try {
     //     yield axios.post('/test-upload', action.payload)
     // }
     // catch(error){

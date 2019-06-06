@@ -14,6 +14,14 @@ router.post('/', rejectUnauthenticated, rejectUnauthorizedUser, upload.single('f
     const query = `INSERT INTO "files" ("track_name","path","project_id")
                     VALUES ($1,$2,$3)`
     pool.query(query,[req.query.track_name,id,req.query.project_id])
+        .then(response=>{
+            console.log('back from POST /upload', response)
+            res.sendStatus(204)
+        })
+        .catch(err=>{
+            console.log('error in POST /upload', err);
+            res.sendStatus(500)
+        })
 });
 
 // router.post('/', upload.single('file'), (req, res) => {

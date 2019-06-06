@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, BrowserRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Upload from '../Upload/Upload'
@@ -8,6 +8,8 @@ import TrackList from '../TrackList/TrackList.jsx'
 import CurrentUser from '../CurrentUser/CurrentUser'
 import AddCollaborators from '../AddCollaborators/AddCollaborators';
 import Loading from '../Loading/Loading'
+import Microphone from '../Microphone/Microphone'
+import ReactMicrophone from '../ReactMicrophone/ReactMicrophone'
 import './ProjectEditor.css'
 
 //materialUI
@@ -191,7 +193,8 @@ class ProjectEditor extends Component {
         return (
             <>
                 <Upload/>
-
+                <Microphone/>
+                <ReactMicrophone/>
                 {/* <UppyModal/> */}
                 {this.props.reduxState.projects.map((project,i)=>{
                     console.log('project', project.project_id, this.props.match.params)
