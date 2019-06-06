@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Waveform from '../Waveform/Waveform'
 
 
-class TrackItem extends Component {
+class TrackList extends Component {
     
 
     render() {
@@ -17,7 +17,7 @@ class TrackItem extends Component {
                 {this.props.reduxState.files.map(((file,i)=>{
                     return(
                         <>
-                            <Waveform file={file}/>
+                            <Waveform key={i} file={file}/>
                         </>
                     )
                     
@@ -31,4 +31,4 @@ class TrackItem extends Component {
 const mapStateToProps = reduxState => ({
     reduxState
 });
-export default connect(mapStateToProps)(TrackItem)
+export default connect(mapStateToProps)(TrackList)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import './Upload.css'
-import axios from 'axios';
+import LoadSpinner from '../LoadSpinner/LoadSpinner'
 import {withRouter} from 'react-router'
 
 
@@ -32,20 +32,22 @@ class Upload extends Component {
     render(){
         console.log('in handleUpload', this.state.selectedFile)
         return(
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-6">
-                        <form method="post" action="#" id="#">
-                            <div className="form-group files">
-                                <label>Upload Your File</label>
-                                <input type="file" name="file" onChange={this.onChangeHandler}/>
-                                <button type="button" className="btn btn-success btn-block" onClick={this.handleUpload}>Upload</button>
-                            </div>
-                        </form>
+            <input type="file" name="file" onChange={this.onChangeHandler} />
+            // <div className="container">
+                // <div className="row">
+                    // <div className="col-md-6">
+                        // {/* <form > */}
+                            // <div className="form-group files">
+                                // <label>Upload Your File</label>
+                                
+                                // <button type="button" className="btn btn-success btn-block" onClick={this.handleUpload}>Upload</button>
+                            // </div>
+                        // {/* </form> */}
                         
-                    </div>
-                </div>
-            </div>
+                    // </div>
+                // </div>
+                // <LoadSpinner handleUpload={this.handleUpload}/>
+            // </div>
         )
     }
 };

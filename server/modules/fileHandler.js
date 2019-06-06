@@ -90,9 +90,11 @@ function uploadToS3(file, res) {
 }
 
 const sendUrlToRouter = async (req, media_key, res) => {
-    const signedUrl = await generateSignedUrl(media_key)
-    console.log('signedUrl', signedUrl)
-    return signedUrl
+    // const signedUrl = await generateSignedUrl(media_key)
+    // console.log('signedUrl', signedUrl, media_key)
+    // return signedUrl
+    const url = `https://sound-dash.s3.us-east-2.amazonaws.com/${media_key}`
+    return url
     // return new Promise(resolve => {
         
     //     const queryText = `INSERT INTO "files" ("path") VALUES ($1) RETURNING id`;

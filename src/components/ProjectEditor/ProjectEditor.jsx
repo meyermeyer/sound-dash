@@ -8,6 +8,7 @@ import TrackList from '../TrackList/TrackList.jsx'
 import CurrentUser from '../CurrentUser/CurrentUser'
 import AddCollaborators from '../AddCollaborators/AddCollaborators';
 import Loading from '../Loading/Loading'
+import LoadSpinner from '../LoadSpinner/LoadSpinner'
 import Microphone from '../Microphone/Microphone'
 import ReactMicrophone from '../ReactMicrophone/ReactMicrophone'
 import './ProjectEditor.css'
@@ -20,8 +21,11 @@ import { ThemeProvider } from '@material-ui/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
-
-
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Fab from '@material-ui/core/Fab';
+import CheckIcon from '@material-ui/icons/Check';
+import SaveIcon from '@material-ui/icons/Save';
 
 
 const theme = createMuiTheme({
@@ -45,6 +49,7 @@ const styles = (theme) => {
         }
     }
 };
+
 
 
 class ProjectEditor extends Component {
