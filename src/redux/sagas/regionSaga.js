@@ -26,7 +26,7 @@ function* saveRegionSaga(action) {
     try{
     const url = `/api/region?project_id=${action.payload.project_id.id}`
     yield axios.post(url, action.payload)
-        yield put({ type: 'FETCH_REGIONS', payload: { project_id: action.payload.project_id}})
+        yield put({ type: 'FETCH_REGIONS', payload: { project_id: action.payload.project_id.id}})
     
     }
     catch (err){

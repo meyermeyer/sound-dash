@@ -52,12 +52,13 @@ class Waveform extends React.Component {
         this.allowAnnotation();
         // this.wavesurfer.addRegion()
         for (let region of this.props.reduxState.regions) {
-            console.log('map regions:', region);
+            // console.log('map regions:', region);
 
             if (region.file_id === this.props.file.id) {
-                console.log('map regions:', region);
+                // console.log('map regions:', region);
                 region.color = this.randomColor(0.1);
                 this.wavesurfer.addRegion(region)
+                console.log('loading regions',this.wavesurfer.regions.list)
             }
         }
     }
@@ -215,10 +216,23 @@ class Waveform extends React.Component {
             console.log('regionsArray', regionsArray);
             regionsArray.map(currentRegion=>{
                 this.props.reduxState.regions.map(loadedRegion => {
-                    console.log('reduxState regions', loadedRegion)
-                    console.log('each currentRegion', currentRegion)
-                    if (loadedRegion.wavesurfer_id == currentRegion.id){
-                        console.log('region already in redux')
+                    console.log('reduxState regions', loadedRegion, 'current region', currentRegion )
+                    let newRegion={}
+                    // console.log('each currentRegion', currentRegion)
+                    if (loadedRegion.id == currentRegion.id){
+                        console.log('region already in database')
+                    }
+                    else{
+                        console.log('region is not in the database')
+                        newRegion = {
+                            id: currentRegion.id,
+                            start: currentRegion.start,
+                            end: currentRegion.end,
+                            data: currentRegion.data,
+                            file_id: this.props.file.id
+
+                        }
+                        this.props.dispatch({ type:'SEND_REGIONS', payload:{region: newRegion, project_id:this.props.match.params}})
                     }
                 })
             })
