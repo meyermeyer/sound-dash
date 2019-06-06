@@ -87,7 +87,6 @@ class UppyModal extends Component {
                     onRequestClose={this.handleUploadModalClose}
                 />
                 <button onClick={this.handleUploadModalOpen}>add new files</button>
-                <button onClick={this.handleClick}>AWS tester</button>
             </div>
         );
     }

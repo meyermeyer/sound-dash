@@ -16,7 +16,7 @@ export default function LinearDeterminate() {
         function progress() {
             setCompleted(oldCompleted => {
                 if (oldCompleted === 100) {
-                    return 0;
+                    return 100;
                 }
                 const diff = Math.random() * 10;
                 return Math.min(oldCompleted + diff, 100);
@@ -32,8 +32,8 @@ export default function LinearDeterminate() {
     return (
         <div className={classes.root}>
             <LinearProgress variant="determinate" value={completed} />
-            <br />
-            <LinearProgress color="secondary" variant="determinate" value={completed} />
+            {/* <br />
+            <LinearProgress color="secondary" variant="determinate" value={completed} /> */}
         </div>
     );
 }

@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import Swal from 'sweetalert2'
 import './Waveform.css'
 
+import Loading from '../Loading/Loading'
 //MUI stuff
 import { Button, icons, CardContent, Card } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -395,6 +396,7 @@ class Waveform extends React.Component {
         return (
             <Card>
                 <CardContent>
+                    <Loading/>
                     <div className="wave-timeline"></div>
                     <div className="waveform">
                         <h3 onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>{this.checkNameIsClicked()}</h3>

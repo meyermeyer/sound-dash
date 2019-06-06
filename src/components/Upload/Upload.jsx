@@ -45,6 +45,7 @@ class Upload extends Component {
                         
                     </div>
                 </div>
+                <input type="file" name="file" />
             </div>
             // <div>
             //     <label>Upload Your File</label>
