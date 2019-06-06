@@ -70,7 +70,7 @@ class Waveform extends React.Component {
     }
 
     handleHover = (region) => {
-        console.log('hovering over', region.data.regionTag);
+        console.log('hovering over', region.start, region.end);
     }
 
     addNewRegion = (region) => {
@@ -122,11 +122,11 @@ class Waveform extends React.Component {
     
     createRegion = (region) => {
         // console.log('region start', Object.keys(region),Object.values(region),region.start)
-        console.log('created region', region, region.start, region.end);
+        console.log('created region');
         // console.log('color', region.color)
         
-        // this.wavesurfer.on('region-update-complete',()=>this.addNewRegion(region))
-        region.on('update', console.log('updating', region))
+        // this.wavesurfer.on('region-update-end',console.log('update end'), ()=>this.addNewRegion())
+        // region.on('update', console.log('updating', region))
         
     }
     saveRegions = (region) => {
@@ -319,9 +319,9 @@ class Waveform extends React.Component {
 
     //file play functions
 
-    handleLoading = () =>{
-        console.log('loading waveform')
-    }
+    // handleLoading = () =>{
+    //     console.log('loading waveform')
+    // }
     playAudio = () => {
         this.wavesurfer.play();
     }
@@ -332,6 +332,11 @@ class Waveform extends React.Component {
 
     stopAudio = () => {
         this.wavesurfer.stop();
+    }
+
+    componentWillUnmount() {
+        console.log('component unmounting')
+        this.saveRegions()
     }
 
     componentDidMount() {
@@ -359,10 +364,10 @@ class Waveform extends React.Component {
         // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
         // this.wavesurfer .load(dogBarking);
         console.log(this.wavesurfer.regions);
-        this.wavesurfer.on('region-update-end', this.createRegion);
+        // this.wavesurfer.on('region-update-end', this.createRegion);
         this.wavesurfer.on('loading', this.handleLoading)
         this.wavesurfer.on('ready', this.loadRegions)
-        // this.wavesurfer.on('region-created', this.createRegion)
+        this.wavesurfer.on('region-created', this.createRegion)
         this.wavesurfer.on('region-mouseenter', this.handleHover)
         this.wavesurfer.on('region-dblclick', this.loopRegion)
         // this.wavesurfer.on('region-click', this.labelRegion)
@@ -379,7 +384,6 @@ class Waveform extends React.Component {
     // }
 
     render() {
-        // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.props.reduxState.currentProject.project_id } })
         console.log('currently selected', document.activeElement)
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);

@@ -67,7 +67,9 @@ class ProjectEditor extends Component {
             notes: false
         }
     }
-    //New Track Input functions
+
+
+    // New Track Input functions
     handleChange = (event) => {
         console.log('in handleChange', event.target.value);
         console.log('trackNumber:', trackNumber)
@@ -135,9 +137,9 @@ class ProjectEditor extends Component {
         })
     }
 
-    handleLyricsSubmit = (event) => {
-        event.preventDefault();
-        // console.log('in handleLyricsSubmit')
+    handleLyricsSubmit = () => {
+        // event.preventDefault();
+        console.log('in handleLyricsSubmit')
         if (this.state.inputIsOpen.lyrics){
             console.log('in handleLyricsSubmit')
             this.props.dispatch({
@@ -158,8 +160,8 @@ class ProjectEditor extends Component {
         
     }
 
-    handleNotesSubmit = (event) => {
-        event.preventDefault();
+    handleNotesSubmit = () => {
+        // event.preventDefault();
         console.log('in handleNotesSubmit', this.props.reduxState);
         if (this.state.inputIsOpen.notes){
             console.log('in handleNotesSubmit', this.state.inputIsOpen)
@@ -248,8 +250,8 @@ class ProjectEditor extends Component {
                                 library_add
                             </i>
                         </Button>
-                    </ThemeProvider>
-                    {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
+                    </ThemeProvider> */}
+                    <input aria-label="web url" type="text" placeholder="web url"></input>
                     <Grid container>
                         <Loading/>
                         <Grid item xs={8}>
@@ -261,7 +263,7 @@ class ProjectEditor extends Component {
 
                             <Grid item xs={6}>
 
-                                <ClickAwayListener onClickAway={this.handleLyricsSubmit}>
+                                 {/* <ClickAwayListener onClickAway={this.handleLyricsSubmit}> */}
                                     <TextField
                                         id="lyrics-textarea"
                                         label="Lyrics"
@@ -271,15 +273,15 @@ class ProjectEditor extends Component {
                                         margin="normal"
                                         onChange={this.handleLyricsChange}
                                         onClick={this.setLyricsInput}
-                                        // onSubmit={this.handleLyricsSubmit}
+                                        onSubmit={this.handleLyricsSubmit}
                                         // value={this.props.reduxState.currentProject.lyrics}
                                     />
-                                </ClickAwayListener>
+                                {/* </ClickAwayListener> */}
 
                             </Grid>
 
                             <Grid item sm={6} >
-                                <ClickAwayListener onClickAway={this.handleNotesSubmit}>
+                                {/* <ClickAwayListener onClickAway={this.handleNotesSubmit}> */}
                                     <TextField
                                         id="notes-textarea"
                                         label="Notes"
@@ -289,10 +291,10 @@ class ProjectEditor extends Component {
                                         margin="normal"
                                         onChange={this.handleNotesChange}
                                         onClick={this.setNotesInput}
-                                        // onSubmit={this.handleNotesSubmit}
+                                        onSubmit={this.handleNotesSubmit}
                                         // value={this.props.reduxState.currentProject.notes}
                                     />
-                                </ClickAwayListener>
+                                {/* </ClickAwayListener> */}
 
                             </Grid>
 
@@ -315,5 +317,5 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-// export default withStyles(styles)connect(mapStateToProps)(ProjectEditor)
+
 export default connect(mapStateToProps)(withStyles(styles)(ProjectEditor))

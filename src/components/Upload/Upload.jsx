@@ -32,22 +32,22 @@ class Upload extends Component {
     render(){
         console.log('in handleUpload', this.state.selectedFile)
         return(
-            <input type="file" name="file" onChange={this.onChangeHandler} />
-            // <div className="container">
-                // <div className="row">
-                    // <div className="col-md-6">
-                        // {/* <form > */}
-                            // <div className="form-group files">
-                                // <label>Upload Your File</label>
-                                
-                                // <button type="button" className="btn btn-success btn-block" onClick={this.handleUpload}>Upload</button>
-                            // </div>
-                        // {/* </form> */}
+            
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6">
+                        <form >
+                            <div className="form-group files">
+                                <label>Upload Your File</label>
+                                    <input type="file" name="file" onChange={this.onChangeHandler} />
+                                {/* <button type="button" className="btn btn-success btn-block" onClick={this.handleUpload}>Upload</button> */}
+                            </div>
+                        </form>
                         
-                    // </div>
-                // </div>
-                // <LoadSpinner handleUpload={this.handleUpload}/>
-            // </div>
+                    </div>
+                </div>
+                <LoadSpinner handleUpload={this.handleUpload}/>
+            </div>
         )
     }
 };
