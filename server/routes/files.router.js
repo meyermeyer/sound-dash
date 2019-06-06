@@ -1,7 +1,8 @@
 const express = require('express');
-const { rejectUnauthorizedUser } = require('../modules/authentication-middleware');
+const { rejectUnauthorizedUser, rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
+const { uploadPost, generateSignedUrls } = require('../modules/fileHandler');
 
 
 router.delete('/', rejectUnauthorizedUser, (req,res)=>{
@@ -53,7 +54,7 @@ router.get('/',(req,res)=>{
     }
 })
 
-//POST for adding files
+// POST for adding files
 router.post('/', rejectUnauthorizedUser, (req,res)=> {
     console.log('in POST /api/files', req.body, req.query)
     if(req.isAuthenticated()){
@@ -74,6 +75,10 @@ router.post('/', rejectUnauthorizedUser, (req,res)=> {
     }
     
 })
+
+
+
+
 
 //PUT route to update file name
 router.put('/', rejectUnauthorizedUser, (req,res)=>{

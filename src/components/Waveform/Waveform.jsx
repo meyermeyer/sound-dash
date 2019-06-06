@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import Swal from 'sweetalert2'
 import './Waveform.css'
 
+import Loading from '../Loading/Loading'
 //MUI stuff
 import { Button, icons, CardContent, Card } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -120,77 +121,82 @@ class Waveform extends React.Component {
 
     
     createRegion = (region) => {
-        console.log('created region', region);
-        this.wavesurfer.on('region-update-complete',()=>this.addNewRegion(region))
-    //     r
-    // }
-    // saveRegions = (region) => {
-    //     //sweet alert for labeling region
-    //     // Swal.fire({
-    //     //     title: 'New Region',
-    //     //     text: 'Region',
-    //     //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
-    //     //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
-    //     //     confirmButtonText: 'Create',
-    //     //     showCancelButton: true,
-    //     //     allowEnterKey: true,
-    //     //     //capture input text
-    //     //     preConfirm: () => {
-
-    //     //         let regionTag = document.getElementById('regionTagInput').value;
-    //     //         let regionNotes = document.getElementById('regionNotesInput').value;
-    //     //         console.log('SWAL', regionTag, regionNotes);
-
-    //     //         // update 'region' created by clicking to include user's data
-    //     //         region.update({
-    //     //             data: {
-    //     //                 regionTag,
-    //     //                 regionNotes
-    //     //             }
-    //     //         })
-
-    //     //     }
-    //     // })
-    //     console.log('updated region', region);
-
-    //     // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
-
-    //     //add regions.list objects to array
-    //     let regionsArray = []
-    //     for (let i in this.wavesurfer.regions.list) {
-    //         regionsArray.push(this.wavesurfer.regions.list[i])
-    //     }
+        // console.log('region start', Object.keys(region),Object.values(region),region.start)
+        console.log('created region', region, region.start, region.end);
+        // console.log('color', region.color)
         
-    //     console.log('in saveRegions', this.wavesurfer.regions.list);
-    //     console.log('regionsArray', regionsArray);
+        // this.wavesurfer.on('region-update-complete',()=>this.addNewRegion(region))
+        region.on('update', console.log('updating', region))
+        
+    }
+    saveRegions = (region) => {
+        //sweet alert for labeling region
+        // Swal.fire({
+        //     title: 'New Region',
+        //     text: 'Region',
+        //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+        //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+        //     confirmButtonText: 'Create',
+        //     showCancelButton: true,
+        //     allowEnterKey: true,
+        //     //capture input text
+        //     preConfirm: () => {
 
-    //     this.wavesurfer.regions.list && this.setState({
-    //         ...this.state,
-    //         regionsArray: regionsArray
-    //     })
+        //         let regionTag = document.getElementById('regionTagInput').value;
+        //         let regionNotes = document.getElementById('regionNotesInput').value;
+        //         console.log('SWAL', regionTag, regionNotes);
 
-    //     let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
-    //     this.setState({
-    //         ...this.state,
-    //         newRegion: {
-    //             start: newRegion.start,
-    //             end: newRegion.end,
-    //             data: newRegion.data,
-    //             file_id: this.props.file.id,
-    //             region_id: newRegion.id
-    //         }
-    //     })
+        //         // update 'region' created by clicking to include user's data
+        //         region.update({
+        //             data: {
+        //                 regionTag,
+        //                 regionNotes
+        //             }
+        //         })
+
+        //     }
+        // })
+        console.log('updated region', region);
+
+        // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
+
+        //add regions.list objects to array
+        let regionsArray = []
+        for (let i in this.wavesurfer.regions.list) {
+            regionsArray.push(this.wavesurfer.regions.list[i])
+        }
+        
+        console.log('in saveRegions', this.wavesurfer.regions.list);
+        console.log('regionsArray', regionsArray);
+
+        this.wavesurfer.regions.list && this.setState({
+            ...this.state,
+            regionsArray: regionsArray
+        })
+
+        let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
+        this.setState({
+            ...this.state,
+            newRegion: {
+                start: newRegion.start,
+                end: newRegion.end,
+                data: newRegion.data,
+                file_id: this.props.file.id,
+                region_id: newRegion.id
+            }
+        })
 
         
-        //send newRegion to saga to save in database
-        // region.created = ()=>{
-        //     console.log('new region crreated')
+        // send newRegion to saga to save in database
+        region.created = ()=>{
+            console.log('new region crreated')
             
-        // }
+        }
         // this.wavesurfer.regions.list.map(region=>{
         //     if(region.id != this.state.newRegion.region_id)
         // })
-        // this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id } })
+
+        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id } })
         
         
 
@@ -237,7 +243,10 @@ class Waveform extends React.Component {
         }
     }
     //function re-renders track header as input field on click for track title update
-    editTrackName = () => {
+    editTrackName = (event) => {
+        if (document.activeElement!=event.target){
+            console.log('cool')
+        }
         console.log('in editTrackName', this.state.trackNameIsClicked);
         // this.setState({
         //     ...this.state,
@@ -357,10 +366,10 @@ class Waveform extends React.Component {
         // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
         // this.wavesurfer .load(dogBarking);
         console.log(this.wavesurfer.regions);
-        // this.wavesurfer.on('region-update-end', this.saveRegions);
+        this.wavesurfer.on('region-update-end', this.createRegion);
         this.wavesurfer.on('loading', this.handleLoading)
         this.wavesurfer.on('ready', this.loadRegions)
-        this.wavesurfer.on('region-created', this.createRegion)
+        // this.wavesurfer.on('region-created', this.createRegion)
         this.wavesurfer.on('region-mouseenter', this.handleHover)
         this.wavesurfer.on('region-dblclick', this.loopRegion)
         // this.wavesurfer.on('region-click', this.labelRegion)
@@ -378,6 +387,7 @@ class Waveform extends React.Component {
 
     render() {
         // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.props.reduxState.currentProject.project_id } })
+        console.log('currently selected', document.activeElement)
         console.log('setting regions', this.state.regionsArray);
         console.log('newFile', this.state.trackName);
         console.log('this.state.newRegion', this.state.newRegion);
@@ -386,9 +396,10 @@ class Waveform extends React.Component {
         return (
             <Card>
                 <CardContent>
+                    <Loading/>
                     <div className="wave-timeline"></div>
                     <div className="waveform">
-                        <h3 onClick={this.editTrackName}>{this.checkNameIsClicked()}</h3>
+                        <h3 onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>{this.checkNameIsClicked()}</h3>
 
                         <div onClick={this.handleClick} className='wave'>
                         </div>
