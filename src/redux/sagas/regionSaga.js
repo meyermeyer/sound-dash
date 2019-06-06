@@ -6,6 +6,7 @@ import axios from 'axios';
 function* regionSaga() {
     yield takeEvery('FETCH_REGIONS', fetchRegionSaga)
     yield takeEvery('SEND_REGIONS', saveRegionSaga)
+    yield takeEvery('UPDATE_REGIONS', updateRegionSaga)
 
 }
 
@@ -26,13 +27,17 @@ function* saveRegionSaga(action) {
     try{
     const url = `/api/region?project_id=${action.payload.project_id.id}`
     yield axios.post(url, action.payload)
-        yield put({ type: 'FETCH_REGIONS', payload: { project_id: action.payload.project_id.id}})
+        // yield put({ type: 'FETCH_REGIONS', payload: action.payload.project_id})
     
     }
     catch (err){
         console.log('error in saveRegionSaga', err)
     }
 }
-    
+
+//PUT to server to update regions
+function* updateRegionSaga(action){
+    console.log('in updateRegionSaga', action.payload)
+}
 
 export default regionSaga

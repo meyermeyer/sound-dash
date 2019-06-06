@@ -26,9 +26,9 @@ router.get('/', rejectUnauthorizedUser, (req,res)=>{
 router.post('/', rejectUnauthorizedUser,(req,res)=>{
     console.log('in POST /api/region', req.body, req.query.project_id);
     if (req.isAuthenticated()){
-        let query = `INSERT INTO "regions" ("start","end","file_id") 
-                VALUES ($1,$2,$3);`
-        pool.query(query, [req.body.region.start, req.body.region.end, req.body.region.file_id])
+        let query = `INSERT INTO "regions" ("id","start","end","file_id") 
+                VALUES ($1,$2,$3,$4);`
+        pool.query(query, [req.body.region.id, req.body.region.start, req.body.region.end, req.body.region.file_id])
             .then(response => {
                 console.log('in POST /api/region', response);
                 res.sendStatus(204)

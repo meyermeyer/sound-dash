@@ -207,7 +207,7 @@ class ProjectEditor extends Component {
                     console.log('project', project.project_id, this.props.match.params)
                     if(project.project_id == this.props.match.params.id){
                         return(
-                            <h2>{project.name}</h2>
+                            <h2 key={i}>{project.name}</h2>
                         )
                     }
                 })}

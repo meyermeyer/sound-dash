@@ -58,7 +58,7 @@ class Waveform extends React.Component {
                 // console.log('map regions:', region);
                 region.color = this.randomColor(0.1);
                 this.wavesurfer.addRegion(region)
-                console.log('loading regions',this.wavesurfer.regions.list)
+                // console.log('loading regions',this.wavesurfer.regions.list)
             }
         }
     }
@@ -218,12 +218,21 @@ class Waveform extends React.Component {
                 this.props.reduxState.regions.map(loadedRegion => {
                     console.log('reduxState regions', loadedRegion, 'current region', currentRegion )
                     let newRegion={}
+                    let updateRegion={}
                     // console.log('each currentRegion', currentRegion)
                     if (loadedRegion.id == currentRegion.id){
                         console.log('region already in database')
+                        updateRegion = {
+                            id: currentRegion.id,
+                            start: currentRegion.start,
+                            end: currentRegion.end,
+                            data: currentRegion.data,
+                            file_id: this.props.file.id
+                        }
+                        this.props.dispatch({type:'UPDATE_REGIONS', payload:{region: updateRegion, project_id:this.props.match.params}})
                     }
                     else{
-                        console.log('region is not in the database')
+                        console.log('region is not in the database', currentRegion.id)
                         newRegion = {
                             id: currentRegion.id,
                             start: currentRegion.start,
