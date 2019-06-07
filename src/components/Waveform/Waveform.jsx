@@ -50,7 +50,6 @@ class Waveform extends React.Component {
     loadRegions = () => {
         console.log('in loadRegions', this.props.reduxState.regions);
         this.allowAnnotation();
-        // this.wavesurfer.addRegion()
         for (let region of this.props.reduxState.regions) {
             // console.log('map regions:', region);
 
@@ -61,7 +60,6 @@ class Waveform extends React.Component {
                 // console.log('loading regions',this.wavesurfer.regions.list)
             }
         }
-        // this.wavesurfer.regions.list && this.wavesurfer.on('region-mouseenter', this.labelRegion)
     }
 
     allowAnnotation = () => {
@@ -71,7 +69,7 @@ class Waveform extends React.Component {
         });
     }
 
-    labeRegion = (region) => {
+    labeRegion = () => {
         console.log('in labelRegion')
         // // sweet alert for labeling region
         // Swal.fire({
