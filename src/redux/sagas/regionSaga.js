@@ -25,9 +25,10 @@ function* fetchRegionSaga(action) {
 function* saveRegionSaga(action) {
     console.log('in saveRegionSaga', action.payload)
     try{
-    const url = `/api/region?project_id=${action.payload.project_id.id}`
+    const url = `/api/region?project_id=${action.payload.project_id.id}&region_id=${action.payload.region.id}`
+    yield axios.delete(url)
     yield axios.post(url, action.payload)
-        // yield put({ type: 'FETCH_REGIONS', payload: action.payload.project_id})
+        // yield put({ type: 'FETCH_REGIONS', payload: action.payload.project_id.id})
     
     }
     catch (err){
@@ -35,7 +36,7 @@ function* saveRegionSaga(action) {
     }
 }
 
-//PUT to server to update regions
+// PUT to server to update regions
 function* updateRegionSaga(action){
     console.log('in updateRegionSaga', action.payload)
 }

@@ -214,37 +214,69 @@ class Waveform extends React.Component {
 
             console.log('in handleUnmount', this.wavesurfer.regions.list);
             console.log('regionsArray', regionsArray);
-            regionsArray.map(currentRegion=>{
-                this.props.reduxState.regions.map(loadedRegion => {
-                    console.log('reduxState regions', loadedRegion, 'current region', currentRegion )
-                    let newRegion={}
-                    let updateRegion={}
-                    // console.log('each currentRegion', currentRegion)
-                    if (loadedRegion.id == currentRegion.id){
-                        console.log('region already in database')
-                        updateRegion = {
-                            id: currentRegion.id,
-                            start: currentRegion.start,
-                            end: currentRegion.end,
-                            data: currentRegion.data,
-                            file_id: this.props.file.id
-                        }
-                        this.props.dispatch({type:'UPDATE_REGIONS', payload:{region: updateRegion, project_id:this.props.match.params}})
-                    }
-                    else{
-                        console.log('region is not in the database', currentRegion.id)
-                        newRegion = {
-                            id: currentRegion.id,
-                            start: currentRegion.start,
-                            end: currentRegion.end,
-                            data: currentRegion.data,
-                            file_id: this.props.file.id
 
-                        }
-                        this.props.dispatch({ type:'SEND_REGIONS', payload:{region: newRegion, project_id:this.props.match.params}})
-                    }
-                })
+            regionsArray.map(region=>{
+                let regionToSend = {
+                    id: region.id,
+                    start: region.start,
+                    end: region.end,
+                    data: region.data,
+                    file_id: this.props.file.id
+                }
+                this.props.dispatch({ type: 'SEND_REGIONS', payload: { region: regionToSend, project_id: this.props.match.params }})
             })
+
+
+            // let newRegion = {}
+            // let updateRegion = {}
+            // regionsArray.map(currentRegion=>{
+            //     if(!this.props.reduxState.regions){
+            //         console.log('no stored regions yet', currentRegion)
+            //         newRegion = {
+            //             id: currentRegion.id,
+            //             start: currentRegion.start,
+            //             end: currentRegion.end,
+            //             data: currentRegion.data,
+            //             file_id: this.props.file.id
+
+            //         }
+
+            //         // this.props.dispatch({ type: 'SEND_REGIONS', payload: { region: newRegion, project_id: this.props.match.params } })
+            //     }
+            //     else{
+            //         this.props.reduxState.regions.map((loadedRegion, i) => {
+            //             console.log('reduxState regions', loadedRegion, 'current region', currentRegion, i)
+
+            //             // console.log('each currentRegion', currentRegion)
+            //             if (loadedRegion.id == currentRegion.id) {
+            //                 console.log('region already in database')
+            //                 updateRegion = {
+            //                     id: currentRegion.id,
+            //                     start: currentRegion.start,
+            //                     end: currentRegion.end,
+            //                     data: currentRegion.data,
+            //                     file_id: this.props.file.id
+            //                 }
+            //                 this.props.dispatch({ type: 'UPDATE_REGIONS', payload: { region: updateRegion, project_id: this.props.match.params } })
+            //                 return 
+            //             }
+                        
+            //         })
+                    
+            //             console.log('region is not in the database', currentRegion.id)
+            //             newRegion = {
+            //                 id: currentRegion.id,
+            //                 start: currentRegion.start,
+            //                 end: currentRegion.end,
+            //                 data: currentRegion.data,
+            //                 file_id: this.props.file.id
+
+            //             }
+            //             this.props.dispatch({ type: 'SEND_REGIONS', payload: { region: newRegion, project_id: this.props.match.params } })
+                    
+            //     }
+            // }) 
+                
             
 
             
@@ -390,6 +422,8 @@ class Waveform extends React.Component {
     }
 
     componentDidMount() {
+        // console.log('this.wavesurfer.regions.list', this.wavesurfer.regions.list)
+        this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.match.params.id})
         this.$el = ReactDOM.findDOMNode(this)
         this.$waveform = this.$el.querySelector('.wave')
         this.wavesurfer = WaveSurfer.create({
