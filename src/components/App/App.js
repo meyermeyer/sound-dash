@@ -49,7 +49,7 @@ class App extends Component {
         <Router>
           <div>
             <Header />
-            <input type="file"/>
+            
             <Nav />
             {/* <CurrentUser /> */}
             <Switch>

@@ -4,6 +4,21 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 
+//delete collaborators 
+router.delete('/', rejectUnauthenticated, rejectUnauthorizedUser, (req,res)=>{
+    console.log('in DELETE /api/collaborators', req.query)
+    let query = `DELETE FROM "users_projects" WHERE "users_projects"."user_id"=$1 AND "users_projects"."project_id"=$2;`
+    pool.query(query,[req.query.user_id,req.query.project_id])
+        .then(response=>{
+            console.log('back from DELETE /api/collaborators', response)
+            res.sendStatus(204)
+        })
+        .catch(err=>{
+            console.log('error in DELETE /api/collaborators', err)
+            res.sendStatus(500)
+        })
+})
+
 //get collaborators for current project
 router.get('/', rejectUnauthenticated, rejectUnauthorizedUser, (req, res)=>{
     console.log('in GET /api/collaborators')

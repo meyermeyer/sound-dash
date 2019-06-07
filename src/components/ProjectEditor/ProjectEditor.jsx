@@ -11,6 +11,7 @@ import Loading from '../Loading/Loading'
 import LoadSpinner from '../LoadSpinner/LoadSpinner'
 import Microphone from '../Microphone/Microphone'
 import ReactMicrophone from '../ReactMicrophone/ReactMicrophone'
+import CurrentCollaborators from '../CurrentCollaborators/CurrentCollaborators'
 import './ProjectEditor.css'
 
 //materialUI
@@ -278,24 +279,8 @@ class ProjectEditor extends Component {
                 
                 <div>
                     <CurrentUser />
-                    <div id="currentCollaborators">
-                        <Card>
-                            <CardContent>
-                                <h3>Shared with:</h3>
-                                {this.props.reduxState.collaborators.map((collaborator, i) => {
-                                    if(collaborator.id!=this.props.reduxState.user.id)
-                                    return (
-                                        <Chip
-                                            key={i}
-                                            avatar={<Avatar>{collaborator.username.charAt(0).toUpperCase()}</Avatar>}
-                                            label={collaborator.username}
-                                        />
-                                    )
-                                })}
-                            </CardContent>
-                        </Card>
-                        
-                    </div>
+                    <CurrentCollaborators/>
+                    
                     
                     <AddCollaborators/>
 
