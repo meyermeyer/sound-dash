@@ -200,8 +200,8 @@ class ProjectEditor extends Component {
         return (
             <>
                 <Upload/>
-                <Microphone/>
-                <ReactMicrophone/>
+                {/* <Microphone/> */}
+                {/* <ReactMicrophone/> */}
                 {/* <UppyModal/> */}
                 {this.props.reduxState.projects.map((project,i)=>{
                     console.log('project', project.project_id, this.props.match.params)
@@ -235,7 +235,7 @@ class ProjectEditor extends Component {
                     
                     <AddCollaborators/>
 
-                    <h3>Add New Files</h3>
+                    {/* <h3>Add New Files</h3>
                     <TextField
                         id="outlined-dense"
                         label="Audio URL"
@@ -251,7 +251,7 @@ class ProjectEditor extends Component {
                             </i>
                         </Button>
                     </ThemeProvider> */}
-                    <input aria-label="web url" type="text" placeholder="web url"></input>
+                    {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <Grid container>
                         <Loading/>
                         <Grid item xs={8}>

@@ -70,10 +70,40 @@ class Waveform extends React.Component {
         });
     }
 
+    labeRegion = (region) => {
+        console.log('in labelRegion', region)
+        // sweet alert for labeling region
+        Swal.fire({
+            title: 'New Region',
+            text: 'Region',
+            html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+                '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+            confirmButtonText: 'Create',
+            showCancelButton: true,
+            allowEnterKey: true,
+            //capture input text
+            preConfirm: () => {
+
+                let regionTag = document.getElementById('regionTagInput').value;
+                let regionNotes = document.getElementById('regionNotesInput').value;
+                console.log('SWAL', regionTag, regionNotes);
+
+                // update 'region' created by clicking to include user's data
+                region.update({
+                    data: {
+                        regionTag,
+                        regionNotes
+                    }
+                })
+
+            }
+        })
+    }
     handleHover = (region) => {
         console.log('hovering over', region.start, region.end);
     }
 
+    
     addNewRegion = (region) => {
         console.log(`in addNewRegion:{start:${region.start} id:${region.id}}`, region, region.start)
         let regionsArray = [];
@@ -443,18 +473,19 @@ class Waveform extends React.Component {
             
             ]
         })
-        
+        // this.wavesurfer.on('region-click', this.handleLable)
         this.wavesurfer.load(this.props.file.path, null,'auto');
         // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
         // this.wavesurfer .load(dogBarking);
-        console.log(this.wavesurfer.regions);
-        this.wavesurfer.on('region-update-end', this.createRegion);
-        this.wavesurfer.on('loading', this.handleLoading)
+        // console.log(this.wavesurfer.regions);
+        // this.wavesurfer.on('region-update-end', this.labelRegion);
+        // this.wavesurfer.on('loading', this.handleLoading)
         this.wavesurfer.on('ready', this.loadRegions)
         // this.wavesurfer.on('region-created', this.createRegion)
-        this.wavesurfer.on('region-mouseenter', this.handleHover)
-        this.wavesurfer.on('region-dblclick', this.loopRegion)
-        // this.wavesurfer.on('region-click', this.labelRegion)
+        // this.wavesurfer.on('region-mouseenter', this.handleHover)
+        // this.wavesurfer.on('region-dblclick', this.loopRegion)
+        this.wavesurfer.on('region-click', this.labelRegion)
+        // this.wavesurfer.on('region-click', this.handleLable)
 
 
 
@@ -468,12 +499,13 @@ class Waveform extends React.Component {
     // }
 
     render() {
+        
         // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.props.reduxState.currentProject.project_id } })
-        console.log('currently selected', document.activeElement)
-        console.log('setting regions', this.state.regionsArray);
-        console.log('newFile', this.state.trackName);
-        console.log('this.state.newRegion', this.state.newRegion);
-        console.log('newest region:', this.state.regionsArray[this.state.regionsArray.length - 1])
+        // console.log('currently selected', document.activeElement)
+        // console.log('setting regions', this.state.regionsArray);
+        // console.log('newFile', this.state.trackName);
+        // console.log('this.state.newRegion', this.state.newRegion);
+        // console.log('newest region:', this.state.regionsArray[this.state.regionsArray.length - 1])
 
         return (
             <Card>
@@ -513,16 +545,16 @@ class Waveform extends React.Component {
                                     <li key={i}>{region.data.regionTag}</li>
                                 )
                             })} */}
-                            {this.props.reduxState.regions.map((region, i) => {
+                            {/* {this.props.reduxState.regions.map((region, i) => {
                                 if (region.file_id === this.props.file.id) {
                                     // console.log('map regions:', region);
 
                                     return (
-                                        <li key={i}>{region.start}</li>
+                                        <li key={i}>{region.id}</li>
                                     )
-                                }
+                                } 
 
-                            })}
+                             })} */}
                         </ul>
                         <ThemeProvider theme={theme}>
                             <Button onClick={this.handleDelete} aria-label="delete track" variant="contained" color="primary">Delete
