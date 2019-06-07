@@ -50,9 +50,21 @@ const styles = (theme) => {
     }
 };
 
-
+let currentProject={};
 
 class ProjectEditor extends Component {
+
+    defineCurrentProject=()=>{
+        this.props.reduxState.projects.map((project, i) => {
+            console.log('project', project.project_id, this.props.match.params)
+            if (project.project_id == this.props.match.params.id) {
+                currentProject = project
+            }
+        })
+        console.log('in defineCurrentProject', currentProject)
+    }
+    
+
     state = {
         newFile: {
             name: '',
@@ -68,6 +80,7 @@ class ProjectEditor extends Component {
         }
     }
 
+    
 
     // New Track Input functions
     handleChange = (event) => {
@@ -182,45 +195,86 @@ class ProjectEditor extends Component {
         }
         
     }
+
+    
     componentWillUnmount = () => {
         console.log('in ProjectEditor componentWillUnmount')
-        this.props.dispatch({
-            type: 'UPDATE_PROJECT_DATA',
-            payload: {
-                projectData: this.state.projectData,
-                project_id: this.props.match.params
+        
+            if(this.state.projectData.lyrics==='' && this.state.projectData.notes===''){
+                console.log('no updates to lyrics or notes')
             }
-        })
+            else if (this.state.projectData.lyrics==='' && this.state.projectData.notes!=''){
+                console.log('update to notes')
+                this.props.dispatch({
+                    type: 'UPDATE_PROJECT_DATA',
+                    payload: {
+                        projectData: {...this.state.projectData,
+                                        lyrics: currentProject.lyrics},
+                        project_id: this.props.match.params
+                    }
+                })
+            }
+            else if (this.state.projectData.lyrics!='' && this.state.projectData.notes===''){
+                console.log('update to lyrics')
+                this.props.dispatch({
+                    type: 'UPDATE_PROJECT_DATA',
+                    payload: {
+                        projectData: {
+                            ...this.state.projectData,
+                            notes: currentProject.notes
+                        },
+                        project_id: this.props.match.params
+                    }
+                })
+            }
+            else{
+                console.log('update both')
+                this.props.dispatch({
+                    type: 'UPDATE_PROJECT_DATA',
+                    payload: {
+                        projectData: this.state.projectData,
+                        project_id: this.props.match.params
+                    }
+                })
+            }
+            
+
+        
     }
 
     componentDidMount = () => {
         const {id} = this.props.match.params
         console.log('ProjectEditor project_id', id)
+        this.props.dispatch({ type: 'FETCH_PROJECTS' })
+        
         this.props.dispatch({ type: 'FETCH_FILES', payload: id })
         this.props.dispatch({ type: 'FETCH_REGIONS', payload: id })
         this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: id})
+        
+        
     }
     render() {
+        this.defineCurrentProject()
         console.log('ProjectEditor new file', this.state.newFile)
         console.log('ProjectEditor project data', this.state.projectData);
         console.log('local state:', this.state.inputIsOpen)
         
-
-
+        
         return (
             <>
                 <Upload/>
                 {/* <Microphone/> */}
                 {/* <ReactMicrophone/> */}
                 {/* <UppyModal/> */}
-                {this.props.reduxState.projects.map((project,i)=>{
+                {/* {this.props.reduxState.projects.map((project,i)=>{
                     console.log('project', project.project_id, this.props.match.params)
                     if(project.project_id == this.props.match.params.id){
                         return(
                             <h2 key={i}>{project.name}</h2>
                         )
                     }
-                })}
+                })} */}
+                <h2>{currentProject.name}</h2>
                 
                 <div>
                     <CurrentUser />
@@ -270,29 +324,44 @@ class ProjectEditor extends Component {
                             </ul>
                         </Grid>
                         <Grid container xs={4} direction="column">
-
                             <Grid item xs={6}>
-
-                                 {/* <ClickAwayListener onClickAway={this.handleLyricsSubmit}> */}
-                                    <TextField
-                                        id="lyrics-textarea"
-                                        label="Lyrics"
-                                        placeholder="Lyrics Here"
-                                        multiline
-                                        className={this.props.classes.textField}
-                                        margin="normal"
-                                        onChange={this.handleLyricsChange}
-                                        onClick={this.setLyricsInput}
-                                        onSubmit={this.handleLyricsSubmit}
-                                        // value={this.props.reduxState.currentProject.lyrics}
-                                    />
-                                {/* </ClickAwayListener> */}
-
+                                
+                                            <TextField
+                                                
+                                                id="lyrics-textarea"
+                                                label="Lyrics"
+                                                placeholder="Lyrics Here"
+                                                multiline
+                                                className={this.props.classes.textField}
+                                                margin="normal"
+                                        
+                                                onChange={this.handleLyricsChange}
+                                                // onClick={this.setLyricsInput}
+                                                // onSubmit={this.handleLyricsSubmit}
+                                                defaultValue={currentProject.lyrics}
+                                            />
+                                   
                             </Grid>
+                            {/* <input onLoad={console.log('input loaded')}></input> */}
 
                             <Grid item sm={6} >
-                                {/* <ClickAwayListener onClickAway={this.handleNotesSubmit}> */}
-                                    <TextField
+                                
+                                            <TextField
+                                                id="notes-textarea"
+                                                label="Notes"
+                                                placeholder="Notes Here"
+                                                multiline
+                                                className={this.props.classes.textField}
+                                                margin="normal"
+                                                
+                                                onChange={this.handleNotesChange}
+                                                // onClick={this.setLyricsInput}
+                                                // onSubmit={this.handleLyricsSubmit}
+                                                defaultValue={currentProject.notes}
+                                                
+                                            />
+                                       
+                                    {/* <TextField
                                         id="notes-textarea"
                                         label="Notes"
                                         placeholder="Notes Here"
@@ -304,7 +373,7 @@ class ProjectEditor extends Component {
                                         onSubmit={this.handleNotesSubmit}
                                         // value={this.props.reduxState.currentProject.notes}
                                     />
-                                {/* </ClickAwayListener> */}
+                                 */}
 
                             </Grid>
 
