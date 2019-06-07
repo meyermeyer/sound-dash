@@ -7,14 +7,16 @@ router.get('/', (req,res) => {
     // console.log('in GET /api/project');
     // console.log('is authenticated?', req.isAuthenticated());
     // console.log('user', req.user);
-    
+    console.log('in GET /api/projects')
     if(req.isAuthenticated()){
         // console.log('isAuthenticated in GET /api/project');
         let query = `SELECT * FROM "projects" JOIN "users_projects"
                     ON "projects".id = "users_projects"."project_id"
-                    WHERE "users_projects"."user_id"=$1;`
+                    WHERE "users_projects"."user_id"=$1
+                    ORDER BY "projects".id;`
         pool.query(query,[req.user.id])
             .then((result => {
+                console.log('in .then /api/project')
                 res.send(result.rows)
             }))
             .catch(error => {
@@ -28,15 +30,15 @@ router.get('/', (req,res) => {
     }
 })
 
-router.delete('/:id', (req,res) => {
+router.delete('/', rejectUnauthorizedUser, (req,res) => {
     // console.log('in DELETE /api/project', req.params.id, req.user.id);
     
     
     if(req.isAuthenticated()){
-        // console.log('isAuthenticated in DELETE /api/project');
+        console.log('isAuthenticated in DELETE /api/project', req.query);
         //some syntax error in this query, waiting for help
-        let query = `DELETE FROM "projects" WHERE "projects".id =$1 AND "projects".author_id = $2;`
-        pool.query(query,[req.params.id, req.user.id])
+        let query = `DELETE FROM "projects" WHERE "projects".id =$1;`
+        pool.query(query,[req.query.project_id])
             .then(response => {
                 console.log('in DELETE /api/project', response);
                 res.sendStatus(200)

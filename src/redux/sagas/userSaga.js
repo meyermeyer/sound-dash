@@ -19,13 +19,27 @@ function* fetchUser() {
     // with an id and username set the client-side user object to let
     // the client-side code know the user is logged in
     yield put({ type: 'SET_USER', payload: response.data });
+    yield put({type:'FETCH_PROJECTS'})
   } catch (error) {
     console.log('User get request failed', error);
   }
 }
 
+function* fetchAllUsers() {
+  console.log('in fetchAllUsers saga')
+  try{
+    let allUsers = yield axios.get('/api/all_users')
+    console.log('in fetchAllUsers saga', allUsers.data)
+    yield put({type:'STORE_ALL_USERS', payload: allUsers.data})
+  }
+  catch(err){
+    console.log('error in fetchAllUsers saga', err)
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('FETCH_ALL_USERS', fetchAllUsers)
 }
 
 export default userSaga;

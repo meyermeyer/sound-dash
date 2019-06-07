@@ -1,7 +1,8 @@
 const express = require('express');
-const { rejectUnauthorizedUser } = require('../modules/authentication-middleware');
+const { rejectUnauthorizedUser, rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
+const { uploadPost, generateSignedUrls } = require('../modules/fileHandler');
 
 
 router.delete('/', rejectUnauthorizedUser, (req,res)=>{
@@ -21,11 +22,11 @@ router.delete('/', rejectUnauthorizedUser, (req,res)=>{
     
     
 })
-router.get('/:id',(req,res)=>{
+router.get('/',(req,res)=>{
     console.log('in GET /api/files');
     //return all files associated with selected project if user is authorized to view the project
     if(req.isAuthenticated()){
-        // console.log('user.id', req.user.id,'project_id', req.params.id);
+        console.log('user_id', req.user.id,'project_id', req.query.project_id);
         
         // let query = `SELECT * FROM "files" JOIN "projects" ON "files".project_id = "projects".id 
         //             JOIN "users_projects" ON "users_projects".project_id = "projects".id
@@ -36,8 +37,8 @@ router.get('/:id',(req,res)=>{
                     WHERE "users_projects".user_id = $1
                     AND "files".project_id = $2
                     ORDER BY "files".id;`
-        pool.query(query,[1,5]) //just for dev purposes so it stops losing the data on state change
-        // pool.query(query,[req.user.id,req.params.id])
+        // pool.query(query,[1,5]) //just for dev purposes so it stops losing the data on state change
+        pool.query(query, [req.user.id, req.query.project_id])
             .then(result=>{
                 // console.log('in GET /api/files', result.rows);
                 res.send(result.rows)
@@ -53,12 +54,13 @@ router.get('/:id',(req,res)=>{
     }
 })
 
-//POST for adding files
-router.post('/:id', (req,res)=> {
+// POST for adding files
+router.post('/', rejectUnauthorizedUser, (req,res)=> {
+    console.log('in POST /api/files', req.body, req.query)
     if(req.isAuthenticated()){
-        console.log('in POST /api/files', req.body, req.params.id)
+        console.log('in POST /api/files', req.body, req.query.project_id)
         const query = `INSERT INTO "files" ("track_name","path", "project_id") VALUES ($1,$2,$3);`
-        pool.query(query, [req.body.name, req.body.path, req.params.id])
+        pool.query(query, [req.body.name, req.body.path, req.query.project_id])
             .then(response => {
                 console.log('in POST /api/files', response);
                 res.sendStatus(200)
@@ -73,6 +75,10 @@ router.post('/:id', (req,res)=> {
     }
     
 })
+
+
+
+
 
 //PUT route to update file name
 router.put('/', rejectUnauthorizedUser, (req,res)=>{

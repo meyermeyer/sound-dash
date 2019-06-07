@@ -17,14 +17,17 @@ import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 
+import Upload from '../Upload/Upload'
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import Header from '../Header/Header'
 import UserDashboard from '../UserDashboard/UserDashboard'
 import ProjectEditor from '../ProjectEditor/ProjectEditor'
+import CurrentUser from '../CurrentUser/CurrentUser';
 
 import './App.css';
+
 
 
 const theme = createMuiTheme({
@@ -46,7 +49,9 @@ class App extends Component {
         <Router>
           <div>
             <Header />
+            <input type="file"/>
             <Nav />
+            {/* <CurrentUser /> */}
             <Switch>
               {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
               <Redirect exact from="/" to="/home" />
@@ -81,12 +86,13 @@ class App extends Component {
               />
               <ProtectedRoute
                 exact
-                path="/project-editor"
+                path="/project-editor/:id"
                 component={ProjectEditor}
               />
               {/* If none of the other routes matched, we will show a 404. */}
               <Route render={() => <h1>404</h1>} />
             </Switch>
+            
             <Footer />
           </div>
         </Router>

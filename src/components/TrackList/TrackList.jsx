@@ -1,17 +1,34 @@
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Waveform from '../Waveform/Waveform'
 
-import TrackItem from '../TrackItem/TrackItem'
 
 class TrackList extends Component {
+    
+
     render() {
+        console.log('track items', this.props.reduxState.files)
+        
         return(
-            <ul>
-                <TrackItem />
-            </ul>
+            <>
+                
+                {this.props.reduxState.files.map(((file,i)=>{
+                    return(
+                        <>
+                            <Waveform key={i} file={file}/>
+                        </>
+                    )
+                    
+                }))}
+            </>
+            
+       
         )
     }
 }
-
-export default connect()(TrackList)
+const mapStateToProps = reduxState => ({
+    reduxState
+});
+export default connect(mapStateToProps)(TrackList)

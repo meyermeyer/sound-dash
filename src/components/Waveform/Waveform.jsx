@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { withRouter } from 'react-router-dom'
 import WaveSurfer from 'wavesurfer.js'
 import dogBarking from '../../audio/Big_Dog_Barking.mp3'
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.js'
@@ -9,6 +10,7 @@ import { connect } from 'react-redux'
 import Swal from 'sweetalert2'
 import './Waveform.css'
 
+import Loading from '../Loading/Loading'
 //MUI stuff
 import { Button, icons, CardContent, Card } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -49,15 +51,16 @@ class Waveform extends React.Component {
         console.log('in loadRegions', this.props.reduxState.regions);
         this.allowAnnotation();
         // this.wavesurfer.addRegion()
-        // for (let region of this.props.reduxState.regions) {
-        //     console.log('map regions:', region);
+        for (let region of this.props.reduxState.regions) {
+            // console.log('map regions:', region);
 
-        //     if (region.file_id === this.props.file.id) {
-        //         console.log('map regions:', region);
-        //         region.color = this.randomColor(0.1);
-        //         this.wavesurfer.addRegion(region)
-        //     }
-        // }
+            if (region.file_id === this.props.file.id) {
+                // console.log('map regions:', region);
+                region.color = this.randomColor(0.1);
+                this.wavesurfer.addRegion(region)
+                // console.log('loading regions',this.wavesurfer.regions.list)
+            }
+        }
     }
 
     allowAnnotation = () => {
@@ -67,10 +70,40 @@ class Waveform extends React.Component {
         });
     }
 
+    labeRegion = (region) => {
+        console.log('in labelRegion', region)
+        // sweet alert for labeling region
+        Swal.fire({
+            title: 'New Region',
+            text: 'Region',
+            html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+                '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+            confirmButtonText: 'Create',
+            showCancelButton: true,
+            allowEnterKey: true,
+            //capture input text
+            preConfirm: () => {
+
+                let regionTag = document.getElementById('regionTagInput').value;
+                let regionNotes = document.getElementById('regionNotesInput').value;
+                console.log('SWAL', regionTag, regionNotes);
+
+                // update 'region' created by clicking to include user's data
+                region.update({
+                    data: {
+                        regionTag,
+                        regionNotes
+                    }
+                })
+
+            }
+        })
+    }
     handleHover = (region) => {
-        console.log('hovering over', region.data.regionTag);
+        console.log('hovering over', region.start, region.end);
     }
 
+    
     addNewRegion = (region) => {
         console.log(`in addNewRegion:{start:${region.start} id:${region.id}}`, region, region.start)
         let regionsArray = [];
@@ -114,84 +147,170 @@ class Waveform extends React.Component {
         console.log('newRegion in addRegion', newRegion);
         
         //send newRegion to saga to save in database
-        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.reduxState.currentProject.project_id } })
+        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: newRegion, project_id: this.props.match.params } })
     }
 
     
     createRegion = (region) => {
-        console.log('created region', region);
+        // console.log('region start', Object.keys(region),Object.values(region),region.start)
+        console.log('created region');
+        // console.log('color', region.color)
         
-        this.wavesurfer.on('region-update-complete',this.addNewRegion)
-    //     r
-    // }
-    // saveRegions = (region) => {
-    //     //sweet alert for labeling region
-    //     // Swal.fire({
-    //     //     title: 'New Region',
-    //     //     text: 'Region',
-    //     //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
-    //     //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
-    //     //     confirmButtonText: 'Create',
-    //     //     showCancelButton: true,
-    //     //     allowEnterKey: true,
-    //     //     //capture input text
-    //     //     preConfirm: () => {
-
-    //     //         let regionTag = document.getElementById('regionTagInput').value;
-    //     //         let regionNotes = document.getElementById('regionNotesInput').value;
-    //     //         console.log('SWAL', regionTag, regionNotes);
-
-    //     //         // update 'region' created by clicking to include user's data
-    //     //         region.update({
-    //     //             data: {
-    //     //                 regionTag,
-    //     //                 regionNotes
-    //     //             }
-    //     //         })
-
-    //     //     }
-    //     // })
-    //     console.log('updated region', region);
-
-    //     // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
-
-    //     //add regions.list objects to array
-    //     let regionsArray = []
-    //     for (let i in this.wavesurfer.regions.list) {
-    //         regionsArray.push(this.wavesurfer.regions.list[i])
-    //     }
+        // this.wavesurfer.on('region-update-end',console.log('update end'), ()=>this.addNewRegion())
+        // region.on('update', console.log('updating', region))
         
-    //     console.log('in saveRegions', this.wavesurfer.regions.list);
-    //     console.log('regionsArray', regionsArray);
+    }
+    saveRegions = (region) => {
+        //sweet alert for labeling region
+        // Swal.fire({
+        //     title: 'New Region',
+        //     text: 'Region',
+        //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+        //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+        //     confirmButtonText: 'Create',
+        //     showCancelButton: true,
+        //     allowEnterKey: true,
+        //     //capture input text
+        //     preConfirm: () => {
 
-    //     this.wavesurfer.regions.list && this.setState({
-    //         ...this.state,
-    //         regionsArray: regionsArray
-    //     })
+        //         let regionTag = document.getElementById('regionTagInput').value;
+        //         let regionNotes = document.getElementById('regionNotesInput').value;
+        //         console.log('SWAL', regionTag, regionNotes);
 
-    //     let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
-    //     this.setState({
-    //         ...this.state,
-    //         newRegion: {
-    //             start: newRegion.start,
-    //             end: newRegion.end,
-    //             data: newRegion.data,
-    //             file_id: this.props.file.id,
-    //             region_id: newRegion.id
-    //         }
-    //     })
+        //         // update 'region' created by clicking to include user's data
+        //         region.update({
+        //             data: {
+        //                 regionTag,
+        //                 regionNotes
+        //             }
+        //         })
 
-        
-        //send newRegion to saga to save in database
-        // region.created = ()=>{
-        //     console.log('new region crreated')
-            
+        //     }
+        // })
+        console.log('updated region', region);
+
+        // console.log('this.wavesurfer.regions',this.wavesurfer.regions);
+
+        //add regions.list objects to array
+        let regionsArray = []
+        // for (let i in this.wavesurfer.regions.list) {
+        //     regionsArray.push(this.wavesurfer.regions.list[i])
         // }
+        
+        // console.log('in saveRegions', this.wavesurfer.regions.list);
+        // console.log('regionsArray', regionsArray);
+
+        this.wavesurfer.regions.list && this.setState({
+            ...this.state,
+            regionsArray: regionsArray
+        })
+
+        let newRegion = this.state.regionsArray[this.state.regionsArray.length - 1]
+        this.setState({
+            ...this.state,
+            newRegion: {
+                start: newRegion.start,
+                end: newRegion.end,
+                data: newRegion.data,
+                file_id: this.props.file.id,
+                region_id: newRegion.id
+            }
+        })
+
+        
+        // send newRegion to saga to save in database
+        region.created = ()=>{
+            console.log('new region crreated')
+            
+        }
         // this.wavesurfer.regions.list.map(region=>{
         //     if(region.id != this.state.newRegion.region_id)
         // })
-        // this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id } })
+
+        this.props.dispatch({ type: "SEND_REGIONS", payload: { region: this.state.newRegion, project_id: this.props.reduxState.currentProject.project_id } })
         
+        
+
+    }
+
+    handleUnmount = () =>{
+        // console.log('this.wavesurfer.list.length',this.wavesurfer.list.length)
+        if(this.wavesurfer.regions.list!={}){
+            console.log('in handleUnmount. wavesurfer.regions.list', this.wavesurfer.regions.list)
+            let regionsArray = []
+            for (let i in this.wavesurfer.regions.list) {
+                regionsArray.push(this.wavesurfer.regions.list[i])
+            }
+
+            console.log('in handleUnmount', this.wavesurfer.regions.list);
+            console.log('regionsArray', regionsArray);
+
+            regionsArray.map(region=>{
+                let regionToSend = {
+                    id: region.id,
+                    start: region.start,
+                    end: region.end,
+                    data: region.data,
+                    file_id: this.props.file.id
+                }
+                this.props.dispatch({ type: 'SEND_REGIONS', payload: { region: regionToSend, project_id: this.props.match.params }})
+            })
+
+
+            // let newRegion = {}
+            // let updateRegion = {}
+            // regionsArray.map(currentRegion=>{
+            //     if(!this.props.reduxState.regions){
+            //         console.log('no stored regions yet', currentRegion)
+            //         newRegion = {
+            //             id: currentRegion.id,
+            //             start: currentRegion.start,
+            //             end: currentRegion.end,
+            //             data: currentRegion.data,
+            //             file_id: this.props.file.id
+
+            //         }
+
+            //         // this.props.dispatch({ type: 'SEND_REGIONS', payload: { region: newRegion, project_id: this.props.match.params } })
+            //     }
+            //     else{
+            //         this.props.reduxState.regions.map((loadedRegion, i) => {
+            //             console.log('reduxState regions', loadedRegion, 'current region', currentRegion, i)
+
+            //             // console.log('each currentRegion', currentRegion)
+            //             if (loadedRegion.id == currentRegion.id) {
+            //                 console.log('region already in database')
+            //                 updateRegion = {
+            //                     id: currentRegion.id,
+            //                     start: currentRegion.start,
+            //                     end: currentRegion.end,
+            //                     data: currentRegion.data,
+            //                     file_id: this.props.file.id
+            //                 }
+            //                 this.props.dispatch({ type: 'UPDATE_REGIONS', payload: { region: updateRegion, project_id: this.props.match.params } })
+            //                 return 
+            //             }
+                        
+            //         })
+                    
+            //             console.log('region is not in the database', currentRegion.id)
+            //             newRegion = {
+            //                 id: currentRegion.id,
+            //                 start: currentRegion.start,
+            //                 end: currentRegion.end,
+            //                 data: currentRegion.data,
+            //                 file_id: this.props.file.id
+
+            //             }
+            //             this.props.dispatch({ type: 'SEND_REGIONS', payload: { region: newRegion, project_id: this.props.match.params } })
+                    
+            //     }
+            // }) 
+                
+            
+
+            
+        }
         
 
     }
@@ -237,7 +356,10 @@ class Waveform extends React.Component {
         }
     }
     //function re-renders track header as input field on click for track title update
-    editTrackName = () => {
+    editTrackName = (event) => {
+        if (document.activeElement!=event.target){
+            console.log('cool')
+        }
         console.log('in editTrackName', this.state.trackNameIsClicked);
         // this.setState({
         //     ...this.state,
@@ -287,7 +409,7 @@ class Waveform extends React.Component {
             payload: {
                 trackName: this.state.trackNameInput,
                 track_id: this.props.file.id,
-                project_id: this.props.reduxState.currentProject.project_id
+                project_id: this.props.match.params
             }
         })
     }
@@ -298,16 +420,21 @@ class Waveform extends React.Component {
         this.props.dispatch({
             type: 'DELETE_FILE', payload: {
                 track_id: this.props.file.id,
-                project_id: this.props.reduxState.currentProject.project_id
+                project_id: this.props.match.params
             }
         })
         this.setState({
             trackName: this.props.file.track_name
         })
+        this.wavesurfer.load(this.props.file.path, null, 'auto');
     }
 
 
     //file play functions
+
+    handleLoading = () =>{
+        console.log('loading waveform')
+    }
     playAudio = () => {
         this.wavesurfer.play();
     }
@@ -319,15 +446,14 @@ class Waveform extends React.Component {
     stopAudio = () => {
         this.wavesurfer.stop();
     }
+    componentWillUnmount(){
+        console.log('unmounting')
+        this.handleUnmount()
+    }
 
     componentDidMount() {
-        // console.log('WaveSurfer object:', WaveSurfer);
-        // console.log('props', this.props.file);
-
-        // update track name
-        // this.setState({
-        //     trackName: this.props.file.track_name
-        // })
+        // console.log('this.wavesurfer.regions.list', this.wavesurfer.regions.list)
+        this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.match.params.id})
         this.$el = ReactDOM.findDOMNode(this)
         this.$waveform = this.$el.querySelector('.wave')
         this.wavesurfer = WaveSurfer.create({
@@ -335,6 +461,9 @@ class Waveform extends React.Component {
             waveColor: 'violet',
             progressColor: 'purple',
             backend: 'MediaElement',
+            preload:true,
+            minPxPerSec: 3,
+            pixelRatio:1,
             plugins: [
                 RegionsPlugin.create({}),
                 MicrophonePlugin.create({}),
@@ -344,24 +473,19 @@ class Waveform extends React.Component {
             
             ]
         })
-        // this.$waveform2 = this.$el.querySelector('.wave2')
-        // this.wavesurfer2 = WaveSurfer.create({
-        //     container: this.$waveform2,
-        //     waveColor: 'violet',
-        //     progressColor: 'purple',
-        //     backend: 'MediaElement',
-        //     plugins: [MicrophonePlugin.create({})]
-        // })
-        this.wavesurfer.load('https://reelcrafter-east.s3.amazonaws.com/aux/test.m4a');
+        // this.wavesurfer.on('region-click', this.handleLable)
+        this.wavesurfer.load(this.props.file.path, null,'auto');
         // this.wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3')
         // this.wavesurfer .load(dogBarking);
-        console.log(this.wavesurfer.regions);
-        // this.wavesurfer.on('region-update-end', this.saveRegions);
+        // console.log(this.wavesurfer.regions);
+        // this.wavesurfer.on('region-update-end', this.labelRegion);
+        // this.wavesurfer.on('loading', this.handleLoading)
         this.wavesurfer.on('ready', this.loadRegions)
-        this.wavesurfer.on('region-created', this.createRegion)
-        this.wavesurfer.on('region-mouseenter', this.handleHover)
-        this.wavesurfer.on('region-dblclick', this.loopRegion)
-        // this.wavesurfer.on('region-click', this.labelRegion)
+        // this.wavesurfer.on('region-created', this.createRegion)
+        // this.wavesurfer.on('region-mouseenter', this.handleHover)
+        // this.wavesurfer.on('region-dblclick', this.loopRegion)
+        this.wavesurfer.on('region-click', this.labelRegion)
+        // this.wavesurfer.on('region-click', this.handleLable)
 
 
 
@@ -375,22 +499,25 @@ class Waveform extends React.Component {
     // }
 
     render() {
+        
         // this.props.dispatch({ type: 'FETCH_REGIONS', payload: { project_id: this.props.reduxState.currentProject.project_id } })
-        console.log('setting regions', this.state.regionsArray);
-        console.log('newFile', this.state.trackName);
-        console.log('this.state.newRegion', this.state.newRegion);
-        console.log('newest region:', this.state.regionsArray[this.state.regionsArray.length - 1])
+        // console.log('currently selected', document.activeElement)
+        // console.log('setting regions', this.state.regionsArray);
+        // console.log('newFile', this.state.trackName);
+        // console.log('this.state.newRegion', this.state.newRegion);
+        // console.log('newest region:', this.state.regionsArray[this.state.regionsArray.length - 1])
 
         return (
             <Card>
                 <CardContent>
+                    <Loading/>
                     <div className="wave-timeline"></div>
                     <div className="waveform">
-                        <h3 onClick={this.editTrackName}>{this.checkNameIsClicked()}</h3>
+                        <h3 onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>{this.checkNameIsClicked()}</h3>
 
                         <div onClick={this.handleClick} className='wave'>
                         </div>
-                        <div className='wave2'></div>
+                        {/* <div className='wave2'></div> */}
                         <ThemeProvider theme={theme}>
                             <Button onClick={this.playAudio} aria-label="play audio" variant="contained" color="primary">Play
                         <i className="material-icons">
@@ -418,16 +545,16 @@ class Waveform extends React.Component {
                                     <li key={i}>{region.data.regionTag}</li>
                                 )
                             })} */}
-                            {this.props.reduxState.regions.map((region, i) => {
+                            {/* {this.props.reduxState.regions.map((region, i) => {
                                 if (region.file_id === this.props.file.id) {
                                     // console.log('map regions:', region);
 
                                     return (
-                                        <li key={i}>{region.start}</li>
+                                        <li key={i}>{region.id}</li>
                                     )
-                                }
+                                } 
 
-                            })}
+                             })} */}
                         </ul>
                         <ThemeProvider theme={theme}>
                             <Button onClick={this.handleDelete} aria-label="delete track" variant="contained" color="primary">Delete
@@ -453,5 +580,5 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-export default connect(mapStateToProps)(Waveform);
+export default withRouter(connect(mapStateToProps)(Waveform));
 

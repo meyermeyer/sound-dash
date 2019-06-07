@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import TrackList from '../TrackList/TrackList'
+import Upload from '../Upload/Upload'
+import UppyModal from '../UppyModal/UppyModal'
+import TrackList from '../TrackList/TrackList.jsx'
+import CurrentUser from '../CurrentUser/CurrentUser'
+import AddCollaborators from '../AddCollaborators/AddCollaborators';
+import Loading from '../Loading/Loading'
+import LoadSpinner from '../LoadSpinner/LoadSpinner'
+import Microphone from '../Microphone/Microphone'
+import ReactMicrophone from '../ReactMicrophone/ReactMicrophone'
+import './ProjectEditor.css'
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +19,13 @@ import { Button, Grid, Card, CardContent } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Fab from '@material-ui/core/Fab';
+import CheckIcon from '@material-ui/icons/Check';
+import SaveIcon from '@material-ui/icons/Save';
 
 
 const theme = createMuiTheme({
@@ -36,6 +51,7 @@ const styles = (theme) => {
 };
 
 
+
 class ProjectEditor extends Component {
     state = {
         newFile: {
@@ -45,9 +61,15 @@ class ProjectEditor extends Component {
         projectData: {
             lyrics: '',
             notes: ''
+        },
+        inputIsOpen: {
+            lyrics: false,
+            notes: false
         }
     }
-    //New Track Input functions
+
+
+    // New Track Input functions
     handleChange = (event) => {
         console.log('in handleChange', event.target.value);
         console.log('trackNumber:', trackNumber)
@@ -64,12 +86,39 @@ class ProjectEditor extends Component {
         console.log('in handleSubmit')
 
         //dispatch action to trigger SAGA for POST to /api/files
-        this.props.dispatch({ type: 'ADD_FILE', payload: this.state.newFile, currentProject: this.props.reduxState.currentProject })
+        this.props.dispatch({ type: 'ADD_FILE', payload: this.state.newFile, currentProject: this.props.match.params })
     }
 
     //Lyrics and Notes change functions
+    setLyricsInput = () => {
+        console.log('in setLyricsInput')
+        if(!this.state.inputIsOpen.lyrics){
+            this.setState({
+            ...this.state,
+            inputIsOpen: {
+                ...this.state.inputIsOpen,
+                lyrics: true
+            }
+        })
+        } 
+    }
+
+    setNotesInput = () => {
+        if (!this.state.inputIsOpen.notes) {
+            console.log('in setNotesInput, switching')
+            this.setState({
+                ...this.state,
+                inputIsOpen: {
+                    ...this.state.inputIsOpen,
+                    notes: true
+                }
+            })
+        } 
+    }
+
     handleLyricsChange = (event) => {
-        // console.log('in handleLyricsChange')
+        console.log('in handleLyricsChange', event.target.value)
+        
         this.setState({
             projectData: {
                 ...this.state.projectData,
@@ -79,7 +128,7 @@ class ProjectEditor extends Component {
     }
 
     handleNotesChange = (event) => {
-        // console.log('in handleNotesChange')
+        console.log('in handleNotesChange', event.target.value)
         this.setState({
             projectData: {
                 ...this.state.projectData,
@@ -88,45 +137,105 @@ class ProjectEditor extends Component {
         })
     }
 
-    handleLyricsSubmit = (event) => {
-        event.preventDefault();
-        // console.log('in handleLyricsSubmit')
-        this.props.dispatch({
-            type: 'UPDATE_PROJECT_DATA',
-            payload: {
-                projectData: this.state.projectData,
-                project_id: this.props.reduxState.currentProject.project_id
-            }
-        })
+    handleLyricsSubmit = () => {
+        // event.preventDefault();
+        console.log('in handleLyricsSubmit')
+        if (this.state.inputIsOpen.lyrics){
+            console.log('in handleLyricsSubmit')
+            this.props.dispatch({
+                type: 'UPDATE_PROJECT_DATA',
+                payload: {
+                    projectData: this.state.projectData,
+                    project_id: this.props.match.params
+                }
+            })
+            this.setState({
+                ...this.state,
+                inputIsOpen: {
+                    ...this.state.inputIsOpen,
+                    lyrics: false
+                }
+            })
+        }
+        
     }
 
-    handleNotesSubmit = (event) => {
-        event.preventDefault();
+    handleNotesSubmit = () => {
+        // event.preventDefault();
         console.log('in handleNotesSubmit', this.props.reduxState);
-        this.props.dispatch({
-            type: 'UPDATE_PROJECT_DATA',
-            payload: {
-                projectData: this.state.projectData,
-                project_id: this.props.reduxState.currentProject.project_id
-            }
-        })
+        if (this.state.inputIsOpen.notes){
+            console.log('in handleNotesSubmit', this.state.inputIsOpen)
+            this.props.dispatch({
+                type: 'UPDATE_PROJECT_DATA',
+                payload: {
+                    projectData: this.state.projectData,
+                    project_id: this.props.match.params
+                }
+            })
+            this.setState({
+                ...this.state,
+                inputIsOpen: {
+                    ...this.state.inputIsOpen,
+                    notes: false
+                }
+            })
+        }
+        
     }
 
     componentDidMount = () => {
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_FILES', payload: this.props.reduxState.currentProject })
-        this.props.reduxState.currentProject && this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.reduxState.currentProject })
-
+        const {id} = this.props.match.params
+        console.log('ProjectEditor project_id', id)
+        this.props.dispatch({ type: 'FETCH_FILES', payload: id })
+        this.props.dispatch({ type: 'FETCH_REGIONS', payload: id })
+        this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: id})
     }
     render() {
         console.log('ProjectEditor new file', this.state.newFile)
         console.log('ProjectEditor project data', this.state.projectData);
+        console.log('local state:', this.state.inputIsOpen)
+        
 
 
         return (
             <>
-                <h2>{this.props.reduxState.currentProject.name}</h2>
+                <Upload/>
+                {/* <Microphone/> */}
+                {/* <ReactMicrophone/> */}
+                {/* <UppyModal/> */}
+                {this.props.reduxState.projects.map((project,i)=>{
+                    console.log('project', project.project_id, this.props.match.params)
+                    if(project.project_id == this.props.match.params.id){
+                        return(
+                            <h2 key={i}>{project.name}</h2>
+                        )
+                    }
+                })}
+                
                 <div>
-                    <h3>Add New Files</h3>
+                    <CurrentUser />
+                    <div id="currentCollaborators">
+                        <Card>
+                            <CardContent>
+                                <h3>Shared with:</h3>
+                                {this.props.reduxState.collaborators.map((collaborator, i) => {
+                                    if(collaborator.id!=this.props.reduxState.user.id)
+                                    return (
+                                        <Chip
+                                            key={i}
+                                            avatar={<Avatar>{collaborator.username.charAt(0).toUpperCase()}</Avatar>}
+                                            label={collaborator.username}
+                                        />
+                                    )
+                                })}
+                            </CardContent>
+                        </Card>
+                        
+                    </div>
+                    
+                    <AddCollaborators/>
+
+                    {/* <h3>Add New Files</h3>
                     <TextField
                         id="outlined-dense"
                         label="Audio URL"
@@ -134,25 +243,27 @@ class ProjectEditor extends Component {
                         variant="outlined"
                         onChange={this.handleChange}
                     />
+                    
                     <ThemeProvider theme={theme}>
                         <Button onClick={this.handleSubmit} variant="contained" color="secondary">Submit
                             <i class="material-icons">
                                 library_add
                             </i>
                         </Button>
-                    </ThemeProvider>
+                    </ThemeProvider> */}
                     {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <Grid container>
-                        <Grid item sm={8}>
+                        <Loading/>
+                        <Grid item xs={8}>
                             <ul>
                                 <TrackList />
                             </ul>
                         </Grid>
-                        <Grid container sm={4}>
+                        <Grid container xs={4} direction="column">
 
-                            <Grid item sm={6}>
+                            <Grid item xs={6}>
 
-                                <ClickAwayListener onClickAway={this.handleLyricsSubmit}>
+                                 {/* <ClickAwayListener onClickAway={this.handleLyricsSubmit}> */}
                                     <TextField
                                         id="lyrics-textarea"
                                         label="Lyrics"
@@ -161,15 +272,16 @@ class ProjectEditor extends Component {
                                         className={this.props.classes.textField}
                                         margin="normal"
                                         onChange={this.handleLyricsChange}
-                                        // onSubmit={this.handleLyricsSubmit}
+                                        onClick={this.setLyricsInput}
+                                        onSubmit={this.handleLyricsSubmit}
                                         // value={this.props.reduxState.currentProject.lyrics}
                                     />
-                                </ClickAwayListener>
+                                {/* </ClickAwayListener> */}
 
                             </Grid>
 
                             <Grid item sm={6} >
-                                <ClickAwayListener onClickAway={this.handleNotesSubmit}>
+                                {/* <ClickAwayListener onClickAway={this.handleNotesSubmit}> */}
                                     <TextField
                                         id="notes-textarea"
                                         label="Notes"
@@ -178,10 +290,11 @@ class ProjectEditor extends Component {
                                         className={this.props.classes.textField}
                                         margin="normal"
                                         onChange={this.handleNotesChange}
-                                        // onSubmit={this.handleNotesSubmit}
+                                        onClick={this.setNotesInput}
+                                        onSubmit={this.handleNotesSubmit}
                                         // value={this.props.reduxState.currentProject.notes}
                                     />
-                                </ClickAwayListener>
+                                {/* </ClickAwayListener> */}
 
                             </Grid>
 
@@ -204,5 +317,5 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-// export default withStyles(styles)connect(mapStateToProps)(ProjectEditor)
+
 export default connect(mapStateToProps)(withStyles(styles)(ProjectEditor))

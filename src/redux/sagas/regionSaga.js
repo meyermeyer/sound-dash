@@ -1,18 +1,19 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
-import { all } from 'q';
+
 
 // watcher Saga
 function* regionSaga() {
     yield takeEvery('FETCH_REGIONS', fetchRegionSaga)
     yield takeEvery('SEND_REGIONS', saveRegionSaga)
+    yield takeEvery('UPDATE_REGIONS', updateRegionSaga)
 
 }
 
 //GET to server to fetch regions on page load
 function* fetchRegionSaga(action) {
     console.log('in fetchRegionSaga');
-    const url = `/api/region?project_id=${action.payload.project_id}`
+    const url = `/api/region?project_id=${action.payload}`
     console.log(url)
     const allRegions = yield axios.get(url);
     
@@ -24,15 +25,20 @@ function* fetchRegionSaga(action) {
 function* saveRegionSaga(action) {
     console.log('in saveRegionSaga', action.payload)
     try{
-    const url = `/api/region?project_id=${action.payload.project_id}`
+    const url = `/api/region?project_id=${action.payload.project_id.id}&region_id=${action.payload.region.id}`
+    yield axios.delete(url)
     yield axios.post(url, action.payload)
-        yield put({ type: 'FETCH_REGIONS', payload: { project_id: action.payload.project_id}})
+        // yield put({ type: 'FETCH_REGIONS', payload: action.payload.project_id.id})
     
     }
     catch (err){
         console.log('error in saveRegionSaga', err)
     }
 }
-    
+
+// PUT to server to update regions
+function* updateRegionSaga(action){
+    console.log('in updateRegionSaga', action.payload)
+}
 
 export default regionSaga

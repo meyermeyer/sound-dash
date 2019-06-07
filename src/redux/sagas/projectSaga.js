@@ -24,8 +24,8 @@ function* fetchProjectsSaga() {
 
 function* updateProjectDataSaga(action) {
     try {
-        console.log('in updateProjectDataSaga', action.payload.project_id)
-        const url = `/api/project?project_id=${action.payload.project_id}`
+        console.log('in updateProjectDataSaga', action.payload.project_id.id)
+        const url = `/api/project?project_id=${action.payload.project_id.id}`
         
         yield axios.put(url, action.payload)
         yield put({type:'FETCH_PROJECTS'})
@@ -37,8 +37,8 @@ function* updateProjectDataSaga(action) {
 
 function* updateProjectSaga(action) {
     try {
-        console.log('in updateProjectSaga', action.payload);
-        const url = '/api/project/' + action.payload.project_id
+        console.log('in updateProjectSaga', action.payload.project_id.id);
+        const url = `/api/project?project_id=${action.payload.project_id.id}`
         yield axios.put(url, action.payload)
     }
     catch (err) {
@@ -60,8 +60,10 @@ function* addProjectSaga(action) {
 
 function* deleteProjectSaga(action) {
     try {
-        console.log('in deleteProjectSaga', action.payload)
-        yield axios.delete('/api/project/' + action.payload.project_id)
+        
+        let url = `/api/project?project_id=${action.payload.project_id}`
+        console.log('in deleteProjectSaga', action.payload, url)
+        yield axios.delete(url)
         yield put({ type: 'FETCH_PROJECTS' })
 
     }

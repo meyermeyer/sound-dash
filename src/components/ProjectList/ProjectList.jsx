@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import ProjectItem from '../ProjectItem/ProjectItem'
 
 class ProjectList extends Component {
+    
     render() {
         return(
             <ul>
