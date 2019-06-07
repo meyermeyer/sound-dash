@@ -15,6 +15,7 @@ import Chip from '@material-ui/core/Chip';
 
 function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps;
+    console.log('inputProps',inputProps)
 
     return (
         <TextField
@@ -23,6 +24,8 @@ function renderInput(inputProps) {
                 classes: {
                     root: classes.inputRoot,
                     input: classes.inputInput,
+
+                    
                 },
                 ...InputProps,
             }}
@@ -58,15 +61,15 @@ renderSuggestion.propTypes = {
     suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
 };
 
-function getSuggestions(value,props,{ showEmpty = false } = {}) {
-    console.log('getSuggestions', props.props.allUsers)
+function getSuggestions(value,store,{ showEmpty = false } = {}) {
+    console.log('getSuggestions', store.allUsers)
     const inputValue = deburr(value.trim()).toLowerCase();
     const inputLength = inputValue.length;
     let count = 0;
 
     return inputLength === 0 && !showEmpty
         ? []
-        : props.props.allUsers.filter(suggestion => {
+        : store.allUsers.filter(suggestion => {
             const keep =
                 count < 5 && suggestion.username.slice(0, inputLength).toLowerCase() === inputValue;
 
@@ -78,12 +81,43 @@ function getSuggestions(value,props,{ showEmpty = false } = {}) {
         });
 }
 
-let newItemIds = [];
+
 function DownshiftMultiple(props) {
+    
+    // const clearState = () => {
+    //     setCollaborators([])
+    // }
+    //retrieve user inputs from DownshiftMultiple
+    const captureInput = (newItemIds, newSelectedItem) => {
+        // event.preventDefault();
+        console.log('in captureInput', newItemIds)
+        setCollaborators(newItemIds)
+        
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log('in handleSubmit', collaborators, props)
+        const id = props.project_id
+        collaborators.map(collaborator => {
+            props.dispatch({
+                type: 'ADD_COLLABORATORS',
+                payload: {
+                    collaborators: collaborator,
+                    project_id: id
+                }
+            })
+        })
+        // clearState()
+        setItemIds([])
+        setSelectedItem([])
+    }
     console.log('in DownShiftMultiple', props)
     const { classes } = props;
     const [inputValue, setInputValue] = React.useState('');
     const [selectedItem, setSelectedItem] = React.useState([]);
+    const [collaborators, setCollaborators] = React.useState([]);
+    const [itemIds, setItemIds] = React.useState([]);
 
     function handleKeyDown(event) {
         if (selectedItem.length && !inputValue.length && event.key === 'Backspace') {
@@ -101,22 +135,22 @@ function DownshiftMultiple(props) {
             newSelectedItem = [...newSelectedItem, item.username];
         }
 
-       
+       let newItemIds=[]
         if(newItemIds.indexOf(item.id)===-1){
             // newItemIds.push(item.id)
-            newItemIds=[...newItemIds, item.id]
+            newItemIds=[...itemIds, item.id]
         }
         console.log('newItemIds', newItemIds)
         setInputValue('');
         setSelectedItem(newSelectedItem);
         //send IDS of selected users to class component to send to SAGA 
-        props.captureInput(newItemIds)
+        captureInput(newItemIds, newSelectedItem)
     }
 
     const handleDelete = item => () => {
         
         const newSelectedItem = [...selectedItem];
-        // const newSelectedItemIds = [...newItemIds];
+        const newItemIds = [...itemIds];
         console.log('in handleDelete', item, newSelectedItem, selectedItem, newSelectedItem.indexOf(item))
         newSelectedItem.splice(newSelectedItem.indexOf(item), 1);
         newItemIds.splice(selectedItem.indexOf(item), 1);
@@ -129,6 +163,7 @@ function DownshiftMultiple(props) {
     };
 
     return (
+        <form onSubmit={handleSubmit}>
         <Downshift
             id="downshift-multiple"
             inputValue={inputValue}
@@ -161,13 +196,14 @@ function DownshiftMultiple(props) {
                                 onChange: handleInputChange,
                                 onKeyDown: handleKeyDown,
                                 placeholder: 'Add Collaborators',
+                                
                             }),
                             label: 'Username',
                         })}
 
                         {isOpen ? (
                             <Paper className={classes.paper} square>
-                                {getSuggestions(inputValue2, props).map((suggestion, index) =>
+                                {getSuggestions(inputValue2, props.store).map((suggestion, index) =>
                                     renderSuggestion({
                                         suggestion,
                                         index,
@@ -181,6 +217,9 @@ function DownshiftMultiple(props) {
                     </div>
                 )}
         </Downshift>
+            <div className={props.classes.divider} />
+            <Button onClick={handleSubmit} type="submit">Add Collaborators</Button>
+        </form>
     );
 }
 
@@ -221,38 +260,7 @@ const styles = theme => ({
 
 
 class IntegrationDownshift extends Component {
-    state = {
-        collaborators: []
-    }
-    clearState = () => {
-        this.setState({
-            collaborators:[]
-        })
-    }
-    //retrieve user inputs from DownshiftMultiple
-    captureInput = (value) => {
-        // event.preventDefault();
-        console.log('in captureInput', value)
-        this.setState({
-            collaborators:value
-        })
-    }
-
-    handleSubmit = (event) =>{
-        event.preventDefault();
-        console.log('in handleSubmit', this.state.collaborators)
-        const id = this.props.match.params
-        this.state.collaborators.map(collaborator=>{
-            this.props.dispatch({
-                type: 'ADD_COLLABORATORS',
-                payload: {
-                    collaborators: collaborator,
-                    project_id: id
-                }
-            })
-        })
-        this.clearState()
-    }
+    
     
 
     componentDidMount = () => {
@@ -262,15 +270,15 @@ class IntegrationDownshift extends Component {
     }
     
     render(){
-        console.log('collaborators:', this.state.collaborators)
+        // console.log('collaborators:', this.state.collaborators)
         return(
             <div className={this.props.classes.root}>
                 <div className={this.props.classes.divider} />
-                    <form onSubmit={this.handleSubmit}>
-                        <DownshiftMultiple props={this.props.reduxState} captureInput={this.captureInput} classes={this.props.classes} />
-                        <div className={this.props.classes.divider} />
-                        <Button onClick={this.handleSubmit} type="submit">Add Collaborators</Button>
-                    </form>
+                    {/* // <form onSubmit={this.handleSubmit}> */}
+                        <DownshiftMultiple store={this.props.reduxState} project_id={this.props.match.params} classes={this.props.classes} dispatch={this.props.dispatch}/>
+                    {/* //     <div className={this.props.classes.divider} />
+                    //     <Button onClick={this.handleSubmit} type="submit">Add Collaborators</Button> 
+                    // </form> */}
                    
                 
                 
