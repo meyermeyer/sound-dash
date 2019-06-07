@@ -182,6 +182,16 @@ class ProjectEditor extends Component {
         }
         
     }
+    componentWillUnmount = () => {
+        console.log('in ProjectEditor componentWillUnmount')
+        this.props.dispatch({
+            type: 'UPDATE_PROJECT_DATA',
+            payload: {
+                projectData: this.state.projectData,
+                project_id: this.props.match.params
+            }
+        })
+    }
 
     componentDidMount = () => {
         const {id} = this.props.match.params

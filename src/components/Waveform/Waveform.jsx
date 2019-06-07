@@ -61,6 +61,7 @@ class Waveform extends React.Component {
                 // console.log('loading regions',this.wavesurfer.regions.list)
             }
         }
+        // this.wavesurfer.regions.list && this.wavesurfer.on('region-mouseenter', this.labelRegion)
     }
 
     allowAnnotation = () => {
@@ -71,33 +72,33 @@ class Waveform extends React.Component {
     }
 
     labeRegion = (region) => {
-        console.log('in labelRegion', region)
-        // sweet alert for labeling region
-        Swal.fire({
-            title: 'New Region',
-            text: 'Region',
-            html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
-                '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
-            confirmButtonText: 'Create',
-            showCancelButton: true,
-            allowEnterKey: true,
-            //capture input text
-            preConfirm: () => {
+        console.log('in labelRegion')
+        // // sweet alert for labeling region
+        // Swal.fire({
+        //     title: 'New Region',
+        //     text: 'Region',
+        //     html: `<input id="regionTagInput" class="swal2-input" type="text" placeholder="Region Tag">` +
+        //         '<input id="regionNotesInput" class="swal2-input" type="textarea" placeholder="Region Notes">',
+        //     confirmButtonText: 'Create',
+        //     showCancelButton: true,
+        //     allowEnterKey: true,
+        //     //capture input text
+        //     preConfirm: () => {
 
-                let regionTag = document.getElementById('regionTagInput').value;
-                let regionNotes = document.getElementById('regionNotesInput').value;
-                console.log('SWAL', regionTag, regionNotes);
+        //         let regionTag = document.getElementById('regionTagInput').value;
+        //         let regionNotes = document.getElementById('regionNotesInput').value;
+        //         console.log('SWAL', regionTag, regionNotes);
 
-                // update 'region' created by clicking to include user's data
-                region.update({
-                    data: {
-                        regionTag,
-                        regionNotes
-                    }
-                })
+        //         // update 'region' created by clicking to include user's data
+        //         region.update({
+        //             data: {
+        //                 regionTag,
+        //                 regionNotes
+        //             }
+        //         })
 
-            }
-        })
+        //     }
+        // })
     }
     handleHover = (region) => {
         console.log('hovering over', region.start, region.end);
@@ -235,6 +236,7 @@ class Waveform extends React.Component {
 
     handleUnmount = () =>{
         // console.log('this.wavesurfer.list.length',this.wavesurfer.list.length)
+        //spread regions object into new array, send to saga
         if(this.wavesurfer.regions.list!={}){
             console.log('in handleUnmount. wavesurfer.regions.list', this.wavesurfer.regions.list)
             let regionsArray = []
@@ -256,7 +258,8 @@ class Waveform extends React.Component {
                 this.props.dispatch({ type: 'SEND_REGIONS', payload: { region: regionToSend, project_id: this.props.match.params }})
             })
 
-
+        //send lyrics and notes to saga
+            
             // let newRegion = {}
             // let updateRegion = {}
             // regionsArray.map(currentRegion=>{
@@ -484,7 +487,7 @@ class Waveform extends React.Component {
         // this.wavesurfer.on('region-created', this.createRegion)
         // this.wavesurfer.on('region-mouseenter', this.handleHover)
         // this.wavesurfer.on('region-dblclick', this.loopRegion)
-        this.wavesurfer.on('region-click', this.labelRegion)
+        // this.wavesurfer.on('region-click', this.labelRegion)
         // this.wavesurfer.on('region-click', this.handleLable)
 
 
