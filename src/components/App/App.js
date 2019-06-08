@@ -14,6 +14,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
+import NavBar from '../NavBar/NavBar'
 
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
@@ -50,8 +51,9 @@ class App extends Component {
           <div>
             {/* <Header /> */}
             
-            <Nav />
-            {/* <CurrentUser /> */}
+            {/* <Nav /> */}
+            {/* <NavBar /> */}
+            {/* <CurrentUser  /> */}
             <Switch>
               {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
               <Redirect exact from="/" to="/home" />

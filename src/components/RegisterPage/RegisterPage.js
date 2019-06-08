@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+import LoginRegisterNavBar from '../LoginRegisterNavBar/LoginRegisterNavBar'
+
 //Mui stuff
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -81,76 +83,80 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div className="container">
-        {this.props.errors.registrationMessage && (
-          <h2
-            className="alert"
-            role="alert"
-          >
-            {this.props.errors.registrationMessage}
-          </h2>
-        )}
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={this.props.classes.paper}>
-            <Avatar className={this.props.classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
+      <div>
+        <LoginRegisterNavBar/>
+        <div className="container">
+          {this.props.errors.registrationMessage && (
+            <h2
+              className="alert"
+              role="alert"
+            >
+              {this.props.errors.registrationMessage}
+            </h2>
+          )}
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={this.props.classes.paper}>
+              <Avatar className={this.props.classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign up
                     </Typography>
-            <form onSubmit={this.registerUser} className={this.props.classes.form} noValidate>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    onChange={this.handleInputChangeFor('username')}
-                    value={this.state.username}
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="username"
-                    label="Username"
-                    name="username"
-                    autoComplete="username"
-                  />
+              <form onSubmit={this.registerUser} className={this.props.classes.form} noValidate>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      onChange={this.handleInputChangeFor('username')}
+                      value={this.state.username}
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username"
+                      name="username"
+                      autoComplete="username"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      onChange={this.handleInputChangeFor('password')}
+                      value={this.state.password}
+                      variant="outlined"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    onChange={this.handleInputChangeFor('password')}
-                    value={this.state.password}
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={this.props.classes.submit}
-              >
-                Sign Up
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={this.props.classes.submit}
+                >
+                  Sign Up
                         </Button>
-              <Grid container justify="flex-end">
-                <Grid item>
-                  <Link href="#" variant="body2" onClick={() => {
-                    this.props.dispatch({ type: 'SET_TO_LOGIN_MODE' })
-                  }}>
-                    Already have an account? Sign in
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <Link href="#" variant="body2" onClick={() => {
+                      this.props.dispatch({ type: 'SET_TO_LOGIN_MODE' })
+                    }}>
+                      Already have an account? Sign in
                                  </Link>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </form>
-          </div>
-        </Container>
+              </form>
+            </div>
+          </Container>
+        </div>
       </div>
+      
 
     );
   }
