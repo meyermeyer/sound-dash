@@ -28,7 +28,9 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
     },
     heading: {
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(18),
+        color: 'rgba(0, 0, 0, 0.75)',
+        // fontWeight: 'bold',
         flexBasis: '33.33%',
         flexShrink: 0,
     },
@@ -129,13 +131,11 @@ function ControlledExpansionPanels(props) {
                                 id="panelbh-header"
                             >
                                 <Typography className={classes.heading}>{project.name}</Typography>
-                                <Typography className={classes.secondaryHeading}>Last Updated:  {project.date_last_edit}</Typography>
+                                <Typography className={classes.secondaryHeading}>Created On:  {project.date_last_edit}</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <Typography>
-                                    <>Created On:  {project.date_created}</>
-                                    <>Notes:  {project.notes}</>
-
+                                <Typography >
+                                        Notes:  {project.notes}
                                 </Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
