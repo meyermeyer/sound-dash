@@ -18,6 +18,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: { main: '#9c27b0' },
+//     secondary: { main: '#ffcc80' }
+//   }
+// })
 
 const styles = (theme) => ({
   root: {
