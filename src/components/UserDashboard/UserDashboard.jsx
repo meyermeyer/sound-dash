@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import NavBar from '../NavBar/NavBar'
 
 
 // import Time from 'react-time'
@@ -70,6 +71,7 @@ class UserDashboard extends Component {
         console.log('in handleInputs state:', this.state)
         return(
             <div>
+                <NavBar/>
                 <h3>
                     <ThemeProvider theme={theme}>
                         <Button onClick={this.nameProject}aria-label="create new project" variant="contained" color="primary">Create New Project</Button>
