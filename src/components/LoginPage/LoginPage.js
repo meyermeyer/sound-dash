@@ -139,7 +139,7 @@ class LoginPage extends Component {
               <Grid container>
 
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="#" variant="body2" onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

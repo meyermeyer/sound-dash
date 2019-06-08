@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import MuiRegistration from '../MuiRegistration/MuiRegistration';
 
 class RegisterPage extends Component {
   state = {
@@ -32,6 +33,7 @@ class RegisterPage extends Component {
   render() {
     return (
       <div>
+        <MuiRegistration/>
         {this.props.errors.registrationMessage && (
           <h2
             className="alert"
