@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import MuiLogin from '../MuiLogin/MuiLogin'
 
 class LoginPage extends Component {
   state = {
@@ -32,7 +33,9 @@ class LoginPage extends Component {
 
   render() {
     return (
+      
       <div>
+        <MuiLogin />
         {this.props.errors.loginMessage && (
           <h2
             className="alert"
