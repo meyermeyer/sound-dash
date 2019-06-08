@@ -1,15 +1,29 @@
 import React from 'react';
-import './Footer.css'
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
-// This is one of our simplest components
-// It doesn't have local state, so it can be a function component.
-// It doesn't dispatch any redux actions or display any part of redux state
-// or even care what the redux state is, so it doesn't need 'connect()'
 
-const Footer = () => (
-  <footer>
-    &copy; MeyerHMeyer
-  </footer>
-);
+const useStyles = makeStyles(theme => ({
+  footer: {
+    padding: theme.spacing(2),
+    marginTop: 'auto',
+    backgroundColor: theme.palette.common.white
+  },
+}));
 
-export default Footer;
+export default function Footer() {
+  const classes = useStyles();
+
+  return (
+
+    <footer className={classes.footer}>
+      <Container maxWidth="sm">
+        <CssBaseline />
+        <Typography variant="body1">&copy; MeyerHMeyer</Typography>
+      </Container>
+    </footer>
+
+  );
+}
