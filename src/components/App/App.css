@@ -1,7 +1,8 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0px;
-    position: relative
+    position: relative;
+    min-height: 100vh
 }
 
 .alert {
