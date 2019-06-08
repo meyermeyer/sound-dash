@@ -51,7 +51,7 @@ class App extends Component {
           <div>
             {/* <Header /> */}
             
-            <Nav />
+            {/* <Nav /> */}
             {/* <NavBar /> */}
             {/* <CurrentUser  /> */}
             <Switch>
