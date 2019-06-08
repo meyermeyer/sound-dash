@@ -17,7 +17,6 @@ import Footer from '../Footer/Footer';
 
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
-import MuiLogin from '../MuiLogin/MuiLogin';
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
