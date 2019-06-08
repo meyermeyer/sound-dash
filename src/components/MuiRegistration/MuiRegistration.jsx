@@ -16,18 +16,27 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+// const theme = createMuiTheme({
+//     palette: {
+//         primary: { main: '#9c27b0' },
+//         secondary: { main: '#ffcc80' }
+//     }
+// })
 
 const styles = (theme) => ({
     '@global': {
         body: {
             backgroundColor: theme.palette.common.white,
+            
         },
     },
     paper: {
+        backgroundColor: theme.palette.common.white,
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        
     },
     avatar: {
         margin: theme.spacing(1),
@@ -43,95 +52,112 @@ const styles = (theme) => ({
 });
 
 class SignUp extends Component {
-    render(){
-        return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={this.props.classes.paper}>
-                    <Avatar className={this.props.classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign up
-        </Typography>
-                    <form className={this.props.classes.form} noValidate>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="fname"
-                                    name="firstName"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name"
-                                    autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="lname"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
-                                />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={this.props.classes.submit}
-                        >
-                            Sign Up
-          </Button>
-                        <Grid container justify="flex-end">
-                            <Grid item>
-                                <Link href="#" variant="body2">
-                                    Already have an account? Sign in
-              </Link>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </div>
-            </Container>
-        );
+    state = {
+        username: '',
+        password: '',
+    };
+
+    registerUser = (event) => {
+        event.preventDefault();
+
+        if (this.state.username && this.state.password) {
+            this.props.dispatch({
+                type: 'REGISTER',
+                payload: {
+                    username: this.state.username,
+                    password: this.state.password,
+                },
+            });
+        } else {
+            this.props.dispatch({ type: 'REGISTRATION_INPUT_ERROR' });
+        }
+    } // end registerUser
+
+    handleInputChangeFor = propertyName => (event) => {
+        this.setState({
+            [propertyName]: event.target.value,
+        });
     }
 
-    
+    render(){
+        return (
+            <div className="container">
+                {this.props.errors.registrationMessage && (
+                    <h2
+                        className="alert"
+                        role="alert"
+                    >
+                        {this.props.errors.registrationMessage}
+                    </h2>
+                )}
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <div className={this.props.classes.paper}>
+                        <Avatar className={this.props.classes.avatar}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign up
+                    </Typography>
+                        <form onSubmit={this.registerUser} className={this.props.classes.form} noValidate>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        onChange={this.handleInputChangeFor('username')}
+                                        value={this.state.username}
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        id="username"
+                                        label="Username"
+                                        name="username"
+                                        autoComplete="username"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        onChange={this.handleInputChangeFor('password')}
+                                        value={this.state.password}
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        label="Password"
+                                        type="password"
+                                        id="password"
+                                        autoComplete="current-password"
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={this.props.classes.submit}
+                            >
+                                Sign Up
+                        </Button>
+                            <Grid container justify="flex-end">
+                                <Grid item>
+                                    <Link href="#" variant="body2" onClick={() => {
+                                        this.props.dispatch({ type: 'SET_TO_LOGIN_MODE' })
+                                    }}>
+                                        Already have an account? Sign in
+                                 </Link>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </div>
+                </Container>
+            </div>
+            
+        );
+    }   
 }
 
-export default withStyles()(connect()(SignUp))
+const mapStateToProps = state => ({
+    errors: state.errors,
+});
+
+export default withStyles(styles)(connect(mapStateToProps)(SignUp))
