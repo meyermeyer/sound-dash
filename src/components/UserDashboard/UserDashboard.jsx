@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
 import NavBar from '../NavBar/NavBar'
 
 
-// import Time from 'react-time'
+import ProjectItem from '../ProjectItem/ProjectItem'
 
-import ProjectList from '../ProjectList/ProjectList'
+
 //Material-UI stuff
-import { Button, Card, CardContent, CardActions, Typography } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
-import Icon from '@material-ui/core/Icon'
+
 
 //SweetAlert2
 import Swal from 'sweetalert2'
@@ -31,6 +31,7 @@ class UserDashboard extends Component {
             dateCreated: ''
         }
     }
+
     //handle sweetAlert inputs for creating project
     handleInputs = (name, notes) => {
         console.log('in handleInput name:', name, 'notes:', notes, 'date:', new Date());
@@ -41,46 +42,41 @@ class UserDashboard extends Component {
                 dateCreated: new Date()
             }
         })
-        this.props.dispatch({type:'ADD_PROJECT', payload:this.state.newProject})
+        this.props.dispatch({ type: 'ADD_PROJECT', payload: this.state.newProject })
 
     }
-    
+
     nameProject = () => {
         console.log('in nameProject');
         Swal.fire({
             title: 'New Project',
             text: 'Please name your project.',
-            html: `<input id="projectNameInput" class="swal2-input" type="text" placeholder="Project Name">`+
-                    '<input id="projectNotesInput" class="swal2-input" type="textarea" placeholder="Project Tags">',
+            html: `<input id="projectNameInput" class="swal2-input" type="text" placeholder="Project Name">`,
             confirmButtonText: 'Create',
             showCancelButton: true,
             //capture input text
-            preConfirm: ()=>{this.handleInputs(document.getElementById('projectNameInput').value,
-                document.getElementById('projectNotesInput').value)}
+            preConfirm: () => { this.handleInputs(document.getElementById('projectNameInput').value) }
         })
-        
-        
     }
 
     //launch fetchProjectsSaga on page load
     componentDidMount = () => {
-        this.props.dispatch({type: 'FETCH_PROJECTS'})
+        this.props.dispatch({ type: 'FETCH_PROJECTS' })
     }
+
     render() {
         //log to test setting local state worked
         console.log('in handleInputs state:', this.state)
-        return(
+        return (
             <div>
-                <NavBar/>
+                <NavBar />
                 <h3>
                     <ThemeProvider theme={theme}>
-                        <Button onClick={this.nameProject}aria-label="create new project" variant="contained" color="primary">Create New Project</Button>
+                        <Button onClick={this.nameProject} aria-label="create new project" variant="contained" color="primary">Create New Project</Button>
                     </ThemeProvider>
                 </h3>
-                <ProjectList />
-                
+                <ProjectItem />
             </div>
-            
         )
     }
 }

@@ -45,15 +45,8 @@ class App extends Component {
 
   render() {
     return (
-      <>
-        {/* <img src='https://www.illustrationweb.com/Thumb386s/110519/image_87076/media-fight-graphic-design.jpg' /> */}
         <Router>
           <div>
-            {/* <Header /> */}
-            
-            {/* <Nav /> */}
-            {/* <NavBar /> */}
-            {/* <CurrentUser  /> */}
             <Switch>
               {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
               <Redirect exact from="/" to="/home" />
@@ -98,12 +91,6 @@ class App extends Component {
             <Footer />
           </div>
         </Router>
-        {/* <ThemeProvider theme={theme}>
-          <Button variant="contained" color="primary">test</Button>
-        </ThemeProvider> */}
-        
-      </>
-     
   )}
 }
 

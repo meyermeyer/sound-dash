@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import NavBar from '../NavBar/NavBar'
+import EditorNavBar from '../EditorNavBar/EditorNavBar'
 import Upload from '../Upload/Upload'
 import UppyModal from '../UppyModal/UppyModal'
 import TrackList from '../TrackList/TrackList.jsx'
@@ -264,7 +264,7 @@ class ProjectEditor extends Component {
         
         return (
             <>
-                <NavBar />
+                <EditorNavBar />
                 <Upload/>
                 {/* <Microphone/> */}
                 {/* <ReactMicrophone/> */}
