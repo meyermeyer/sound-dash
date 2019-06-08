@@ -48,7 +48,7 @@ class App extends Component {
         {/* <img src='https://www.illustrationweb.com/Thumb386s/110519/image_87076/media-fight-graphic-design.jpg' /> */}
         <Router>
           <div>
-            <Header />
+            {/* <Header /> */}
             
             <Nav />
             {/* <CurrentUser /> */}
