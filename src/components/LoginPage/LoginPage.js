@@ -112,45 +112,46 @@ class LoginPage extends Component {
                   <Typography component="h1" variant="h5">
                     Sign in
                         </Typography>
-                  <form className={this.props.classes.form} onSubmit={this.login} noValidate>
-                    <TextField
-                      onChange={this.handleInputChangeFor('username')}
-                      value={this.state.username}
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="username"
-                      label="Username"
-                      name="username"
-                      autoComplete="username"
-                      autoFocus
-                    />
-                    <TextField
-                      onChange={this.handleInputChangeFor('password')}
-                      value={this.state.password}
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox value="remember" color="primary" />}
-                      label="Remember me"
-                    />
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={this.props.classes.submit}
-                    >
-                      Sign In
+              <form className={this.props.classes.form} onSubmit={this.login} noValidate>
+                <TextField
+                  color='#FFFFFF'
+                  onChange={this.handleInputChangeFor('username')}
+                  value={this.state.username}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
+                />
+                <TextField
+                  onChange={this.handleInputChangeFor('password')}
+                  value={this.state.password}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={this.props.classes.submit}
+                >
+                  Sign In
                         </Button>
                     <Grid container>
 
