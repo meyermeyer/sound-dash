@@ -29,22 +29,30 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 const styles = (theme) => ({
   root: {
     height: '100vh',
-    backgroundColor: 'transparent'
-  },
-  image: {
+    
     backgroundImage: 'url(images/multiple_cassettes_no_watermark.jpg)',
     backgroundRepeat: 'repeat',
-    backgroundSize: '70%',
+    backgroundSize: '30%',
     backgroundPosition: 'center',
+    alignItems: 'center'
+  },
+  image: {
+    
   },
   login:{
-    backgroundImage: 'transparent'
+    backgroundColor: 'rgba(255, 255, 255, 0.96)',
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+    
   },
   paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    
     
     
   },
@@ -94,71 +102,69 @@ class LoginPage extends Component {
     return (
       <div>
         <LoginRegisterNavBar/>
-        <Grid container component="main" className={this.props.classes.root}>
+        <div container component="main" className={this.props.classes.root}>
           <CssBaseline />
-          <Grid item xs={false} sm={4} md={7} className={this.props.classes.image} />
-          <Grid className={this.props.classes.login} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-            <div className={this.props.classes.paper}>
-              <Avatar className={this.props.classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
+            <Grid className={this.props.classes.login} item xs={12} sm={8} md={5} component={Paper} elevation={6}square>
+                <div className={this.props.classes.paper}>
+                  <Avatar className={this.props.classes.avatar}>
+                    <LockOutlinedIcon />
+                  </Avatar>
+                  <Typography component="h1" variant="h5">
+                    Sign in
                         </Typography>
-              <form className={this.props.classes.form} onSubmit={this.login} noValidate>
-                <TextField
-                  onChange={this.handleInputChangeFor('username')}
-                  value={this.state.username}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  autoFocus
-                />
-                <TextField
-                  onChange={this.handleInputChangeFor('password')}
-                  value={this.state.password}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={this.props.classes.submit}
-                >
-                  Sign In
+                  <form className={this.props.classes.form} onSubmit={this.login} noValidate>
+                    <TextField
+                      onChange={this.handleInputChangeFor('username')}
+                      value={this.state.username}
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username"
+                      name="username"
+                      autoComplete="username"
+                      autoFocus
+                    />
+                    <TextField
+                      onChange={this.handleInputChangeFor('password')}
+                      value={this.state.password}
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="Remember me"
+                    />
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={this.props.classes.submit}
+                    >
+                      Sign In
                         </Button>
-                <Grid container>
+                    <Grid container>
 
-                  <Grid item>
-                    <Link href="#" variant="body2" onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
-              </form>
-            </div>
+                      <Grid item>
+                        <Link href="#" variant="body2" onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </div>
           </Grid>
-        </Grid>
+        </div>
       </div>
-      
     );
   }
 };
