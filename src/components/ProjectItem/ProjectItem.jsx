@@ -7,7 +7,7 @@ import './ProjectItem.css'
 import Swal from 'sweetalert2'
 //MUI stuff
 import Typography from '@material-ui/core/Typography';
-import { Button, Card, CardContent, CardActions } from '@material-ui/core';
+import { Button, Grid, Red} from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,20 +15,32 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import red from '@material-ui/core/colors/red'
 
 const theme = createMuiTheme({
     palette: {
         primary: { main: '#9c27b0' },
-        secondary: { main: '#ffcc80' }
+        secondary: { main: '#ffcc80' },
+        
     }
 })
 
 const useStyles = makeStyles(theme => ({
-    root: {
+    // root: {
+    //     width: '100%',
+    // },
+    button:{
+        width: '50%',
+        alignContent: 'center',
+        flexBasis: 0
+    },
+    panel: {
         width: '100%',
     },
     heading: {
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(18),
+        color: 'rgba(0, 0, 0, 0.75)',
+        // fontWeight: 'bold',
         flexBasis: '33.33%',
         flexShrink: 0,
     },
@@ -36,6 +48,9 @@ const useStyles = makeStyles(theme => ({
         fontSize: theme.typography.pxToRem(15),
         color: theme.palette.text.secondary,
     },
+    icon: {
+        width: '75%'
+    }
 }));
 
 function ControlledExpansionPanels(props) {
@@ -111,45 +126,56 @@ function ControlledExpansionPanels(props) {
     
 
     return (
+        <ThemeProvider theme={theme}>
+            {/* <ul className={classes.root}> */}
+                {props.reduxState.projects.map((project, i) => {
+                    return (
+                        <Grid container spacing={4} alignItems='center' >
+                            {/* <li key={i} className="projectList"> */}
+                                {/* <Button onClick={()=>handleEdit(project)} variant="contained" color="primary">Rename</Button> */}
+                            <Grid item xs={2} alignContent='center' flexBasis="auto">
+                                <Button className={classes.button} onClick={() => handleOpen(project)} variant="contained" color="primary">
+                                    {/* Open  */}
+                                    {/* <i class="material-icons">
+                                        open_in_new
+                                    </i> */}
+                                    <img className={classes.icon} src='/images/folder-open-outline.png'/>
+                                </Button>
+                                </Grid>
+                                <Grid item xs={8} alignContent="stretch">
+                                    <ExpansionPanel className={classes.panel} expanded={expanded === 'panel' + i} onChange={handleChange('panel' + i)}>
+                                        <ExpansionPanelSummary
+                                            
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panelbh-content"
+                                            id="panelbh-header"
+                                        >
+                                            <Typography className={classes.heading}>{project.name}</Typography>
+                                            <Typography className={classes.secondaryHeading}>Created On:  {project.date_last_edit}</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            <Typography >
+                                                Notes:  {project.notes}
+                                            </Typography>
+                                        </ExpansionPanelDetails>
+                                    </ExpansionPanel>
+                                </Grid>
+                            <Grid item xs={2} alignContent='center'>
+                                    <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="error">
+                                        <i class="material-icons">
+                                            delete_forever
+                                        </i>
+                                    </Button>
+                                </Grid>
+                                
+                            
+                        </Grid>
+                        
+                    )
+                })}
+            
+        </ThemeProvider>
         
-        <ul className={classes.root}>
-            {props.reduxState.projects.map((project, i) => {
-                return (
-                    <li key={i} className="projectList">
-                        {/* <ThemeProvider theme={theme}>
-                            <Button onClick={()=>handleEdit(project)} variant="contained" color="primary">Rename</Button>
-                        </ThemeProvider> */}
-                        <ThemeProvider theme={theme}>
-                            <Button onClick={()=>handleOpen(project)} variant="contained" color="primary">Open</Button>
-                        </ThemeProvider>
-                        <ExpansionPanel expanded={expanded === 'panel' + i} onChange={handleChange('panel' + i)}>
-                            <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panelbh-content"
-                                id="panelbh-header"
-                            >
-                                <Typography className={classes.heading}>{project.name}</Typography>
-                                <Typography className={classes.secondaryHeading}>Last Updated:  {project.date_last_edit}</Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <Typography>
-                                    <>Created On:  {project.date_created}</>
-                                    <>Notes:  {project.notes}</>
-
-                                </Typography>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                        <ThemeProvider theme={theme}>
-                            <Button onClick={() => { handleDelete(project) }} variant="contained" color="secondary">Delete</Button>
-                        </ThemeProvider>
-
-                    </li>
-                )
-            })}
-
-
-        </ul>
-
 
 
 
