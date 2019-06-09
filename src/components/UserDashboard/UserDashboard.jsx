@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
+
 import NavBar from '../NavBar/NavBar'
+import Footer from '../Footer/Footer'
 
 
 import ProjectItem from '../ProjectItem/ProjectItem'
@@ -9,14 +10,32 @@ import ProjectItem from '../ProjectItem/ProjectItem'
 
 //Material-UI stuff
 import { Button } from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 
 
 //SweetAlert2
 import Swal from 'sweetalert2'
 
+
+const styles = theme => ({
+    root: {
+        height: '100vh !important',
+        width: '100%',
+        backgroundColor: "#4a4a4a",
+    },
+    createNew: {
+        textAlign: "center"
+    },
+    button: {
+        // height: 70,
+        display: 'inline-block'
+    }
+})
+
+
 const theme = createMuiTheme({
+    
     palette: {
         primary: { main: '#9c27b0' },
         secondary: { main: '#ffcc80' }
@@ -68,14 +87,22 @@ class UserDashboard extends Component {
         //log to test setting local state worked
         console.log('in handleInputs state:', this.state)
         return (
-            <div>
+            <div className={this.props.classes.root}>
                 <NavBar />
-                <h3>
+                <h3 className={this.props.classes.createNew}>
                     <ThemeProvider theme={theme}>
-                        <Button onClick={this.nameProject} aria-label="create new project" variant="contained" color="primary">Create New Project</Button>
+                        <Button className={this.props.classes.button} onClick={this.nameProject} aria-label="create new project" variant="contained" color="secondary">
+                            <p>
+                                <i class="material-icons">
+                                add
+                                </i>
+                            </p>
+                            <p>Create New Project</p>
+                        </Button>
                     </ThemeProvider>
                 </h3>
-                <ProjectItem />
+                <ProjectItem elevation={6} square/>
+                <Footer/>
             </div>
         )
     }
@@ -85,4 +112,4 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-export default connect(mapStateToProps)(UserDashboard)
+export default withStyles(styles)(connect(mapStateToProps)(UserDashboard))

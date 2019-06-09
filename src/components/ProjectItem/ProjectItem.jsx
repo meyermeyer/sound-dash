@@ -5,7 +5,9 @@ import React, { useState, useEffect } from "react";
 import './ProjectItem.css'
 
 import Swal from 'sweetalert2'
+
 //MUI stuff
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { Button, Grid, Red} from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -25,15 +27,39 @@ const theme = createMuiTheme({
     }
 })
 
+const redTheme = createMuiTheme({
+    palette: {
+        primary: { main: '#b00020' },
+        secondary: { main: '#ffcc80' },
+
+    }
+})
+
 const useStyles = makeStyles(theme => ({
-    // root: {
-    //     width: '100%',
-    // },
-    button:{
-        width: '50%',
-        alignContent: 'center',
-        flexBasis: 0
+    projects: {
+        width: 'auto',
+        position: 'relative',
+        top: '10%',
+        left: '10%',
+        transform: 'translate(-10%, -10%)'
     },
+    // paper: {
+    //     margin: theme.spacing(8, 4),
+    //     display: 'flex',
+    //     flexDirection: 'column',
+    //     alignItems: 'center',
+    // },
+    line: {
+        backgroundColor:"#3a3a3a",
+        width: 'auto',
+        margin: 20,
+        borderRadius: '3px'
+    },
+    // button:{
+    //     width: '50%',
+    //     alignContent: 'center',
+    //     flexBasis: 0
+    // },
     panel: {
         width: '100%',
     },
@@ -127,52 +153,55 @@ function ControlledExpansionPanels(props) {
 
     return (
         <ThemeProvider theme={theme}>
-            {/* <ul className={classes.root}> */}
+            {/* <Grid className={classes.projects} item xs={12} component={Paper} elevation={6}square> */}
                 {props.reduxState.projects.map((project, i) => {
                     return (
-                        <Grid container spacing={4} alignItems='center' >
+                        <Grid className={classes.line} container spacing={4} alignItems='center' >
                             {/* <li key={i} className="projectList"> */}
                                 {/* <Button onClick={()=>handleEdit(project)} variant="contained" color="primary">Rename</Button> */}
-                            <Grid item xs={2} alignContent='center' flexBasis="auto">
+                            <Grid item xs={2}>
                                 <Button className={classes.button} onClick={() => handleOpen(project)} variant="contained" color="primary">
-                                    {/* Open  */}
+                                    Open 
                                     {/* <i class="material-icons">
                                         open_in_new
                                     </i> */}
-                                    <img className={classes.icon} src='/images/folder-open-outline.png'/>
+                                    <i class="material-icons">
+                                        arrow_forward_ios
+                                    </i>
+                                    {/* <img className={classes.icon} src='/images/folder-open-outline.png'/> */}
                                 </Button>
-                                </Grid>
-                                <Grid item xs={8} alignContent="stretch">
-                                    <ExpansionPanel className={classes.panel} expanded={expanded === 'panel' + i} onChange={handleChange('panel' + i)}>
-                                        <ExpansionPanelSummary
-                                            
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panelbh-content"
-                                            id="panelbh-header"
-                                        >
-                                            <Typography className={classes.heading}>{project.name}</Typography>
-                                            <Typography className={classes.secondaryHeading}>Created On:  {project.date_last_edit}</Typography>
-                                        </ExpansionPanelSummary>
-                                        <ExpansionPanelDetails>
-                                            <Typography >
-                                                Notes:  {project.notes}
-                                            </Typography>
-                                        </ExpansionPanelDetails>
-                                    </ExpansionPanel>
-                                </Grid>
-                            <Grid item xs={2} alignContent='center'>
-                                    <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="error">
-                                        <i class="material-icons">
-                                            delete_forever
-                                        </i>
-                                    </Button>
-                                </Grid>
-                                
+                            </Grid>
+                            <Grid item xs={8} alignContent="stretch">
+                                <ExpansionPanel className={classes.panel} expanded={expanded === 'panel' + i} onChange={handleChange('panel' + i)}>
+                                    <ExpansionPanelSummary
+                                        
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panelbh-content"
+                                        id="panelbh-header"
+                                    >
+                                        <Typography className={classes.heading}>{project.name}</Typography>
+                                        <Typography className={classes.secondaryHeading}>Created On:  {project.date_last_edit}</Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <Typography >
+                                            Notes:  {project.notes}
+                                        </Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                            </Grid>
                             
-                        </Grid>
-                        
+                            <Grid item xs={2}>
+                                <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="primary">
+                                    <i class="material-icons">
+                                        delete_forever
+                                    </i>
+                                </Button>
+                            </Grid>
+                        </Grid>   
                     )
                 })}
+            {/* </Grid> */}
+                
             
         </ThemeProvider>
         

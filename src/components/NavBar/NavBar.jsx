@@ -204,7 +204,7 @@ export default function NavBar() {
           </g>
           </svg>
           <Typography variant="h6" className={classes.title}>
-            SoundDash
+              SoundDash
           </Typography>
           <Menu />
         </Toolbar>

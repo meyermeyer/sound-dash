@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Footer from '../Footer/Footer'
 import NavBar from '../NavBar/NavBar'
 import Upload from '../Upload/Upload'
 import UppyModal from '../UppyModal/UppyModal'
@@ -372,6 +373,7 @@ class ProjectEditor extends Component {
 
 
                 </div>
+                <Footer />
             </>
 
         )
