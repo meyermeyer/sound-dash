@@ -107,6 +107,7 @@ class LoginPage extends Component {
                         </Typography>
               <form className={this.props.classes.form} onSubmit={this.login} noValidate>
                 <TextField
+                  color='#FFFFFF'
                   onChange={this.handleInputChangeFor('username')}
                   value={this.state.username}
                   variant="outlined"
