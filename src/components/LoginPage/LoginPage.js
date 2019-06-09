@@ -33,7 +33,7 @@ const styles = (theme) => ({
     backgroundRepeat: 'repeat',
     backgroundSize: '30%',
     backgroundPosition: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   
   login:{
@@ -41,7 +41,8 @@ const styles = (theme) => ({
     position: 'fixed',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '3px'
     
   },
   paper: {
@@ -49,6 +50,7 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    
   },
   avatar: {
     margin: theme.spacing(1),
@@ -98,7 +100,7 @@ class LoginPage extends Component {
         <LoginRegisterNavBar/>
         <div container component="main" className={this.props.classes.root}>
           <CssBaseline />
-            <Grid className={this.props.classes.login} item xs={12} sm={8} md={5} component={Paper} elevation={6}square>
+            <Grid className={this.props.classes.login} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <div className={this.props.classes.paper}>
                   <Avatar className={this.props.classes.avatar}>
                     <LockOutlinedIcon />

@@ -24,7 +24,11 @@ const theme = createMuiTheme({
 })
 
 const styles = theme => ({
-    
+    root: {
+        height: '100vh',
+        backgroundColor: '#e4e1e1',
+        textAlign: 'center'
+    },
 
 })
 
@@ -73,7 +77,7 @@ class UserDashboard extends Component {
         //log to test setting local state worked
         console.log('in handleInputs state:', this.state)
         return (
-            <div>
+            <div container component="main" className={this.props.classes.root}>
                 <NavBar />
                 <h3>
                     <ThemeProvider theme={theme}>

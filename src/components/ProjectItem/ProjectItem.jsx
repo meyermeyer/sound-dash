@@ -31,13 +31,20 @@ const redTheme = createMuiTheme({
 })
 
 const useStyles = makeStyles(theme => ({
-    // root: {
-    //     width: '100%',
-    // },
+    container: {
+        margin: '30px',
+        
+    },
     button:{
         width: '50%',
-        alignContent: 'center',
-        flexBasis: 0
+        
+        flexBasis: 0,
+    },
+
+    openButton:{
+        flexBasis: 'auto',
+        alignItems: 'center',
+        
     },
     panel: {
         width: '100%',
@@ -135,16 +142,21 @@ function ControlledExpansionPanels(props) {
             {/* <ul className={classes.root}> */}
                 {props.reduxState.projects.map((project, i) => {
                     return (
-                        <Grid container spacing={4} alignItems='center' >
+                        <Grid container spacing={4} className={classes.container} justify="center"
+                            alignItems="stretch">
                             {/* <li key={i} className="projectList"> */}
                                 {/* <Button onClick={()=>handleEdit(project)} variant="contained" color="primary">Rename</Button> */}
-                            <Grid item xs={2} alignContent='center' flexBasis="auto">
+                            <Grid item xs={2} className={classes.openButton} alignItems="stretch">
                                 <Button className={classes.button} onClick={() => handleOpen(project)} variant="contained" color="primary">
-                                    {/* Open  */}
-                                    {/* <i class="material-icons">
-                                        open_in_new
-                                    </i> */}
-                                    <img className={classes.icon} src='/images/folder-open-outline.png'/>
+                                    <Typography>
+                                        Open
+                                        <i class="material-icons">
+                                                open_in_new
+                                        </i>
+                                        {/* <img className={classes.icon} src='/images/folder-open-outline.png'/> */}
+                                    </Typography>
+                                    
+                                    
                                 </Button>
                                 </Grid>
                                 <Grid item xs={8} alignContent="stretch">

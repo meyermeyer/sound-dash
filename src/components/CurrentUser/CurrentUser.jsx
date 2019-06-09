@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import './CurrentUser.css'
+
 
 
 //materialUI
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
-import FaceIcon from '@material-ui/icons/Face';
-import TextField from '@material-ui/core/TextField';
-import { Button, Grid, Card, CardContent } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+
+
+
+const theme = createMuiTheme({
+    palette: {
+        primary: { main: '#9c27b0' },
+        secondary: { main: '#ffcc80' }
+    }
+})
+
 
 class CurrentUser extends Component {
     handleClick = () => {
@@ -23,21 +28,21 @@ class CurrentUser extends Component {
     render(){
         if (this.props.reduxState.user.username){
             return (
-                <div className="CurrentUserChip">
-
-                    <Chip
-                        avatar={<Avatar>{this.props.reduxState.user.username.charAt(0).toUpperCase()}</Avatar>}
-                        label={this.props.reduxState.user.username}
-                        onClick={this.handleClick}
-                    // className={classes.chip}
-                    />
-                </div>
+                <ThemeProvider theme={theme}>
+                    <div className="CurrentUserChip">
+                        <Chip
+                            avatar={<Avatar>{this.props.reduxState.user.username.charAt(0).toUpperCase()}</Avatar>}
+                            label={this.props.reduxState.user.username}
+                            onClick={this.handleClick}
+                            color='primary'
+                        />
+                    </div>
+                </ThemeProvider>
             )
         }
         else {
             return null
         }
-        
     }
 }
 

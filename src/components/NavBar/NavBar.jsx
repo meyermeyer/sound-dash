@@ -2,40 +2,61 @@ import React from 'react';
 import CurrentUser from '../CurrentUser/CurrentUser'
 import Menu from '../Menu/Menu'
 
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import AddCollaborators from '../AddCollaborators/AddCollaborators';
+
+
+const goldTheme = createMuiTheme({
+  palette: {
+    primary: { main: 'rgb(224,199,138)' },
+    secondary: { main: '#272727' },
+  }
+})
+
 
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
+  bar: {
+    // position: 'absolute',
+    textAlign: 'center'
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+    position: 'relative',
+    textAlign: 'center'
   },
+  icon: {
+    color: "#FFFFFF"
+  }
 }));
 
 export default function NavBar() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color='secondary'>
-        <Toolbar>
-          {/* <Button color="inherit"><CurrentUser /></Button> */}
-          <Menu />
-          <Typography variant="h6" className={classes.title}>
-            SoundDash
+    // <ThemeProvider theme={goldTheme}>
+      <div className={classes.root}>
+        <AppBar position="static" color='primary' >
+          <Toolbar className={classes.bar}>
+            
+            {/* <Button color="inherit"><CurrentUser /></Button> */}
+            <Menu />
+            <Typography variant="h6" className={classes.title}>
+              SoundDash
           </Typography>
-        </Toolbar>
-      </AppBar>
-    </div>
+          </Toolbar>
+        </AppBar>
+      </div>
+    // {/* </ThemeProvider> */}
+    
   );
 }
