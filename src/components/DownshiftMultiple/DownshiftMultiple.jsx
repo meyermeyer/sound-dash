@@ -9,23 +9,30 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
+import SearchIcon from '@material-ui/icons/Search';
 
 function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps;
     console.log('inputProps',inputProps)
 
     return (
-        <TextField
-            InputProps={{
-                inputRef: ref,
-                classes: {
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                },
-                ...InputProps,
-            }}
-            {...other}
-        />
+        <>
+            <div className={classes.searchIcon}>
+                <SearchIcon />
+            </div>
+            <TextField
+                InputProps={{
+                    inputRef: ref,
+                    classes: {
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                    },
+                    ...InputProps,
+                }}
+                {...other}
+            />
+        </>
+        
     );
 }
 
@@ -77,13 +84,7 @@ function getSuggestions(value, store, { showEmpty = false } = {}) {
 }
 
 export default function DownshiftMultiple(props) {
-
-    // const clearState = () => {
-    //     setCollaborators([])
-    // }
-    //retrieve user inputs from DownshiftMultiple
-    const captureInput = (newItemIds, newSelectedItem) => {
-        // event.preventDefault();
+    const captureInput = (newItemIds) => {
         console.log('in captureInput', newItemIds)
         setCollaborators(newItemIds)
     }
@@ -152,21 +153,15 @@ export default function DownshiftMultiple(props) {
         newItemIds.splice(selectedItem.indexOf(item), 1);
         console.log('delete', item, newItemIds, selectedItem.indexOf(item))
         setSelectedItem(newSelectedItem);
-
-
-        // newItemIds.splice(0,1)
-
     };
 
     return (
         <form className={classes.form} onSubmit={handleSubmit}>
             <Downshift
-
                 id="downshift-multiple"
                 inputValue={inputValue}
                 onChange={handleChange}
                 selectedItem={selectedItem}
-
             >
                 {({
                     getInputProps,
@@ -192,10 +187,10 @@ export default function DownshiftMultiple(props) {
                                     )),
                                     onChange: handleInputChange,
                                     onKeyDown: handleKeyDown,
-                                    placeholder: 'Add Collaborators',
+                                    placeholder: 'Search by Username',
 
                                 }),
-                                label: 'Username',
+                                label: 'Add Collaborators',
                             })}
 
                             {isOpen ? (
@@ -224,41 +219,3 @@ DownshiftMultiple.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        height: 24,
-    },
-    form: {
-        height: 24
-    },
-    container: {
-        flexGrow: 1,
-        position: 'relative',
-    },
-    paper: {
-        position: 'absolute',
-        zIndex: 1,
-        marginTop: theme.spacing(1),
-        left: 0,
-        right: 0,
-    },
-    chip: {
-        margin: theme.spacing(0.5, 0.25),
-    },
-    inputRoot: {
-        flexWrap: 'wrap',
-    },
-    inputInput: {
-        width: 'auto',
-        flexGrow: 1,
-        backgroundColor: '#ffffff73',
-        borderRadius: '3px'
-    },
-    divider: {
-        height: theme.spacing(2),
-    },
-    search: {
-        height: '24px'
-    }
-});
