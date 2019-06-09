@@ -29,16 +29,13 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 const styles = (theme) => ({
   root: {
     height: '100vh',
-    
     backgroundImage: 'url(images/multiple_cassettes_no_watermark.jpg)',
     backgroundRepeat: 'repeat',
     backgroundSize: '30%',
     backgroundPosition: 'center',
     alignItems: 'center'
   },
-  image: {
-    
-  },
+  
   login:{
     backgroundColor: 'rgba(255, 255, 255, 0.96)',
     position: 'fixed',
@@ -52,9 +49,6 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    
-    
-    
   },
   avatar: {
     margin: theme.spacing(1),
@@ -63,8 +57,8 @@ const styles = (theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
-    backgroundColor: 'transparent'
   },
+
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -111,57 +105,58 @@ class LoginPage extends Component {
                   </Avatar>
                   <Typography component="h1" variant="h5">
                     Sign in
-                        </Typography>
-                  <form className={this.props.classes.form} onSubmit={this.login} noValidate>
-                    <TextField
-                      onChange={this.handleInputChangeFor('username')}
-                      value={this.state.username}
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="username"
-                      label="Username"
-                      name="username"
-                      autoComplete="username"
-                      autoFocus
-                    />
-                    <TextField
-                      onChange={this.handleInputChangeFor('password')}
-                      value={this.state.password}
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox value="remember" color="primary" />}
-                      label="Remember me"
-                    />
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={this.props.classes.submit}
-                    >
-                      Sign In
-                        </Button>
-                    <Grid container>
+                  </Typography>
+              <form className={this.props.classes.form} onSubmit={this.login} noValidate>
+                <TextField
+                  color='#FFFFFF'
+                  onChange={this.handleInputChangeFor('username')}
+                  value={this.state.username}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
+                />
+                <TextField
+                  onChange={this.handleInputChangeFor('password')}
+                  value={this.state.password}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={this.props.classes.submit}
+                >
+                  Sign In
+                </Button>
+                <Grid container>
 
-                      <Grid item>
-                        <Link href="#" variant="body2" onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
-                          {"Don't have an account? Sign Up"}
-                        </Link>
-                      </Grid>
-                    </Grid>
-                  </form>
-                </div>
+                  <Grid item>
+                    <Link href="#" variant="body2" onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
           </Grid>
         </div>
       </div>
