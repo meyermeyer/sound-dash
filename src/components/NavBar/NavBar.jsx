@@ -47,7 +47,6 @@ export default function NavBar() {
       <div className={classes.root}>
         <AppBar position="static" color='primary' >
           <Toolbar className={classes.bar}>
-            
             {/* <Button color="inherit"><CurrentUser /></Button> */}
             <Menu />
             <Typography variant="h6" className={classes.title}>
