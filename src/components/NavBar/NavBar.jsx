@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NavBar() {
+export default function NavBar(props) {
   const classes = useStyles();
 
   return (
@@ -206,6 +206,7 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
               SoundDash
           </Typography>
+          <h2>{props.currentProject}</h2>
           <Menu />
         </Toolbar>
       </AppBar>

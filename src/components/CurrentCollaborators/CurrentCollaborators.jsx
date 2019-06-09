@@ -18,13 +18,14 @@ class CurrentCollaborators extends Component {
     render() {
         return (
             <div id="currentCollaborators">
-                <Card>
-                    <CardContent>
+                {/* <Card> */}
+                    {/* <CardContent> */}
                         <h3>Shared with:</h3>
                         {this.props.reduxState.collaborators.map((collaborator, i) => {
                             if (collaborator.id != this.props.reduxState.user.id)
                                 return (
                                     <Chip
+                                        color="secondary"
                                         key={i}
                                         avatar={<Avatar>{collaborator.username.charAt(0).toUpperCase()}</Avatar>}
                                         label={collaborator.username}
@@ -32,8 +33,8 @@ class CurrentCollaborators extends Component {
                                     />
                                 )
                         })}
-                    </CardContent>
-                </Card>
+                    {/* </CardContent> */}
+                {/* </Card> */}
 
             </div>
         )

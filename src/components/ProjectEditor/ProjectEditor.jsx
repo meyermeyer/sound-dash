@@ -264,45 +264,20 @@ class ProjectEditor extends Component {
         
         return (
             <>
-                <NavBar />
+                <NavBar currentProject={currentProject.name}/>
+                <Grid container spacing={4}>
+                    <Grid item xs={6}>
+                        <CurrentCollaborators />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <AddCollaborators />
+                    </Grid>                   
+                </Grid>                
                 <Upload/>
                 {/* <Microphone/> */}
                 {/* <ReactMicrophone/> */}
-                {/* <UppyModal/> */}
-                {/* {this.props.reduxState.projects.map((project,i)=>{
-                    console.log('project', project.project_id, this.props.match.params)
-                    if(project.project_id == this.props.match.params.id){
-                        return(
-                            <h2 key={i}>{project.name}</h2>
-                        )
-                    }
-                })} */}
-                <h2>{currentProject.name}</h2>
-                
+                <h2>{currentProject.name}</h2>               
                 <div>
-                    {/* <CurrentUser /> */}
-                    <CurrentCollaborators/>
-                    
-                    
-                    <AddCollaborators/>
-
-                    {/* <h3>Add New Files</h3>
-                    <TextField
-                        id="outlined-dense"
-                        label="Audio URL"
-                        margin="dense"
-                        variant="outlined"
-                        onChange={this.handleChange}
-                    />
-                    
-                    <ThemeProvider theme={theme}>
-                        <Button onClick={this.handleSubmit} variant="contained" color="secondary">Submit
-                            <i class="material-icons">
-                                library_add
-                            </i>
-                        </Button>
-                    </ThemeProvider> */}
-                    {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
                     <Grid container>
                         <Loading/>
                         <Grid item xs={8}>
@@ -311,71 +286,35 @@ class ProjectEditor extends Component {
                             </ul>
                         </Grid>
                         <Grid container xs={4} direction="column">
-                            <Grid item xs={6}>
-                                
-                                            <TextField
-                                                
-                                                id="lyrics-textarea"
-                                                label="Lyrics"
-                                                placeholder="Lyrics Here"
-                                                multiline
-                                                className={this.props.classes.textField}
-                                                margin="normal"
-                                        
-                                                onChange={this.handleLyricsChange}
-                                                // onClick={this.setLyricsInput}
-                                                // onSubmit={this.handleLyricsSubmit}
-                                                defaultValue={currentProject.lyrics}
-                                            />
-                                   
+                            <Grid item xs={6}>                               
+                                <TextField                                   
+                                    id="lyrics-textarea"
+                                    label="Lyrics"
+                                    placeholder="Lyrics Here"
+                                    multiline
+                                    className={this.props.classes.textField}
+                                    margin="normal"                           
+                                    onChange={this.handleLyricsChange}
+                                    defaultValue={currentProject.lyrics}
+                                />                                   
                             </Grid>
-                            {/* <input onLoad={console.log('input loaded')}></input> */}
-
-                            <Grid item sm={6} >
-                                
-                                            <TextField
-                                                id="notes-textarea"
-                                                label="Notes"
-                                                placeholder="Notes Here"
-                                                multiline
-                                                className={this.props.classes.textField}
-                                                margin="normal"
-                                                
-                                                onChange={this.handleNotesChange}
-                                                // onClick={this.setLyricsInput}
-                                                // onSubmit={this.handleLyricsSubmit}
-                                                defaultValue={currentProject.notes}
-                                                
-                                            />
-                                       
-                                    {/* <TextField
-                                        id="notes-textarea"
-                                        label="Notes"
-                                        placeholder="Notes Here"
-                                        multiline
-                                        className={this.props.classes.textField}
-                                        margin="normal"
-                                        onChange={this.handleNotesChange}
-                                        onClick={this.setNotesInput}
-                                        onSubmit={this.handleNotesSubmit}
-                                        // value={this.props.reduxState.currentProject.notes}
-                                    />
-                                 */}
-
+                            <Grid item sm={6} >                                
+                                <TextField
+                                    id="notes-textarea"
+                                    label="Notes"
+                                    placeholder="Notes Here"
+                                    multiline
+                                    className={this.props.classes.textField}
+                                    margin="normal"                                                
+                                    onChange={this.handleNotesChange}                                               
+                                    defaultValue={currentProject.notes}                                               
+                                />
                             </Grid>
-
-
-
                         </Grid>
-
-
                     </Grid>
-
-
                 </div>
                 <Footer />
             </>
-
         )
     }
 }
