@@ -14,10 +14,10 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
+import NavBar from '../NavBar/NavBar'
 
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
-import MuiLogin from '../MuiLogin/MuiLogin';
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
@@ -45,14 +45,8 @@ class App extends Component {
 
   render() {
     return (
-      <>
-        {/* <img src='https://www.illustrationweb.com/Thumb386s/110519/image_87076/media-fight-graphic-design.jpg' /> */}
         <Router>
           <div>
-            <Header />
-            
-            <Nav />
-            {/* <CurrentUser /> */}
             <Switch>
               {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
               <Redirect exact from="/" to="/home" />
@@ -97,12 +91,6 @@ class App extends Component {
             <Footer />
           </div>
         </Router>
-        {/* <ThemeProvider theme={theme}>
-          <Button variant="contained" color="primary">test</Button>
-        </ThemeProvider> */}
-        
-      </>
-     
   )}
 }
 

@@ -112,7 +112,7 @@ function ControlledExpansionPanels(props) {
 
     return (
         
-        <div className={classes.root}>
+        <ul className={classes.root}>
             {props.reduxState.projects.map((project, i) => {
                 return (
                     <li key={i} className="projectList">
@@ -148,7 +148,7 @@ function ControlledExpansionPanels(props) {
             })}
 
 
-        </div>
+        </ul>
 
 
 

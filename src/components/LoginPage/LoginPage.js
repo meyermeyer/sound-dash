@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import LoginRegisterNavBar from '../LoginRegisterNavBar/LoginRegisterNavBar'
 
 
 //Mui stuff
@@ -18,6 +19,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: { main: '#9c27b0' },
+//     secondary: { main: '#ffcc80' }
+//   }
+// })
 
 const styles = (theme) => ({
   root: {
@@ -85,69 +92,73 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <Grid container component="main" className={this.props.classes.root}>
-        <CssBaseline />
-        <Grid item xs={false} sm={4} md={7} className={this.props.classes.image} />
-        <Grid className={this.props.classes.login} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <div className={this.props.classes.paper}>
-            <Avatar className={this.props.classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
+      <div>
+        <LoginRegisterNavBar/>
+        <Grid container component="main" className={this.props.classes.root}>
+          <CssBaseline />
+          <Grid item xs={false} sm={4} md={7} className={this.props.classes.image} />
+          <Grid className={this.props.classes.login} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <div className={this.props.classes.paper}>
+              <Avatar className={this.props.classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
                         </Typography>
-            <form className={this.props.classes.form} onSubmit={this.login} noValidate>
-              <TextField
-                onChange={this.handleInputChangeFor('username')}
-                value={this.state.username}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                autoFocus
-              />
-              <TextField
-                onChange={this.handleInputChangeFor('password')}
-                value={this.state.password}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={this.props.classes.submit}
-              >
-                Sign In
+              <form className={this.props.classes.form} onSubmit={this.login} noValidate>
+                <TextField
+                  onChange={this.handleInputChangeFor('username')}
+                  value={this.state.username}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
+                />
+                <TextField
+                  onChange={this.handleInputChangeFor('password')}
+                  value={this.state.password}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={this.props.classes.submit}
+                >
+                  Sign In
                         </Button>
-              <Grid container>
+                <Grid container>
 
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  <Grid item>
+                    <Link href="#" variant="body2" onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </form>
-          </div>
+              </form>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
+      
     );
   }
 };

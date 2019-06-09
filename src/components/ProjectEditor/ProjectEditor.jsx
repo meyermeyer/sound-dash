@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import EditorNavBar from '../EditorNavBar/EditorNavBar'
 import Upload from '../Upload/Upload'
 import UppyModal from '../UppyModal/UppyModal'
 import TrackList from '../TrackList/TrackList.jsx'
@@ -263,6 +264,7 @@ class ProjectEditor extends Component {
         
         return (
             <>
+                <EditorNavBar />
                 <Upload/>
                 {/* <Microphone/> */}
                 {/* <ReactMicrophone/> */}
@@ -282,7 +284,7 @@ class ProjectEditor extends Component {
                     <CurrentCollaborators/>
                     
                     
-                    <AddCollaborators/>
+                    {/* <AddCollaborators/> */}
 
                     {/* <h3>Add New Files</h3>
                     <TextField
