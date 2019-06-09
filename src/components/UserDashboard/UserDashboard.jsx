@@ -9,7 +9,7 @@ import ProjectItem from '../ProjectItem/ProjectItem'
 
 //Material-UI stuff
 import { Button } from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 
 
@@ -21,6 +21,11 @@ const theme = createMuiTheme({
         primary: { main: '#9c27b0' },
         secondary: { main: '#ffcc80' }
     }
+})
+
+const styles = theme => ({
+    
+
 })
 
 class UserDashboard extends Component {
@@ -85,4 +90,4 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-export default connect(mapStateToProps)(UserDashboard)
+export default withStyles(styles)(connect(mapStateToProps)(UserDashboard))

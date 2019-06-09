@@ -21,7 +21,12 @@ const theme = createMuiTheme({
     palette: {
         primary: { main: '#9c27b0' },
         secondary: { main: '#ffcc80' },
-        
+    }
+})
+
+const redTheme = createMuiTheme({
+    palette: {
+        primary: { main: '#C62828'}
     }
 })
 
@@ -161,12 +166,14 @@ function ControlledExpansionPanels(props) {
                                     </ExpansionPanel>
                                 </Grid>
                             <Grid item xs={2} alignContent='center'>
-                                    <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="error">
+                                <ThemeProvider theme={redTheme}>
+                                    <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="primary">
                                         <i class="material-icons">
                                             delete_forever
                                         </i>
                                     </Button>
-                                </Grid>
+                                </ThemeProvider>    
+                            </Grid>
                                 
                             
                         </Grid>
