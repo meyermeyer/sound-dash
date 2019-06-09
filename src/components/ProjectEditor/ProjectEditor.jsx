@@ -248,7 +248,6 @@ class ProjectEditor extends Component {
         const {id} = this.props.match.params
         console.log('ProjectEditor project_id', id)
         this.props.dispatch({ type: 'FETCH_PROJECTS' })
-        
         this.props.dispatch({ type: 'FETCH_FILES', payload: id })
         this.props.dispatch({ type: 'FETCH_REGIONS', payload: id })
         this.props.dispatch({ type: 'FETCH_COLLABORATORS', payload: id})

@@ -352,10 +352,18 @@ class Waveform extends React.Component {
         }
         else {
             return (
-                this.props.file.track_name
+                <>
+                    <i class="material-icons">
+                    edit
+                    </i>
+                    {this.props.file.track_name}
+                </>
+                
             )
         }
     }
+
+
     //function re-renders track header as input field on click for track title update
     editTrackName = (event) => {
         if (document.activeElement!=event.target){
@@ -514,7 +522,9 @@ class Waveform extends React.Component {
                     <Loading/>
                     <div className="wave-timeline"></div>
                     <div className="waveform">
-                        <h3 onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>{this.checkNameIsClicked()}</h3>
+                        <h3 onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>
+                            {this.checkNameIsClicked()}
+                        </h3>
 
                         <div onClick={this.handleClick} className='wave'>
                         </div>
