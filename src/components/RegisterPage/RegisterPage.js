@@ -16,6 +16,7 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 
 // const theme = createMuiTheme({
@@ -26,28 +27,41 @@ import Container from '@material-ui/core/Container';
 // })
 
 const styles = (theme) => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
-
-    },
+  root: {
+    height: '100vh',
+    backgroundImage: 'url(images/multiple_cassettes_no_watermark.jpg)',
+    backgroundRepeat: 'repeat',
+    backgroundSize: '30%',
+    backgroundPosition: 'center',
+    alignItems: 'center'
   },
+
+  register:{
+    backgroundColor: 'rgba(255, 255, 255, 0.96)',
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+    
+  },
+
   paper: {
-    backgroundColor: theme.palette.common.white,
-    marginTop: theme.spacing(8),
+    margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-
   },
+
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+  
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
   },
+
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -85,7 +99,8 @@ class SignUp extends Component {
     return (
       <div>
         <LoginRegisterNavBar/>
-        <div className="container">
+        <div container component="main" className={this.props.classes.root}>
+          <CssBaseline />
           {this.props.errors.registrationMessage && (
             <h2
               className="alert"
@@ -94,66 +109,62 @@ class SignUp extends Component {
               {this.props.errors.registrationMessage}
             </h2>
           )}
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={this.props.classes.paper}>
-              <Avatar className={this.props.classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign up
-                    </Typography>
-              <form onSubmit={this.registerUser} className={this.props.classes.form} noValidate>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleInputChangeFor('username')}
-                      value={this.state.username}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="username"
-                      label="Username"
-                      name="username"
-                      autoComplete="username"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleInputChangeFor('password')}
-                      value={this.state.password}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                    />
-                  </Grid>
-                </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={this.props.classes.submit}
-                >
-                  Sign Up
+          <Grid className={this.props.classes.register} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+              <div className={this.props.classes.paper}>
+                <Avatar className={this.props.classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Sign up
+                </Typography>
+                <form onSubmit={this.registerUser} className={this.props.classes.form} noValidate>
+                      <TextField
+                        onChange={this.handleInputChangeFor('username')}
+                        value={this.state.username}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="Username"
+                        name="username"
+                        autoComplete="username"
+                        autoFocus
+                      />
+                      <TextField
+                        onChange={this.handleInputChangeFor('password')}
+                        value={this.state.password}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                      />
+                    
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={this.props.classes.submit}
+                  >
+                    Sign Up
                         </Button>
-                <Grid container justify="flex-end">
-                  <Grid item>
-                    <Link href="#" variant="body2" onClick={() => {
-                      this.props.dispatch({ type: 'SET_TO_LOGIN_MODE' })
-                    }}>
-                      Already have an account? Sign in
-                                 </Link>
+                  <Grid container>
+                    <Grid item>
+                      <Link href="#" variant="body2" onClick={() => {
+                        this.props.dispatch({ type: 'SET_TO_LOGIN_MODE' })}}>
+                        Already have an account? Sign in
+                      </Link>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </form>
-            </div>
-          </Container>
+                </form>
+              </div>
+          </Grid>
         </div>
       </div>
       
