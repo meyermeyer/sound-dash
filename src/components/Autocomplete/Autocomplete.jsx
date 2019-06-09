@@ -143,6 +143,7 @@ function DownshiftMultiple(props) {
         console.log('newItemIds', newItemIds)
         setInputValue('');
         setSelectedItem(newSelectedItem);
+        setItemIds(newItemIds);
         //send IDS of selected users to class component to send to SAGA 
         captureInput(newItemIds, newSelectedItem)
     }
