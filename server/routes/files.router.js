@@ -11,11 +11,11 @@ router.delete('/', rejectUnauthorizedUser, (req,res)=>{
         let query = `DELETE FROM "files" WHERE "id"=$1`
         pool.query(query,[req.query.track_id])
             .then(response=>{
-                // console.log('back from DELETE /api/files', response)
+                console.log('back from DELETE /api/files', response)
                 res.sendStatus(204)
             })
             .catch(error=>{
-                // console.log('error in DELETE /api/files', error);
+                console.log('error in DELETE /api/files', error);
                 res.sendStatus(500)
             })
     }
