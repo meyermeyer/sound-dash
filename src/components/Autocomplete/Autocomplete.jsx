@@ -187,6 +187,7 @@ function DownshiftMultiple(props) {
                             InputProps: getInputProps({
                                 startAdornment: selectedItem.map(item => (
                                     <Chip
+                                        color="primary"
                                         key={item}
                                         tabIndex={-1}
                                         label={item}
@@ -196,12 +197,11 @@ function DownshiftMultiple(props) {
                                 )),
                                 onChange: handleInputChange,
                                 onKeyDown: handleKeyDown,
-                                placeholder: 'Add Collaborators',
-                                
+                                placeholder: `Search by Username`
                             }),
-                            label: 'Username',
-                        })}
-
+                                label: 'Add Collaborators',
+                            })}
+                            
                         {isOpen ? (
                             <Paper className={classes.paper} square>
                                 {getSuggestions(inputValue2, props.store).map((suggestion, index) =>
@@ -219,7 +219,7 @@ function DownshiftMultiple(props) {
                 )}
         </Downshift>
             <div className={props.classes.divider} />
-            <Button onClick={handleSubmit} type="submit">Add Collaborators</Button>
+            <Button variant='contained' color='secondary' onClick={handleSubmit} type="submit">Add Collaborators</Button>
         </form>
     );
 }
@@ -231,7 +231,7 @@ DownshiftMultiple.propTypes = {
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        height: 250,
+        // height: 250,
     },
     container: {
         flexGrow: 1,

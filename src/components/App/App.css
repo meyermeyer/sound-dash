@@ -49,3 +49,15 @@ input {
     border-bottom:1px solid #444; 
     cursor: pointer;
 }
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+  overflow: auto;
+  padding-bottom: 50px;
+  /* margin-bottom:40px; */
+
+  /* must be same height as the footer */
+}

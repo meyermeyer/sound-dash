@@ -12,8 +12,9 @@ import './Waveform.css'
 
 import Loading from '../Loading/Loading'
 //MUI stuff
+import Fab from '@material-ui/core/Fab';
 import { Button, icons, CardContent, Card } from '@material-ui/core'
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import SvgIcon from '@material-ui/core/SvgIcon'
 
@@ -25,6 +26,41 @@ const theme = createMuiTheme({
     }
 })
 
+const redTheme = createMuiTheme({
+    palette: {
+        primary: { main: '#c62828' },
+        secondary: { main: '#ffcc80' }
+    }
+})
+
+const styles = (theme, redTheme) => ({
+    waveform: {
+        height: 'auto',
+        backgroundColor: '#3a3a3a'
+    },
+    title: {
+        margin: 0,
+        color: 'white'
+    },
+    top: {
+        display: 'inline'
+    },
+    delete: {
+        float: 'right',
+        color: '#5a5959'
+
+    },
+    editor: {
+        width: '70%',
+        backgroundColor: 'pink'
+    },
+    card: {
+        backgroundColor: '#3a3a3a',
+        marginBottom: 5,
+        paddingBottom: '0 !important'
+    }
+
+})
 
 class Waveform extends React.Component {
     state = {
@@ -65,7 +101,7 @@ class Waveform extends React.Component {
     allowAnnotation = () => {
         console.log('in allowAnnotation');
         this.wavesurfer.enableDragSelection({
-            color: this.randomColor(.1)
+            color: this.randomColor(.3)
         });
     }
 
@@ -339,15 +375,19 @@ class Waveform extends React.Component {
         );
     }
 
+
     //file functions
 
     checkNameIsClicked = () => {
         console.log('in checkNameIsClicked')
         if (this.state.trackNameIsClicked) {
             return (
-                <form className="form" onSubmit={this.handleNameSubmit} >
-                    <input onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
-                </form>
+                <>
+                    <form className="editor" onSubmit={this.handleNameSubmit} >
+                        <input className={this.props.classes.input} onChange={this.handleNameInput} placeholder={this.props.file.track_name} ></input>
+                    </form>
+                </>
+                
             )
         }
         else {
@@ -426,6 +466,7 @@ class Waveform extends React.Component {
     //function sends data to saga for file delete request
     handleDelete = () => {
         console.log('in handleDelete', this.props.file.id)
+        
         this.props.dispatch({
             type: 'DELETE_FILE', payload: {
                 track_id: this.props.file.id,
@@ -461,6 +502,7 @@ class Waveform extends React.Component {
     }
 
     componentDidMount() {
+        let randomColor = this.randomColor(.4)
         // console.log('this.wavesurfer.regions.list', this.wavesurfer.regions.list)
         this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.match.params.id})
         this.$el = ReactDOM.findDOMNode(this)
@@ -469,16 +511,20 @@ class Waveform extends React.Component {
             container: this.$waveform,
             waveColor: 'violet',
             progressColor: 'purple',
+            responsive: true,
+            autoCenter: true,
+            interact: true,
             backend: 'MediaElement',
             preload:true,
             minPxPerSec: 3,
+            barHeight: .8,
             pixelRatio:1,
             plugins: [
                 RegionsPlugin.create({}),
-                MicrophonePlugin.create({}),
-                TimelinePlugin.create({
-                    container: '.wave-timeline'
-                }),
+                // MicrophonePlugin.create({}),
+                // TimelinePlugin.create({
+                //     container: '.wave-timeline'
+                // }),
             
             ]
         })
@@ -493,7 +539,7 @@ class Waveform extends React.Component {
         // this.wavesurfer.on('region-created', this.createRegion)
         // this.wavesurfer.on('region-mouseenter', this.handleHover)
         // this.wavesurfer.on('region-dblclick', this.loopRegion)
-        // this.wavesurfer.on('region-click', this.labelRegion)
+        this.wavesurfer.on('region-click', this.labelRegion)
         // this.wavesurfer.on('region-click', this.handleLable)
 
 
@@ -517,40 +563,52 @@ class Waveform extends React.Component {
         // console.log('newest region:', this.state.regionsArray[this.state.regionsArray.length - 1])
 
         return (
-            <Card>
-                <CardContent>
-                    <Loading/>
-                    <div className="wave-timeline"></div>
-                    <div className="waveform">
-                        <h3 onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>
-                            {this.checkNameIsClicked()}
-                        </h3>
-
-                        <div onClick={this.handleClick} className='wave'>
+            <Card className={this.props.classes.card}>
+                <CardContent className={this.props.classes.card}>                 
+                    <div className={this.props.classes.waveform}>
+                        <div className={this.props.classes.top}>
+                            <h3 className={this.props.classes.title} onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>
+                                {this.checkNameIsClicked()}
+                                <ThemeProvider theme={redTheme}>
+                                    <Fab className={this.props.classes.delete} onClick={this.handleDelete} aria-label="delete track" style={{  }}>
+                                        {/* Delete */}
+                                        <i class="material-icons">
+                                            delete
+                                        </i>
+                                    </Fab>
+                                </ThemeProvider>
+                            </h3>
                         </div>
-                        {/* <div className='wave2'></div> */}
+                        
+                        <Loading />
+                        <div onClick={this.handleClick} className='wave'>
+                            {/* <div className="wave-timeline"></div> */}
+                        </div>
                         <ThemeProvider theme={theme}>
-                            <Button onClick={this.playAudio} aria-label="play audio" variant="contained" color="primary">Play
-                        <i className="material-icons">
+                            <Fab onClick={this.playAudio} aria-label="play audio" variant="contained" color="primary">
+                                {/* Play */}
+                                <i className="material-icons">
                                     play_circle_outline
-                        </i>
-                            </Button>
+                                </i>
+                            </Fab>
                         </ThemeProvider>
                         <ThemeProvider theme={theme}>
-                            <Button onClick={this.pauseAudio} aria-label="pause audio" variant="contained" color="primary">Pause
-                        <i class="material-icons">
+                            <Fab onClick={this.pauseAudio} aria-label="pause audio" variant="contained" color="primary">
+                                {/* Pause */}
+                                <i class="material-icons">
                                     pause_circle_filled
-                        </i>
-                            </Button>
+                                </i>
+                            </Fab>
                         </ThemeProvider>
                         <ThemeProvider theme={theme}>
-                            <Button onClick={this.stopAudio} aria-label="stop audio" variant="contained" color="primary">Stop
-                        <i class="material-icons">
+                            <Fab onClick={this.stopAudio} aria-label="stop audio" variant="contained" color="primary">
+                                {/* Stop */}
+                                <i class="material-icons">
                                     stop
-                        </i>
-                            </Button>
+                                </i>
+                            </Fab>
                         </ThemeProvider>
-                        <ul>
+                        {/* <ul> */}
                             {/* {this.state.regionsArray.map((region,i) => {
                                 return (
                                     <li key={i}>{region.data.regionTag}</li>
@@ -566,14 +624,8 @@ class Waveform extends React.Component {
                                 } 
 
                              })} */}
-                        </ul>
-                        <ThemeProvider theme={theme}>
-                            <Button onClick={this.handleDelete} aria-label="delete track" variant="contained" color="primary">Delete
-                        <i class="material-icons">
-                                    delete
-                        </i>
-                            </Button>
-                        </ThemeProvider>
+                        {/* </ul> */}
+                        
                     </div>
                 </CardContent>
 
@@ -591,5 +643,5 @@ const mapStateToProps = reduxState => ({
     reduxState
 });
 
-export default withRouter(connect(mapStateToProps)(Waveform));
+export default withRouter(withStyles(styles)(connect(mapStateToProps)(Waveform)));
 

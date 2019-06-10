@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 import LoginRegisterNavBar from '../LoginRegisterNavBar/LoginRegisterNavBar'
-
+import Footer from '../Footer/Footer'
 //Mui stuff
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -166,6 +166,7 @@ class SignUp extends Component {
               </div>
           </Grid>
         </div>
+        {/* <Footer/> */}
       </div>
       
 

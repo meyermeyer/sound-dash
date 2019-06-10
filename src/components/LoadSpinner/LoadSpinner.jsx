@@ -66,8 +66,13 @@ function CircularIntegration(props) {
             timer.current = setTimeout(() => {
                 setSuccess(true);
                 setLoading(false);
-            }, 2000);
+            }, 10000);
         }
+        timer.current = setTimeout(()=>{
+            setSuccess(false);
+            setLoading(false);
+        }, 15000);
+       
     }
 
     return (
@@ -81,7 +86,7 @@ function CircularIntegration(props) {
                 >
                     {success ? <CheckIcon /> : <i className="material-icons">
                         cloud_upload
-</i>}
+                    </i>}
                 </Fab>
                 {loading && <CircularProgress size={68} className={classes.fabProgress} />}
             </div>

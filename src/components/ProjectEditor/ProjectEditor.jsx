@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import EditorNavBar from '../EditorNavBar/EditorNavBar'
+import Footer from '../Footer/Footer'
+import NavBar from '../NavBar/NavBar'
 import Upload from '../Upload/Upload'
 import UppyModal from '../UppyModal/UppyModal'
 import TrackList from '../TrackList/TrackList.jsx'
@@ -13,11 +14,11 @@ import LoadSpinner from '../LoadSpinner/LoadSpinner'
 import Microphone from '../Microphone/Microphone'
 import ReactMicrophone from '../ReactMicrophone/ReactMicrophone'
 import CurrentCollaborators from '../CurrentCollaborators/CurrentCollaborators'
-import './ProjectEditor.css'
+
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
-import { Button, Grid, Card, CardContent } from '@material-ui/core';
+import { Button, Grid, Paper, Card, CardContent } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
@@ -37,20 +38,38 @@ const theme = createMuiTheme({
     }
 })
 
-const styles = (theme) => {
-    return {
-        textField: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-            width: 200,
-            height: 400,
-            borderStyle: 'solid',
-            borderColor: 'black',
-            borderWeight: 2
-
-        }
+const styles = (theme) => ({
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: '94%',
+        height: 400, 
+        borderStyle: 'solid',
+        borderColor: 'black',
+        borderWeight: 2,
+        backgroundColor: 'white',
+        borderRadius: '3px'
+    },
+    '@global': {
+        body: {
+            height: '100%',
+            width: '100%',
+            backgroundColor: "#4a4a4a",
+            
+        },
+    },
+    root: {
+        backgroundColor: "#4a4a4a",
+        margin: '25px'
+    },  
+    input: {
+        marginBottom: '5px',
+        marginLeft: '5px',
+        backgroundColor: "#3a3a3a",
+        color: 'white'
     }
-};
+    
+});
 
 let currentProject={};
 
@@ -262,76 +281,48 @@ class ProjectEditor extends Component {
         
         
         return (
-            <>
-                <EditorNavBar />
-                <Upload/>
-                {/* <Microphone/> */}
-                {/* <ReactMicrophone/> */}
-                {/* <UppyModal/> */}
-                {/* {this.props.reduxState.projects.map((project,i)=>{
-                    console.log('project', project.project_id, this.props.match.params)
-                    if(project.project_id == this.props.match.params.id){
-                        return(
-                            <h2 key={i}>{project.name}</h2>
-                        )
-                    }
-                })} */}
-                <h2>{currentProject.name}</h2>
-                
-                <div>
-                    <CurrentUser />
-                    <CurrentCollaborators/>
-                    
-                    
-                    {/* <AddCollaborators/> */}
-
-                    {/* <h3>Add New Files</h3>
-                    <TextField
-                        id="outlined-dense"
-                        label="Audio URL"
-                        margin="dense"
-                        variant="outlined"
-                        onChange={this.handleChange}
-                    />
-                    
-                    <ThemeProvider theme={theme}>
-                        <Button onClick={this.handleSubmit} variant="contained" color="secondary">Submit
-                            <i class="material-icons">
-                                library_add
-                            </i>
-                        </Button>
-                    </ThemeProvider> */}
-                    {/* <input aria-label="web url" type="text" placeholder="web url"></input> */}
-                    <Grid container>
-                        <Loading/>
-                        <Grid item xs={8}>
-                            <ul>
-                                <TrackList />
-                            </ul>
+            <div>
+                <NavBar currentProject={currentProject.name}/>
+                <div className={this.props.classes.root}>
+                    <Grid container spacing={4} layout={'row'}>
+                        <Grid item xs={6}>
+                            <CurrentCollaborators />
                         </Grid>
-                        <Grid container xs={4} direction="column">
-                            <Grid item xs={6}>
-                                
+                        <Grid item xs={6} >
+                            <AddCollaborators />
+                        </Grid>
+                    </Grid>
+                    <Upload />
+                    {/* <Microphone/> */}
+                    {/* <ReactMicrophone/> */}
+                    {/* <h2>{currentProject.name}</h2>*/}
+                    <div>
+                        <Grid container>
+                            {/* <Loading /> */}
+                            <Grid item xs={8}>
+                                <TrackList />
+                            </Grid>
+                            <Grid container xs={4} direction="column">
+                                <Grid>
+                                    <Card className={this.props.classes.input}>
+                                        <CardContent className={this.props.classes.input}>
                                             <TextField
-                                                
                                                 id="lyrics-textarea"
                                                 label="Lyrics"
                                                 placeholder="Lyrics Here"
                                                 multiline
                                                 className={this.props.classes.textField}
                                                 margin="normal"
-                                        
                                                 onChange={this.handleLyricsChange}
-                                                // onClick={this.setLyricsInput}
-                                                // onSubmit={this.handleLyricsSubmit}
                                                 defaultValue={currentProject.lyrics}
                                             />
-                                   
-                            </Grid>
-                            {/* <input onLoad={console.log('input loaded')}></input> */}
-
-                            <Grid item sm={6} >
-                                
+                                        </CardContent>
+                                    </Card>
+                                    
+                                </Grid>
+                                <Grid>
+                                    <Card className={this.props.classes.input}>
+                                        <CardContent className={this.props.classes.input}>
                                             <TextField
                                                 id="notes-textarea"
                                                 label="Notes"
@@ -339,41 +330,19 @@ class ProjectEditor extends Component {
                                                 multiline
                                                 className={this.props.classes.textField}
                                                 margin="normal"
-                                                
                                                 onChange={this.handleNotesChange}
-                                                // onClick={this.setLyricsInput}
-                                                // onSubmit={this.handleLyricsSubmit}
                                                 defaultValue={currentProject.notes}
-                                                
                                             />
-                                       
-                                    {/* <TextField
-                                        id="notes-textarea"
-                                        label="Notes"
-                                        placeholder="Notes Here"
-                                        multiline
-                                        className={this.props.classes.textField}
-                                        margin="normal"
-                                        onChange={this.handleNotesChange}
-                                        onClick={this.setNotesInput}
-                                        onSubmit={this.handleNotesSubmit}
-                                        // value={this.props.reduxState.currentProject.notes}
-                                    />
-                                 */}
-
+                                        </CardContent>
+                                    </Card>
+                                    
+                                </Grid>
                             </Grid>
-
-
-
                         </Grid>
-
-
-                    </Grid>
-
-
+                    </div>
                 </div>
-            </>
-
+                {/* <Footer /> */}
+            </div>
         )
     }
 }

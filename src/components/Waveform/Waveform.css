@@ -1,13 +1,21 @@
 .wavesurfer-region {
     border-radius: 5px;
-    background-color: randomColor(.01)
+    background-color: randomColor(.1)
 
 }
 
 .wavesurfer-handle {
-    background-color: pink;
+    background-color: black;
 }
 
-.form {
+/* .form {
     background-color: none !important
+} */
+
+.wave-timeline {
+    height: auto
+}
+
+.wave {
+    background-color: yellow;
 }

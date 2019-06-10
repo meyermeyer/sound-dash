@@ -34,7 +34,7 @@ export default function EditorNavBar() {
           <Typography variant="h6" className={classes.title}>
             SoundDash
           </Typography>
-          <AddCollaborators/>
+          {/* <AddCollaborators/> */}
         </Toolbar>
       </AppBar>
     </div>
