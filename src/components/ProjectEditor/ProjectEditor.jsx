@@ -14,7 +14,7 @@ import LoadSpinner from '../LoadSpinner/LoadSpinner'
 import Microphone from '../Microphone/Microphone'
 import ReactMicrophone from '../ReactMicrophone/ReactMicrophone'
 import CurrentCollaborators from '../CurrentCollaborators/CurrentCollaborators'
-import './ProjectEditor.css'
+
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
@@ -42,23 +42,32 @@ const styles = (theme) => ({
     textField: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
-        width: 200,
-        height: 400,
+        width: '94%',
+        height: 400, 
         borderStyle: 'solid',
         borderColor: 'black',
-        borderWeight: 2
+        borderWeight: 2,
+        backgroundColor: 'white',
+        borderRadius: '3px'
     },
     '@global': {
         body: {
             height: '100%',
             width: '100%',
             backgroundColor: "#4a4a4a",
+            
         },
     },
     root: {
         backgroundColor: "#4a4a4a",
         margin: '25px'
     },  
+    input: {
+        marginBottom: '5px',
+        marginLeft: '5px',
+        backgroundColor: "#3a3a3a",
+        color: 'white'
+    }
     
 });
 
@@ -289,34 +298,44 @@ class ProjectEditor extends Component {
                     {/* <h2>{currentProject.name}</h2>*/}
                     <div>
                         <Grid container>
-                            <Loading />
+                            {/* <Loading /> */}
                             <Grid item xs={8}>
                                 <TrackList />
                             </Grid>
                             <Grid container xs={4} direction="column">
-                                <Grid item xs={6}>
-                                    <TextField
-                                        id="lyrics-textarea"
-                                        label="Lyrics"
-                                        placeholder="Lyrics Here"
-                                        multiline
-                                        className={this.props.classes.textField}
-                                        margin="normal"
-                                        onChange={this.handleLyricsChange}
-                                        defaultValue={currentProject.lyrics}
-                                    />
+                                <Grid>
+                                    <Card className={this.props.classes.input}>
+                                        <CardContent className={this.props.classes.input}>
+                                            <TextField
+                                                id="lyrics-textarea"
+                                                label="Lyrics"
+                                                placeholder="Lyrics Here"
+                                                multiline
+                                                className={this.props.classes.textField}
+                                                margin="normal"
+                                                onChange={this.handleLyricsChange}
+                                                defaultValue={currentProject.lyrics}
+                                            />
+                                        </CardContent>
+                                    </Card>
+                                    
                                 </Grid>
-                                <Grid item sm={6} >
-                                    <TextField
-                                        id="notes-textarea"
-                                        label="Notes"
-                                        placeholder="Notes Here"
-                                        multiline
-                                        className={this.props.classes.textField}
-                                        margin="normal"
-                                        onChange={this.handleNotesChange}
-                                        defaultValue={currentProject.notes}
-                                    />
+                                <Grid>
+                                    <Card className={this.props.classes.input}>
+                                        <CardContent className={this.props.classes.input}>
+                                            <TextField
+                                                id="notes-textarea"
+                                                label="Notes"
+                                                placeholder="Notes Here"
+                                                multiline
+                                                className={this.props.classes.textField}
+                                                margin="normal"
+                                                onChange={this.handleNotesChange}
+                                                defaultValue={currentProject.notes}
+                                            />
+                                        </CardContent>
+                                    </Card>
+                                    
                                 </Grid>
                             </Grid>
                         </Grid>

@@ -35,10 +35,12 @@ const redTheme = createMuiTheme({
 
 const styles = (theme, redTheme) => ({
     waveform: {
-        height: 'auto'
+        height: 'auto',
+        backgroundColor: '#3a3a3a'
     },
     title: {
-        margin: 0
+        margin: 0,
+        color: 'white'
     },
     top: {
         display: 'inline'
@@ -52,8 +54,10 @@ const styles = (theme, redTheme) => ({
         width: '70%',
         backgroundColor: 'pink'
     },
-    input: {
-
+    card: {
+        backgroundColor: '#3a3a3a',
+        marginBottom: 5,
+        paddingBottom: '0 !important'
     }
 
 })
@@ -371,6 +375,7 @@ class Waveform extends React.Component {
         );
     }
 
+
     //file functions
 
     checkNameIsClicked = () => {
@@ -497,6 +502,7 @@ class Waveform extends React.Component {
     }
 
     componentDidMount() {
+        let randomColor = this.randomColor(.4)
         // console.log('this.wavesurfer.regions.list', this.wavesurfer.regions.list)
         this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.match.params.id})
         this.$el = ReactDOM.findDOMNode(this)
@@ -505,9 +511,13 @@ class Waveform extends React.Component {
             container: this.$waveform,
             waveColor: 'violet',
             progressColor: 'purple',
+            responsive: true,
+            autoCenter: true,
+            interact: true,
             backend: 'MediaElement',
             preload:true,
             minPxPerSec: 3,
+            barHeight: .8,
             pixelRatio:1,
             plugins: [
                 RegionsPlugin.create({}),
@@ -529,7 +539,7 @@ class Waveform extends React.Component {
         // this.wavesurfer.on('region-created', this.createRegion)
         // this.wavesurfer.on('region-mouseenter', this.handleHover)
         // this.wavesurfer.on('region-dblclick', this.loopRegion)
-        // this.wavesurfer.on('region-click', this.labelRegion)
+        this.wavesurfer.on('region-click', this.labelRegion)
         // this.wavesurfer.on('region-click', this.handleLable)
 
 
@@ -553,8 +563,8 @@ class Waveform extends React.Component {
         // console.log('newest region:', this.state.regionsArray[this.state.regionsArray.length - 1])
 
         return (
-            <Card>
-                <CardContent>                 
+            <Card className={this.props.classes.card}>
+                <CardContent className={this.props.classes.card}>                 
                     <div className={this.props.classes.waveform}>
                         <div className={this.props.classes.top}>
                             <h3 className={this.props.classes.title} onClick={this.editTrackName} onClickAway={this.clickAwayHandle}>
