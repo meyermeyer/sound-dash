@@ -5,9 +5,16 @@ import LoadSpinner from '../LoadSpinner/LoadSpinner'
 import {withRouter} from 'react-router'
 
 import {withStyles} from '@material-ui/core/styles'
+import { Card, CardContent } from '@material-ui/core';
+
 const styles = theme => ({
     upload: {
         justifyContent: 'center'
+    },
+    card: {
+        margin: '20px',
+        marginBottom: 0,
+        height: 'auto'
     }
 })
 
@@ -42,18 +49,22 @@ class Upload extends Component {
         return(
            
             <div className="container">
-                
-                <div className="row">
-                    <div className="col-md-6">
-                        <form >
-                            <div className="form-group files">
-                                {/* <label>Upload Your File</label> */}
-                                    <input type="file" name="file" onChange={this.onChangeHandler} />
-                                {/* <button type="button" className="btn btn-success btn-block" onClick={this.handleUpload}>Upload</button> */}
+                <Card className={this.props.classes.card}>
+                    <CardContent>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <form >
+                                    <div className="form-group files">
+                                        {/* <label>Upload Your File</label> */}
+                                        <input type="file" name="file" onChange={this.onChangeHandler} />
+                                        {/* <button type="button" className="btn btn-success btn-block" onClick={this.handleUpload}>Upload</button> */}
+                                    </div>
+                                </form>
                             </div>
-                        </form>  
-                    </div>
-                </div>
+                        </div>
+                    </CardContent>
+                </Card>
+                
                 <LoadSpinner className={this.props.classes.upload} alignItems="center" handleUpload={this.handleUpload}/>
             </div>
         )

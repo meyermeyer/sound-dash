@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Autocomplete from '../Autocomplete/Autocomplete';
 
 import {withStyles} from '@material-ui/core/styles'
-
 import { Card, CardContent } from '@material-ui/core';
 
 const styles = theme => ({
