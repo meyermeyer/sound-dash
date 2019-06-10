@@ -101,7 +101,7 @@ class Waveform extends React.Component {
     allowAnnotation = () => {
         console.log('in allowAnnotation');
         this.wavesurfer.enableDragSelection({
-            color: this.randomColor(.1)
+            color: this.randomColor(.3)
         });
     }
 

@@ -99,7 +99,7 @@ class UserDashboard extends Component {
                 <NavBar />
                 <h3 className={this.props.classes.createNew}>
                     <ThemeProvider theme={theme}>
-                        <Button className={this.props.classes.button} onClick={this.nameProject} aria-label="create new project" variant="contained" color="secondary">
+                        <Button className={this.props.classes.button} onClick={this.nameProject} aria-label="create new project" variant="contained" color="primary">
                             <p>
                                 <i class="material-icons">
                                 add

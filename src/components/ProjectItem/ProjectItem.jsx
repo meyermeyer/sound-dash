@@ -179,7 +179,7 @@ function ControlledExpansionPanels(props) {
                                         id="panelbh-header"
                                     >
                                         <Typography className={classes.heading}>{project.name}</Typography>
-                                        <Typography className={classes.secondaryHeading}>Created On:  {project.date_last_edit}</Typography>
+                                        {/* <Typography className={classes.secondaryHeading}>Created On:  {project.date_last_edit}</Typography> */}
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
                                         <Typography >
