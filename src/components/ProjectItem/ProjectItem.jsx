@@ -36,6 +36,7 @@ const redTheme = createMuiTheme({
 })
 
 const useStyles = makeStyles(theme => ({
+
     projects: {
         width: 'auto',
         position: 'relative',

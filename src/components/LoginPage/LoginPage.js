@@ -33,7 +33,7 @@ const styles = (theme) => ({
     backgroundRepeat: 'repeat',
     backgroundSize: '30%',
     backgroundPosition: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   
   login:{
@@ -159,7 +159,7 @@ class LoginPage extends Component {
             </div>
           </Grid>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     );
   }

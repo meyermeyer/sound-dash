@@ -19,10 +19,18 @@ import Swal from 'sweetalert2'
 
 
 const styles = theme => ({
+    '@global': {
+        body: {
+            height: '100vh !important',
+            width: '100%',
+            backgroundColor: "#4a4a4a",
+        },
+    },
     root: {
-        height: '100vh !important',
+        height: '100%',
         width: '100%',
         backgroundColor: "#4a4a4a",
+        marginBottom: '25px'
     },
     createNew: {
         textAlign: "center"
@@ -102,7 +110,7 @@ class UserDashboard extends Component {
                     </ThemeProvider>
                 </h3>
                 <ProjectItem elevation={6} square/>
-                <Footer/>
+                {/* <Footer/> */}
             </div>
         )
     }

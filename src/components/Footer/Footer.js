@@ -10,17 +10,23 @@ const useStyles = makeStyles(theme => ({
   footer: {
     textAlign: 'center',
     // padding: theme.spacing(2),
-    marginTop: 'auto',
+    // marginTop: 'auto',
     backgroundColor: theme.palette.common.white,
-    position: 'absolute',
-    bottom: 0,
-    width: '100%'
+    // position: 'absolute',
+    // bottom: 0,
+    width: '100%',
+    position: 'relative',
+    marginTop: '-50px',
+/* negative value of footer height */
+    height: '50px',
+    clear: 'both',
   },
   paper: {
     height: '100%',
     padding: '10px'
   }
 }));
+  
 
 export default function Footer() {
   const classes = useStyles();

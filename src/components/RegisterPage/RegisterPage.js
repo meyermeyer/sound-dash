@@ -166,7 +166,7 @@ class SignUp extends Component {
               </div>
           </Grid>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
       </div>
       
 
