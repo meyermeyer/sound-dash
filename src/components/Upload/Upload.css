@@ -1,5 +1,13 @@
+.input + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
 .files input {
-    outline: 2px dashed #92b0b3;
+    outline: 4px dashed #3f51b5;;
     outline-offset: -10px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;
@@ -8,9 +16,9 @@
     margin: 0;
     width: 100% !important;
 }
-.files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+.files input:focus{outline: 4px dashed #3f51b5;  outline-offset: -10px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #3f51b5;
  }
 .files{ position:relative}
 .files:after {  pointer-events: none;
@@ -38,7 +46,7 @@
     content: " or drag it here. ";
     display: block;
     margin: 0 auto;
-    color: #2ea591;
+    color: #3f51b5;
     font-weight: 600;
     text-transform: capitalize;
     text-align: center;

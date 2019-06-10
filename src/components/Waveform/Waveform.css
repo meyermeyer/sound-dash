@@ -8,6 +8,10 @@
     background-color: pink;
 }
 
-.form {
+/* .form {
     background-color: none !important
+} */
+
+.wave-timeline {
+    height: auto
 }

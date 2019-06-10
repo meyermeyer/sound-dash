@@ -149,8 +149,6 @@ function ControlledExpansionPanels(props) {
     
         
     // }
-    
-
     return (
         <ThemeProvider theme={theme}>
             {/* <Grid className={classes.projects} item xs={12} component={Paper} elevation={6}square> */}

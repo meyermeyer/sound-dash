@@ -276,14 +276,14 @@ class ProjectEditor extends Component {
                 <Upload/>
                 {/* <Microphone/> */}
                 {/* <ReactMicrophone/> */}
-                <h2>{currentProject.name}</h2>               
+                {/* <h2>{currentProject.name}</h2>                */}
                 <div>
                     <Grid container>
                         <Loading/>
                         <Grid item xs={8}>
-                            <ul>
+                            {/* <ul> */}
                                 <TrackList />
-                            </ul>
+                            {/* </ul> */}
                         </Grid>
                         <Grid container xs={4} direction="column">
                             <Grid item xs={6}>                               
