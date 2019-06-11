@@ -27,7 +27,7 @@ const styles = theme => ({
         },
     },
     root: {
-        height: '100%',
+        height: '100vh',
         width: '100%',
         backgroundColor: "#4a4a4a",
         marginBottom: '25px'

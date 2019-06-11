@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+
 import LoginRegisterNavBar from '../LoginRegisterNavBar/LoginRegisterNavBar'
 import Footer from '../Footer/Footer'
 //Mui stuff
@@ -87,6 +88,7 @@ class SignUp extends Component {
     } else {
       this.props.dispatch({ type: 'REGISTRATION_INPUT_ERROR' });
     }
+    this.props.history.push('/user-dashboard')
   } // end registerUser
 
   handleInputChangeFor = propertyName => (event) => {
@@ -153,7 +155,7 @@ class SignUp extends Component {
                     className={this.props.classes.submit}
                   >
                     Sign Up
-                        </Button>
+                  </Button>
                   <Grid container>
                     <Grid item>
                       <Link href="#" variant="body2" onClick={() => {
