@@ -1,8 +1,10 @@
 const pool = require('../modules/pool')
 
 const rejectUnauthenticated = (req, res, next) => {
+  console.log('unauthenticated middleware')
   // check if logged in
   if (req.isAuthenticated()) {
+    
     // They were authenticated! User may do the next thing
     // Note! They may not be Authorized to do all things
     next();

@@ -33,6 +33,7 @@ passport.deserializeUser((id, done) => {
 
 // Does actual work of logging in
 passport.use('local', new LocalStrategy((username, password, done) => {
+  console.log('something')
     pool.query('SELECT * FROM "users" WHERE username = $1', [username])
       .then((result) => {
         const user = result && result.rows && result.rows[0];
