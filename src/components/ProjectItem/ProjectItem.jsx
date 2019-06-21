@@ -1,13 +1,12 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import './ProjectItem.css'
 
 import Swal from 'sweetalert2'
 
 //MUI stuff
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { Button, Grid, Red} from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -44,30 +43,18 @@ const useStyles = makeStyles(theme => ({
         left: '10%',
         transform: 'translate(-10%, -10%)'
     },
-    // paper: {
-    //     margin: theme.spacing(8, 4),
-    //     display: 'flex',
-    //     flexDirection: 'column',
-    //     alignItems: 'center',
-    // },
     line: {
         backgroundColor:"#3a3a3a",
         width: 'auto',
         margin: 20,
         borderRadius: '3px'
     },
-    // button:{
-    //     width: '50%',
-    //     alignContent: 'center',
-    //     flexBasis: 0
-    // },
     panel: {
         width: '100%',
     },
     heading: {
         fontSize: theme.typography.pxToRem(18),
         color: 'rgba(0, 0, 0, 0.75)',
-        // fontWeight: 'bold',
         flexBasis: '33.33%',
         flexShrink: 0,
     },
@@ -81,18 +68,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ControlledExpansionPanels(props) {
-    // const [initialized, setInitialized] = useState(false);
-    // useEffect(()=>{
-    //     if (!initialized){
-    //         props.dispatch({ type: 'FETCH_PROJECTS' })
-    //         setInitialized(true);
-    //     }
-    // })
-    
+
     const handleDelete = (project) => {
-        console.log('in handleDelete', project)
+        //Delete confirmation
         Swal.fire({
-            title: 'Are you sure?',
+            title: 'Are you sure you want to delete this project and its associated files?',
             text: "You won't be able to revert this!",
             type: 'warning',
             showCancelButton: true,
@@ -101,7 +81,6 @@ function ControlledExpansionPanels(props) {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
-                console.log('in SWAL delete confirmed', project)
                 props.dispatch({ type: 'DELETE_PROJECT', payload: project })
                 Swal.fire(
                     'Deleted!',
@@ -109,65 +88,35 @@ function ControlledExpansionPanels(props) {
                     'success'
                 )
             }
-            else {
-                console.log('in SWAL delete, cancel', project)
-            }
         })
     }
     const classes = useStyles();
+    //React hooks, this is the same as saying: state = {expanded:true}.  setExpanded sets this.state.expanded
     const [expanded, setExpanded] = React.useState(false);
-    console.log('in ControlledExpansionPanels', props.reduxState.projects)
+
+    //closes expanded panel
     const handleChange = panel => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+    
+    //clicking open button takes user to project editor for that project
     const handleOpen = (project) => {
         console.log('in handleOpen', project)
         props.history.push(`/project-editor/${project.project_id}`)
     }
-    // const handleEdit = (project) => {
-    //     console.log('in handleEdit')
-    //     Swal.fire({
-    //         title: 'Rename Project',
-    //         text: 'Edit Name',
-    //         input: 'text',
-    //         // inputValue: inputValue,
-    //         showCancelButton: true,
-    //         inputValidator: (value) => {
-    //             console.log(value);
-    //             project = {
-    //                 ...project,
-    //                 name: value
-    //             }
-    //             console.log(project);
-                
-                
-    //             if(!value) {
-    //                 return 'Enter text or select Cancel'
-    //             }
-    //         }
-    //     })
-    //         props.dispatch({ type: 'UPDATE_PROJECT', payload: project })
-    
-        
-    // }
+
     return (
         <ThemeProvider theme={theme}>
-            {/* <Grid className={classes.projects} item xs={12} component={Paper} elevation={6}square> */}
                 {props.reduxState.projects.map((project, i) => {
+                    let sqlDateNewFormat = new Date(project.date_created); 
                     return (
                         <Grid className={classes.line} container spacing={4} alignItems='center' >
-                            {/* <li key={i} className="projectList"> */}
-                                {/* <Button onClick={()=>handleEdit(project)} variant="contained" color="primary">Rename</Button> */}
                             <Grid item xs={2}>
                                 <Button className={classes.button} onClick={() => handleOpen(project)} variant="contained" color="primary">
                                     Open 
-                                    {/* <i class="material-icons">
-                                        open_in_new
-                                    </i> */}
                                     <i class="material-icons">
                                         arrow_forward_ios
                                     </i>
-                                    {/* <img className={classes.icon} src='/images/folder-open-outline.png'/> */}
                                 </Button>
                             </Grid>
                             <Grid item xs={8} alignContent="stretch">
@@ -179,7 +128,7 @@ function ControlledExpansionPanels(props) {
                                         id="panelbh-header"
                                     >
                                         <Typography className={classes.heading}>{project.name}</Typography>
-                                        {/* <Typography className={classes.secondaryHeading}>Created On:  {project.date_last_edit}</Typography> */}
+                                        <Typography className={classes.secondaryHeading}>Created On:  {sqlDateNewFormat.toLocaleDateString()}</Typography>
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
                                         <Typography >
@@ -198,10 +147,7 @@ function ControlledExpansionPanels(props) {
                             </Grid>
                         </Grid>   
                     )
-                })}
-            {/* </Grid> */}
-                
-            
+                })}  
         </ThemeProvider>
         
 

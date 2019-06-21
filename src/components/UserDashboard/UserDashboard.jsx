@@ -17,6 +17,13 @@ import { ThemeProvider } from '@material-ui/styles';
 //SweetAlert2
 import Swal from 'sweetalert2'
 
+const theme = createMuiTheme({
+
+    palette: {
+        primary: { main: '#9c27b0' },
+        secondary: { main: '#ffcc80' }
+    }
+})
 
 const styles = theme => ({
     '@global': {
@@ -42,13 +49,6 @@ const styles = theme => ({
 })
 
 
-const theme = createMuiTheme({
-    
-    palette: {
-        primary: { main: '#9c27b0' },
-        secondary: { main: '#ffcc80' }
-    }
-})
 
 class UserDashboard extends Component {
     state = {
@@ -81,6 +81,9 @@ class UserDashboard extends Component {
             html: `<input id="projectNameInput" class="swal2-input" type="text" placeholder="Project Name">`,
             confirmButtonText: 'Create',
             showCancelButton: true,
+            focusConfirm: false,
+            //this is supposed to allow user to confirm by hitting 'enter' but it doesn't work
+            allowEnterKey: true,
             //capture input text
             preConfirm: () => { this.handleInputs(document.getElementById('projectNameInput').value) }
         })
@@ -92,8 +95,6 @@ class UserDashboard extends Component {
     }
 
     render() {
-        //log to test setting local state worked
-        console.log('in handleInputs state:', this.state)
         return (
             <div className={this.props.classes.root}>
                 <NavBar />
@@ -110,7 +111,6 @@ class UserDashboard extends Component {
                     </ThemeProvider>
                 </h3>
                 <ProjectItem elevation={6} square/>
-                {/* <Footer/> */}
             </div>
         )
     }
