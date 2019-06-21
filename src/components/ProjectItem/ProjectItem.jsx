@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 
 //MUI stuff
 import Typography from '@material-ui/core/Typography';
-import { Button, Grid} from '@material-ui/core';
+import { Button, Grid, Red} from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,7 +16,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import red from '@material-ui/core/colors/red'
 
 const theme = createMuiTheme({
     palette: {
@@ -35,6 +35,7 @@ const redTheme = createMuiTheme({
 })
 
 const useStyles = makeStyles(theme => ({
+
     projects: {
         width: 'auto',
         position: 'relative',
@@ -138,18 +139,21 @@ function ControlledExpansionPanels(props) {
                             </Grid>
                             
                             <Grid item xs={2}>
-                                <ThemeProvider theme={redTheme}>
-                                    <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="primary">
-                                        <i class="material-icons">
-                                            delete_forever
-                                        </i>
-                                    </Button>
-                                </ThemeProvider>                                
+                                <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="primary">
+                                    <i class="material-icons">
+                                        delete_forever
+                                    </i>
+                                </Button>
                             </Grid>
                         </Grid>   
                     )
                 })}  
         </ThemeProvider>
+        
+
+
+
+
     );
 }
 
@@ -158,3 +162,4 @@ const mapStateToProps = reduxState => ({
 });
 
 export default withRouter(connect(mapStateToProps)(ControlledExpansionPanels));
+// withRouter(connect(mapReduxStateToProps)(Review))
