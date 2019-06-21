@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import './Waveform.css'
 
 import Loading from '../Loading/Loading'
+
 //MUI stuff
 import Fab from '@material-ui/core/Fab';
 import {CardContent, Card } from '@material-ui/core'
@@ -114,13 +115,6 @@ class Waveform extends React.Component {
                 this.props.dispatch({ type: 'SEND_REGIONS', payload: { region: regionToSend, project_id: this.props.match.params }})
             })
         }
-    }
-
-    loopRegion = (region) => {
-        region.update({
-            loop: true
-        })
-        region.playLoop();
     }
 
     randomColor = (alpha) => {
@@ -253,14 +247,9 @@ class Waveform extends React.Component {
 
         this.wavesurfer.load(this.props.file.path, null,'auto');
         this.wavesurfer.on('ready', this.loadRegions)
-
-
-
-
     }
 
     render() {
-
         return (
             <Card className={this.props.classes.card}>
                 <CardContent className={this.props.classes.card}>                 
@@ -276,8 +265,7 @@ class Waveform extends React.Component {
                                     </Fab>
                                 </ThemeProvider>
                             </h3>
-                        </div>
-                        
+                        </div>                    
                         <Loading />
                         <div onClick={this.handleClick} className='wave'>
                         </div>
