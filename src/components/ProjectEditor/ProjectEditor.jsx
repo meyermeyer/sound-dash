@@ -1,42 +1,16 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Footer from '../Footer/Footer'
 import NavBar from '../NavBar/NavBar'
 import Upload from '../Upload/Upload'
-import UppyModal from '../UppyModal/UppyModal'
 import TrackList from '../TrackList/TrackList.jsx'
-import CurrentUser from '../CurrentUser/CurrentUser'
 import AddCollaborators from '../AddCollaborators/AddCollaborators';
-import Loading from '../Loading/Loading'
-import LoadSpinner from '../LoadSpinner/LoadSpinner'
-import Microphone from '../Microphone/Microphone'
-import ReactMicrophone from '../ReactMicrophone/ReactMicrophone'
 import CurrentCollaborators from '../CurrentCollaborators/CurrentCollaborators'
-
 
 //materialUI
 import TextField from '@material-ui/core/TextField';
-import { Button, Grid, Paper, Card, CardContent } from '@material-ui/core';
+import { Grid, Card, CardContent } from '@material-ui/core';
 import { createMuiTheme, withStyles } from '@material-ui/core/styles'
-import { ThemeProvider } from '@material-ui/styles';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Fab from '@material-ui/core/Fab';
-import CheckIcon from '@material-ui/icons/Check';
-import SaveIcon from '@material-ui/icons/Save';
-
-
-const theme = createMuiTheme({
-    palette: {
-        primary: { main: '#9c27b0' },
-        secondary: { main: '#ffcc80' }
-    }
-})
 
 const styles = (theme) => ({
     textField: {
@@ -54,8 +28,7 @@ const styles = (theme) => ({
         body: {
             height: '100%',
             width: '100%',
-            backgroundColor: "#4a4a4a",
-            
+            backgroundColor: "#4a4a4a",            
         },
     },
     root: {
@@ -67,30 +40,23 @@ const styles = (theme) => ({
         marginLeft: '5px',
         backgroundColor: "#3a3a3a",
         color: 'white'
-    }
-    
+    }   
 });
 
 let currentProject={};
 
 class ProjectEditor extends Component {
 
+    //bring in all data associated with params id
     defineCurrentProject=()=>{
-        this.props.reduxState.projects.map((project, i) => {
-            console.log('project', project.project_id, this.props.match.params)
+        this.props.reduxState.projects && this.props.reduxState.projects.map((project, i) => {
             if (project.project_id == this.props.match.params.id) {
                 currentProject = project
             }
         })
-        console.log('in defineCurrentProject', currentProject)
     }
-    
 
     state = {
-        newFile: {
-            name: '',
-            path: ''
-        },
         projectData: {
             lyrics: '',
             notes: ''
@@ -99,29 +65,7 @@ class ProjectEditor extends Component {
             lyrics: false,
             notes: false
         }
-    }
-
-    
-
-    // New Track Input functions
-    handleChange = (event) => {
-        console.log('in handleChange', event.target.value);
-        console.log('trackNumber:', trackNumber)
-        let trackNumber = this.props.reduxState.files.length + 1
-        this.setState({
-            newFile: {
-                name: 'Track ' + trackNumber,
-                path: event.target.value
-            }
-        })
-    }
-
-    handleSubmit = () => {
-        console.log('in handleSubmit')
-
-        //dispatch action to trigger SAGA for POST to /api/files
-        this.props.dispatch({ type: 'ADD_FILE', payload: this.state.newFile, currentProject: this.props.match.params })
-    }
+    }  
 
     //Lyrics and Notes change functions
     setLyricsInput = () => {
@@ -195,7 +139,6 @@ class ProjectEditor extends Component {
     }
 
     handleNotesSubmit = () => {
-        // event.preventDefault();
         console.log('in handleNotesSubmit', this.props.reduxState);
         if (this.state.inputIsOpen.notes){
             console.log('in handleNotesSubmit', this.state.inputIsOpen)
@@ -213,11 +156,9 @@ class ProjectEditor extends Component {
                     notes: false
                 }
             })
-        }
-        
+        }   
     }
 
-    
     componentWillUnmount = () => {
         console.log('in ProjectEditor componentWillUnmount')
         
@@ -264,6 +205,7 @@ class ProjectEditor extends Component {
     }
 
     componentDidMount = () => {
+        
         const {id} = this.props.match.params
         console.log('ProjectEditor project_id', id)
         this.props.dispatch({ type: 'FETCH_PROJECTS' })
@@ -274,7 +216,9 @@ class ProjectEditor extends Component {
         
     }
     render() {
+        
         this.defineCurrentProject()
+        console.log('currentProject.lyrics', currentProject.lyrics)
         console.log('ProjectEditor new file', this.state.newFile)
         console.log('ProjectEditor project data', this.state.projectData);
         console.log('local state:', this.state.inputIsOpen)
@@ -293,12 +237,8 @@ class ProjectEditor extends Component {
                         </Grid>
                     </Grid>
                     <Upload />
-                    {/* <Microphone/> */}
-                    {/* <ReactMicrophone/> */}
-                    {/* <h2>{currentProject.name}</h2>*/}
                     <div>
                         <Grid container>
-                            {/* <Loading /> */}
                             <Grid item xs={8}>
                                 <TrackList />
                             </Grid>
@@ -317,8 +257,7 @@ class ProjectEditor extends Component {
                                                 defaultValue={currentProject.lyrics}
                                             />
                                         </CardContent>
-                                    </Card>
-                                    
+                                    </Card>                                    
                                 </Grid>
                                 <Grid>
                                     <Card className={this.props.classes.input}>
@@ -334,14 +273,12 @@ class ProjectEditor extends Component {
                                                 defaultValue={currentProject.notes}
                                             />
                                         </CardContent>
-                                    </Card>
-                                    
+                                    </Card>                                    
                                 </Grid>
                             </Grid>
                         </Grid>
                     </div>
                 </div>
-                {/* <Footer /> */}
             </div>
         )
     }
