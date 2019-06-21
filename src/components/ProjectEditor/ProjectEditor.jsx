@@ -50,20 +50,7 @@ const styles = (theme) => ({
 let currentProject={};
 
 class ProjectEditor extends Component {
-    state = {
-        newFile: {
-            name: '',
-            path: ''
-        },
-        projectData: {
-            lyrics: '',
-            notes: ''
-        },
-        inputIsOpen: {
-            lyrics: false,
-            notes: false
-        }
-    }
+    
 
     defineCurrentProject=()=>{
         this.props.reduxState.projects.map((project, i) => {
@@ -76,29 +63,19 @@ class ProjectEditor extends Component {
         console.log('in defineCurrentProject', currentProject)
     }
     
-
-   
-
-    
-
-    // New Track Input functions
-    handleChange = (event) => {
-        console.log('in handleChange', event.target.value);
-        console.log('trackNumber:', trackNumber)
-        let trackNumber = this.props.reduxState.files.length + 1
-        this.setState({
-            newFile: {
-                name: 'Track ' + trackNumber,
-                path: event.target.value
-            }
-        })
-    }
-
-    handleSubmit = () => {
-        console.log('in handleSubmit')
-
-        //dispatch action to trigger SAGA for POST to /api/files
-        this.props.dispatch({ type: 'ADD_FILE', payload: this.state.newFile, currentProject: this.props.match.params })
+    state = {
+        newFile: {
+            name: '',
+            path: ''
+        },
+        projectData: {
+            lyrics: currentProject.lyrics,
+            notes: ''
+        },
+        inputIsOpen: {
+            lyrics: false,
+            notes: false
+        }
     }
 
     //Lyrics and Notes change functions
@@ -129,8 +106,6 @@ class ProjectEditor extends Component {
     }
 
     handleLyricsChange = (event) => {
-        console.log('in handleLyricsChange', event.target.value)
-        
         this.setState({
             projectData: {
                 ...this.state.projectData,
@@ -150,7 +125,6 @@ class ProjectEditor extends Component {
     }
 
     handleLyricsSubmit = () => {
-        // event.preventDefault();
         console.log('in handleLyricsSubmit')
         if (this.state.inputIsOpen.lyrics){
             console.log('in handleLyricsSubmit')
@@ -258,8 +232,8 @@ class ProjectEditor extends Component {
         console.log('ProjectEditor new file', this.state.newFile)
         console.log('ProjectEditor project data', this.state.projectData);
         console.log('local state:', this.state.inputIsOpen)
-        
-        
+        let lyrics = currentProject.lyrics
+        console.log('lyrics', lyrics)
         return (
             <div>
                 <NavBar currentProject={currentProject.name}/>
@@ -290,7 +264,7 @@ class ProjectEditor extends Component {
                                                 className={this.props.classes.textField}
                                                 margin="normal"
                                                 onChange={this.handleLyricsChange}
-                                                value={this.state.projectData.lyrics}
+                                                defaultValue={currentProject.lyrics}
                                             />
                                         </CardContent>
                                     </Card>

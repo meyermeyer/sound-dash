@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Waveform from '../Waveform/Waveform'
 
@@ -13,7 +12,7 @@ class TrackList extends Component {
         
         return(
             <>
-                
+                {/* map over files in redux state, send file info as a prop to the waveform component */}
                 {this.props.reduxState.files.map(((file,i)=>{
                     return(
                         <>

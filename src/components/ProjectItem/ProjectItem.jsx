@@ -139,11 +139,13 @@ function ControlledExpansionPanels(props) {
                             </Grid>
                             
                             <Grid item xs={2}>
-                                <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="primary">
-                                    <i class="material-icons">
-                                        delete_forever
+                                <ThemeProvider theme={redTheme}>
+                                    <Button className={classes.button} onClick={() => { handleDelete(project) }} variant="contained" color="primary">
+                                        <i class="material-icons">
+                                            delete_forever
                                     </i>
-                                </Button>
+                                    </Button>
+                                </ThemeProvider>                               
                             </Grid>
                         </Grid>   
                     )
