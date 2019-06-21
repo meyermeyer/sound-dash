@@ -90,47 +90,12 @@ function uploadToS3(file, res) {
 }
 
 const sendUrlToRouter = async (req, media_key, res) => {
-    // const signedUrl = await generateSignedUrl(media_key)
-    // console.log('signedUrl', signedUrl, media_key)
-    // return signedUrl
+
     const url = `https://sound-dash.s3.us-east-2.amazonaws.com/${media_key}`
     return url
-    // return new Promise(resolve => {
-        
-    //     const queryText = `INSERT INTO "files" ("path") VALUES ($1) RETURNING id`;
-    //     console.log('in uploadToSQL', media_key)
-    //     pool.query(queryText, [signedUrl])
-    //         .then((result) => {
-    //             console.log('back from db with id:', result, result.rows[0].id
-    //             );
-    //             res.send({ id: result.rows[0].id });
-    //         })
-    //         .catch((error) => {
-    //             console.log('error in POST', error);
-    //             res.sendStatus(500);
-    //         })
-    // })
+    
 }
 
-// function uploadToSQLWithText(req, media_key, res) {
-//     return new Promise(resolve => {
-//         const title = req.body.title;
-//         const content = req.body.content;
-//         const queryText = `INSERT INTO post
-//                          ("media_key", "title", "content")
-//                          VALUES
-//                          ($1, $2, $3)`;
 
-//         pool.query(queryText, [media_key, title, content])
-//             .then((result) => {
-//                 console.log('back from db with:', result);
-//                 res.sendStatus(200);
-//             })
-//             .catch((error) => {
-//                 console.log('error in POST', error);
-//                 res.sendStatus(500);
-//             })
-//     })
-// }
 
 module.exports = { uploadPost, generateSignedUrls };
