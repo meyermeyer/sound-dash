@@ -267,8 +267,7 @@ class ProjectEditor extends Component {
                                                 defaultValue={currentProject.lyrics}
                                             />
                                         </CardContent>
-                                    </Card>
-                                    
+                                    </Card>                              
                                 </Grid>
                                 <Grid>
                                     <Card className={this.props.classes.input}>

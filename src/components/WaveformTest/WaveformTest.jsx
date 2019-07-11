@@ -153,29 +153,28 @@ class Waveform extends React.Component {
 
     handleHover = (region) => {
         console.log('hovering over', region.data.regionTag);
-
-
     }
 
 
     labelRegion = (region) => {
+        console.log('in labelRegion', region)
 
     }
 
     saveRegions = (region) => {
         // alert('you created a region');
-        let regionTag = prompt("Tag")
-        let regionNotes = prompt("Notes")
+        // let regionTag = prompt("Tag")
+        // let regionNotes = prompt("Notes")
         console.log('region:', region);
         //update 'region' created by clicking to include user's data
-        region.update({
-            data: {
-                regionTag,
-                regionNotes
-            }
-        })
+        // region.update({
+        //     data: {
+        //         regionTag,
+        //         regionNotes
+        //     }
+        // })
         console.log('updated region', region);
-        console.log('prompt responses:', regionTag, regionNotes);
+        // console.log('prompt responses:', regionTag, regionNotes);
         console.log(this.wavesurfer.regions);
 
         //add regions.list objects to arrat
@@ -233,8 +232,8 @@ class Waveform extends React.Component {
         this.wavesurfer.on('region-mouseenter', this.handleHover)
         this.wavesurfer.on('ready', this.allowAnnotation)
         this.wavesurfer.on()
-        this.wavesurfer.on('region-dblclick', this.loopRegion)
-        // this.wavesurfer.on('region-click', this.labelRegion)
+        // this.wavesurfer.on('region-dblclick', this.loopRegion)
+        this.wavesurfer.on('region-dblclick', this.labelRegion)
 
 
     }

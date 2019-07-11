@@ -19,3 +19,9 @@
 .wave {
     background-color: yellow;
 }
+
+region.wavesurfer-region:before {
+    content: attr(data-region-label);
+    position: absolute;
+    top: 0;
+}

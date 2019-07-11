@@ -18,11 +18,11 @@ class TrackList extends Component {
                 {this.props.reduxState.files.map(((file,i)=>{
                     return(
                         <>
-                            {/* <Waveform key={i} file={file}/> */}
-                            <WaveformTest key={i} file={file}/>
+                            <Waveform key={i} file={file}/>
+                            {/* <WaveformTest key={i} file={file}/> */}
                         </>
                     )
-                    
+
                 }))}
             </>
             

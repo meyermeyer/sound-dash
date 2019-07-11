@@ -82,8 +82,13 @@ class Waveform extends React.Component {
             //load all the regions, check to see if file id matches each file and load appropriately
             if (region.file_id === this.props.file.id) {
                 //assign a random color to each region
+                console.log('loadRegions', region)
                 region.color = this.randomColor(0.1);
-                this.wavesurfer.addRegion(region)
+                this.wavesurfer.addRegion({
+                    ...region, 
+                    attributes: {
+                        label: region.tag
+                    }})
             }
         }
     }
