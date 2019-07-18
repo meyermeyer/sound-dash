@@ -4,7 +4,21 @@ import { put, takeEvery } from 'redux-saga/effects';
 
 function *uploadSaga (){
     yield takeEvery('SAVE_FILE', saveFileSaga)
+    // yield takeEvery('FETCH_URL', fetchUrlSaga)
 }
+
+// function* fetchUrlSaga(action) {
+//     try {
+//         console.log('in fetchUrlSaga', action.payload)
+//         // const data = new FormData();
+//         // data.append('path', action.payload)
+//         const url = `/upload?key=${action.payload}`
+//         yield axios.get(url)
+//     }
+//     catch {
+
+//     }
+// }
 
 function* saveFileSaga(action) {
     try {

@@ -43,8 +43,8 @@ function generateSignedUrl(key) {
         console.log('urlparams are:', { urlParams });
         s3bucket.getSignedUrl('getObject', urlParams, function (error, url) {
             if (error) {
-                console.log(error);
-                resolve('');
+                console.log('error in generateSignedUrl', error);
+                revolve('');
             } else {
                 console.log('url in getsigned response: ', url);
                 revolve(url);

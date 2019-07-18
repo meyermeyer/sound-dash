@@ -28,14 +28,23 @@ router.post('/', rejectUnauthenticated, rejectUnauthorizedUser, upload.single('f
 //     uploadPostWithText(req, res);
 // });
 
-// router.get('/', (req, res) => {
-//     const queryText = `SELECT * from image`;
-//     pool.query(queryText)
-//         .then(response => { generateSignedUrls(res, response.rows) })
-//         console.log('in GET 'generateSignedUrls(res, response.rows))
-//         .catch(error => {
-//             res.sendStatus(500); console.log('error getting image', error);
-//         })
-// })
+router.get('/', (req, res) => {
+    
+    const queryText = `SELECT * from files`;
+    pool.query(queryText)
+        .then(response => { 
+            console.log('in /upload GET', response.rows)
+            response.rows.map(row=>{
+                generateSignedUrls(row.path)
+            })
+            res.send
+             
+            
+        })
+        console.log('in GET /upload' ,generateSignedUrls(req.query.key, response.rows))
+        .catch(error => {
+            res.sendStatus(500); console.log('error getting file', error);
+        })
+})
 
 module.exports = router;

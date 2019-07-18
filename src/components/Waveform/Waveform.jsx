@@ -225,6 +225,7 @@ class Waveform extends React.Component {
     }
 
     componentDidMount() {
+        // this.props.dispatch({type: 'FETCH_URL', payload: this.props.file.path})
         this.props.dispatch({ type: 'FETCH_REGIONS', payload: this.props.match.params.id})
         this.$el = ReactDOM.findDOMNode(this)
         this.$waveform = this.$el.querySelector('.wave')
